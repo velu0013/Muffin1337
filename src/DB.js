@@ -7,8 +7,7 @@
 const StudyList = 'DBT_Studies_TAG:ReKlGhAt' 
 
 
-// Private Functions (Not exported) HGDESQOHYAERGVWOEYURG
-// hehehehehehehehheheheheh
+// Private Functions (Not exported) 
 
 
 function RecordStudy(name){

@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import {SaveStudy, OpenStudy, RemoveStudy, ClearAll} from './DB.js';
 import { breakStatement } from '@babel/types';
 
-// fuck allt
+
 function Newpage(){
   const [StudyList, setStudyList] = useState('')
   const [study, setStudy] = useState('')

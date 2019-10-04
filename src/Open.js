@@ -1,6 +1,6 @@
 /* Version 1.2
  * Felix Djuphammar
- * En fil till
+ * 
  *
  */
 
