@@ -23,4 +23,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # test page
-test.js
+src/test.js
