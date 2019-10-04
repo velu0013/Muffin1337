@@ -9,7 +9,7 @@ import logo from './vonkansmuffin.svg';
 
 var counter = 0
 
-
+// testkommentar
 
 function Homepage(props) {
 	const [name, setName] = useState('Vonkan');
