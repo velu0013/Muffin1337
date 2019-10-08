@@ -1,4 +1,4 @@
-/* Version 1.1....
+/* Version 1.1
  * 
  *
  *
@@ -10,29 +10,27 @@ import {Homepage} from './Home.js';
 import {Newpage} from './New.js';
 import {Openpage} from './Open.js';
 import {Testpage} from './test.js';
+import logo from './vonkansmuffin.svg';
 
-const linkDivider = ''
 
 function RoutePage() {
     return(
         <Router>
-            <div className="App-header">
-                <ul>
+            <div className="Header-bar">   
+                <ul >
+                <Link to="/" className="Header-link" ><img src={logo} className="App-logo-header" alt="logo" /> </Link>
                     <Link to="/" className="Header-link" >Home</Link>
-                    {linkDivider}
                     <Link to="/New" className="Header-link">Create Study</Link>
-                    {linkDivider}
                     <Link to="/Open" className="Header-link">Open Study</Link>
-                    {linkDivider}
                     <Link to="/Test" className="Header-link">Test</Link>
                 </ul>
-
-                <hr />
+            </div>
+            <div className="App-body">
                 <Route exact path="/" component={Homepage} />
                 <Route path="/New" component={Newpage} />
-                <Route path="/Open" component={Openpage} />
-                
+                <Route path="/Open" component={Openpage} />            
                 <Route path="/Test" component={Testpage} />
+                
             </div>
         </Router>
 
