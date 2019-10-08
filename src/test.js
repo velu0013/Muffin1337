@@ -41,6 +41,7 @@ function Testpage(){
 //////// FUNCTIONS USED IN LATEST VERSION ///////////////////
 
 function FormInput(props){
+    let x = 0
     return(
         <input
             type="text"
