@@ -1,4 +1,4 @@
-
+// ...
 
 // new StudyDTB('myStudy', [w,h], [w,h])
 class StudyDBT{
