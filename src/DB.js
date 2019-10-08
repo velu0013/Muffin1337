@@ -49,7 +49,7 @@ function FindStudyIndex(name, studies){
 
 
 // Public Functions (Exported)
-//1: newest first, 2: oldest first
+// 1: newest first, 2: oldest first
 function GetStudies(sort){
     return JSON.parse(localStorage.getItem(StudyList));
 }

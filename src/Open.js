@@ -1,91 +1,123 @@
-/* Version 1.2...
- * Felix Djuphammar
+
+/* MERGE PAGE
  * 
+ *
+ *
+ */
+
+/* Version 1.2
+ * Responsible: John Isaksson
+ *
  *
  */
 
 import React, { useState } from 'react';
 import {SaveStudy, OpenStudy, RemoveStudy, ClearAll, GetStudies} from './DB.js';
 import Popup from "reactjs-popup";
+import StudyDBT from './Study.js';
 
-function Openpage(props){
-	const [study, setStudy] = useState('')
-	const [data, setData] = useState('')
+function Openpage({study, setStudy}){
 	return (
-        <div className="App">
-		  <header className="App-header">
-			<p>
-				<FormInput form = {study} setForm={setStudy}/>
-				<OpenButton study = {study} setData = {setData}/>
-				<DeleteButton study = {study} setData = {setData}/>
-			</p>
-			<p>
-				<FormInput form = {data} setForm={setData}/>
-				<SaveButton study = {study} data = {data}/>
-			</p>
-			<p>
-				<ClearButton />
-			</p>
-		  </header>
-		</div>
-    )
+    <>
+        <NewButton study={study} setStudy={setStudy}/>
+        <OpenButton study={study} setStudy={setStudy}/>
+        <SaveButton study={study}/>
+    </>
+	)
 }
+//////// FUNCTIONS USED IN LATEST VERSION ///////////////////
 
-
-function FormInput(props){
+function FormInput({form, setForm}){
     return(
         <input
             type="text"
-            value={props.form}
-            onChange={event => props.setForm(event.target.value)}
+            value={form}
+            onChange={event => setForm(event.target.value)}
 		/>)
 }
 
+// <NewButton changeName={setStudy} empty={setData} startEdit={setEdit}/>
+//   f={RemoveStudy} confirm={true} study={props.study} close={close}
+//		  <NewButton study={studyName} changeName={setStudy} empty={setData} startEdit={setEdit}/>
+function NewButton(props){
+	return(
+		<Popup trigger={<button>Create</button>} position={'bottom center'}>
+		{close =>(
+			<>
+            <FormInput 
+                form={props.study.name} 
+                setForm={x => props.setStudy(props.study.changeName(x))}
+            />
+			<ConfirmButton label={'Confirm'} f={x => {SaveStudy(props.study)}} arg={props.study} close={close}/>
+			<ConfirmButton label={'Close'} close={close}/>
+			</>
+		)}
+		</Popup>
+	)
+}
+
+
+//<OpenButton study={studyName} changeName={setStudy} setData={setData} startEdit={setEdit}/>
 function OpenButton(props){
 	return(
-		<input
-			type="button"
-			value={'Open'}
-			onClick={event => props.setData(OpenStudy(props.study))}
-		/>
+		<Popup trigger={<button>Open</button>} position={'bottom center'}>
+		{close=> (
+			<>
+			<FormInput 
+                form={props.study.name} 
+                setForm={x => props.setStudy(props.study.changeName(x))}
+            />
+			<ConfirmButton label={'Open'} f={name => {props.setStudy(OpenStudy(name))}} arg={props.study.name} close={close}/>
+			<ConfirmButton label={'Close'} close={close}/>
+			</>
+		)}
+		
+		</Popup>
 	)
 }
 
 function SaveButton(props){
 	return(
-		<input
-			type="button"
-			value={'Save'}
-			onClick={event => SaveStudy(props.study, props.data)}
-		/>
+        <Popup trigger={<button>Save</button>} position={'bottom center'}>
+		{close=> (
+            <input
+            type="button"
+            value="Confirm"
+            onClick={event => {SaveStudy(props.study) && close()}}
+            />
+        )}
+        </Popup>
 	)
 }
 
-
 function DeleteButton(props){
 	return(
-		<Popup trigger={<button> Delete</button>} position="right center">
+		<Popup trigger={<button> Delete</button>} position={'right center'}>
 		{close => (
-		<div>
-			{'Delete '}{props.study}{'?'}
+			<>
+			{'Delete'}{props.study}{'?'}
 			<br></br>
-			<ConfirmButton label={'Yes'} f={RemoveStudy} confirm={true} study={props.study} close={close}/>
-			<ConfirmButton label={'No'} f={RemoveStudy} confirm={false} study={props.study} close={close}/>
-		</div>
+			<ConfirmButton label={'Yes'} f={RemoveStudy} arg={props.study} close={close}/>
+			<ConfirmButton label={'No'} close={close}/>
+			</>
 		)}
 		</Popup>	
 	)
 }
 
-function ConfirmButton(props){
+
+
+// Performs the function f(arg) and then the function close().
+// To disable either function call, set to null.
+function ConfirmButton({label, f=null, arg, close=null}){
 	return(
 		<input
 		type="button"
-		value={props.label}
+		value={label}
 		onClick={event => 
 			{	
-				props.confirm?props.f(props.study):Dummy();
-				props.close()
+				if(f !== null){f(arg)};
+				if(close !== null){close()};
 			}
 		}
 		/>
@@ -108,7 +140,16 @@ function ClearButton(props){
 	)
 }
 
-function Dummy(){}
-
+function Back(props) {
+    return (  
+        <input
+            type="button"
+            value={'Return'}
+            onClick={event => 
+            props.setBool(!props.bool)
+            }
+        />
+    );
+}
 
 export {Openpage} 
