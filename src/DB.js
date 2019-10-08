@@ -1,3 +1,5 @@
+import StudyDBT from "./Study";
+
 /* Version 1.4
  * Responsible: Felix Djuphammar
  *
@@ -47,18 +49,23 @@ function FindStudyIndex(name, studies){
 
 
 // Public Functions (Exported)
-
-function GetStudies(){
+//1: newest first, 2: oldest first
+function GetStudies(sort){
     return JSON.parse(localStorage.getItem(StudyList));
 }
 
-function SaveStudy(name, data){
-    RecordStudy(name);
-    localStorage.setItem(name, JSON.stringify(data));
+function SaveStudy(study){
+    RecordStudy(study.name);
+    localStorage.setItem(study.name, JSON.stringify(study));
 }
 
 function OpenStudy(name){
-    return JSON.parse(localStorage.getItem(name));
+    const data = JSON.parse(localStorage.getItem(name))
+    const study = new StudyDBT(data.name,[0,0],[0,0]);
+    return study
+        .changeRecipe(data.recipe)
+        .changeConsumer(data.consumer)
+        .changeMeta(data.meta);
 }
 
 function RemoveStudy(name){

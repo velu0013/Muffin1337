@@ -15,13 +15,14 @@ import logo from './vonkansmuffin.svg';
 
 function RoutePage() {
     return(
+        <div className="App">
         <Router>
             <div className="Header-bar">   
                 <ul >
                 <Link to="/" className="Header-link" ><img src={logo} className="App-logo-header" alt="logo" /> </Link>
                     <Link to="/" className="Header-link" >Home</Link>
-                    <Link to="/New" className="Header-link">Create Study</Link>
-                    <Link to="/Open" className="Header-link">Open Study</Link>
+                    <Link to="/New" className="Header-link">My Studies</Link>
+                    <Link to="/Open" className="Header-link">Edit Study</Link>
                     <Link to="/Test" className="Header-link">Test</Link>
                 </ul>
             </div>
@@ -33,7 +34,7 @@ function RoutePage() {
                 
             </div>
         </Router>
-
+        </div>
     );
 }
 
