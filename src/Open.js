@@ -22,24 +22,11 @@ function Openpage({study, setStudy}){
     <>
         <NewButton study={study} setStudy={setStudy}/>
         <OpenButton study={study} setStudy={setStudy}/>
-        <SaveButton study={study}/>
 		<ClearButton study={study} setStudy={setStudy}/>
+
     </>
 	)
 }
-//////// FUNCTIONS USED IN LATEST VERSION ///////////////////
-
-function FormInput({form, setForm}){
-    return(
-        <input
-            type="text"
-            value={form}
-            onChange={event => setForm(event.target.value)}
-		/>)
-}
-
-
-
 
 //<OpenButton study={studyName} changeName={setStudy} setData={setData} startEdit={setEdit}/>
 function OpenButton(props){
@@ -47,11 +34,15 @@ function OpenButton(props){
 		<Popup trigger={<button>Open</button>} position={'bottom center'}>
 		{close=> (
 			<>
-			<FormInput 
-                form={props.study.name} 
-                setForm={x => props.setStudy(props.study.changeName(x))}
+			<input
+				type="text" 
+                value={props.study.name} 
+                onChange = {event => props.setStudy(props.study.changeName(event.target.value))}
             />
-			<ConfirmButton label={'Open'} f={name => {props.setStudy(OpenStudy(name))}} arg={props.study.name} close={close}/>
+			<ConfirmButton label={'Open'} f={name => 
+			{
+				props.setStudy(OpenStudy(name))
+			}} arg={props.study.name} close={close}/>
 			<ConfirmButton label={'Close'} close={close}/>
 			</>
 		)}

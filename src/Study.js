@@ -9,6 +9,7 @@ class StudyDBT{
             edit_date: 2
         }
     }
+    
     shallowClone(){
         const clone = new StudyDBT('', [0,0], [0,0])
         clone.name = this.name
@@ -17,6 +18,7 @@ class StudyDBT{
         clone.meta = this.meta
         return clone;
     };
+
     changeName(newName){
         const clone = this.shallowClone();
         clone.name = newName;
