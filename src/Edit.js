@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {SaveStudy, OpenStudy, RemoveStudy, ClearAll, GetStudies} from './DB.js';
+import {SaveStudy, OpenStudy, getCurrentStudy, RemoveStudy, ClearAll, GetStudies} from './DB.js';
 import Popup from "reactjs-popup";
 import ReactjsTable from './tableTest.js';
 import StudyDBT from './Study.js';
@@ -7,7 +7,11 @@ import StudyDBT from './Study.js';
 
 function Editpage({study, setStudy}){
     if(study.name === ''){
-        return 'No study selected';
+        const name = getCurrentStudy();
+        if(name === null){
+            return 'No study selected';
+        }
+        setStudy(OpenStudy(name));
     }
 
     return(<header className="App-header"> 
@@ -33,6 +37,7 @@ function Editpage({study, setStudy}){
 function SaveButton(props){
 	return(
         <input
+            className="button_pop"
             type="button"
             value="Save"
             onClick={event => SaveStudy(props.study)}
