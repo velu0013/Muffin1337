@@ -17,7 +17,7 @@ function Editpage({study, setStudy}){
 
     return(<>
     <SaveButton study={study}/>
-    {'Now editing: '}{study.name}
+    {'Now editing: '+study.name+' | Last change: '+study.getEditDate()+' '+study.getEditTime()}
     <header className="App-header">
         <br></br>
         <ReactjsTable 

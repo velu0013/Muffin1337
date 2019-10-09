@@ -6,10 +6,8 @@ class StudyDBT{
         this.consumer = CreateGrid(dim_consumer[0], dim_consumer[1]);
         //this.preference = CreateGrid(dim_preference[0], dim_preference[1]);
         this.meta = {
-            create_date: currDate('-'),
-            create_time: currTime(':'),
-            edit_date: currDate('-'),
-            edit_time: currTime(':')
+            create: new Date(),
+            edit: new Date()
         }
     }
 
@@ -18,8 +16,7 @@ class StudyDBT{
         clone.name = this.name
         clone.recipe = this.recipe
         clone.consumer = this.consumer
-        clone.meta.create_date = this.meta.create_date
-        clone.meta.create_time = this.meta.create_time
+        clone.meta.create = this.meta.create
         return clone;
     };
 
@@ -44,28 +41,42 @@ class StudyDBT{
         return clone;
     };
 
+    getCreateTime(){
+        return(getTime(new Date(this.meta.create)));
+    }
+    getCreateDate(){
+        return(getDate(new Date(this.meta.create)));
+    }
+    getEditTime(){
+        return(getTime(new Date(this.meta.edit)));
+    }
+    getEditDate(){
+        return(getDate(new Date(this.meta.edit)));
+    }
 }
+
+function getTime(d){
+    const hours = d.getHours();
+    const minutes = d.getMinutes();
+    const secs = d.getSeconds();
+    const time = [hours<10?'0'+hours:hours,minutes<10?'0'+minutes:minutes,secs<10?'0'+secs:secs];
+    return time.join(':')
+}
+function getDate(d){
+    const year = d.getFullYear();
+    const month = d.getMonth()+1;
+    const day = d.getDate();
+    const date = [year,month<10?'0'+month:month,day<10?'0'+day:day];
+    return date.join('-')
+}
+
+
 
 
 function CreateGrid(rows, cols){
     return Array(rows).fill(
         Array(cols).fill({value:  ''})
     );
-}
-
-function currDate(sep){
-    const d = new Date();
-    let date = [d.getFullYear(),'',d.getMonth()+1,'',d.getDate()];
-    date[2]<10 ? date[1] = [sep, "0"] : date[1] = sep;
-    date[4]<10 ? date[3] = [sep, "0"] : date[3] = sep;
-    return date;
-}
-
-function currTime(sep){
-    const d = new Date(); 
-    let logon = [d.getHours(),"", d.getMinutes()];
-	logon[2]<10 ? logon[1] = [sep, "0"] : logon[1] = sep;
-	return logon;
 }
 
 
