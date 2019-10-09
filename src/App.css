@@ -5,7 +5,7 @@
  */
 
  .App{
-  font-family: "Droid Sans";  
+  font-family: "Esphimere Thin";  
   text-align: center;
  }
 
@@ -31,6 +31,21 @@
   flex-direction: column;
   align-items: center;
 }
+
+.Page-header{
+  font-size:  calc(12px + 3vmin);
+  font-weight: bold;
+}
+
+@font-face{
+  font-family: "Esphimere Thin";
+  src: url("./Fonts/esphimere/Esphimere Thin.otf");
+}
+@font-face{
+  font-family: "Esphimere Light";
+  src: url("./Fonts/esphimere/Esphimere Light.otf");
+}
+
 .Header-bar{
   height: 100%; 
   width: 10%;
@@ -46,7 +61,7 @@
   display:flex;
   flex-direction: column;
   padding: 15px 0px;
-  font-family: "Droid Sans";  
+  font-family: "Esphimere Light";  
   text-Decoration: none;
   color: #484848;
   }
@@ -97,7 +112,6 @@ font-size: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: "Droid Sans";
   padding-top: 20px;  
   padding-bottom: 20px;
 }
@@ -113,7 +127,6 @@ font-size: 10px;
   
 }
 .Text-input{
-  font-family: "Droid Sans";  
   border: 2px;
   max-width: 100vmin;
   margin: 10px 10px;

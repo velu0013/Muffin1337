@@ -10,7 +10,7 @@ function Editpage({study, setStudy}){
     if(study.name === ''){
         const name = DB.getCurrentStudy();
         if(name === null){
-            return 'No study selected';
+            return 'No study selected to edit';
         }
         setStudy(DB.OpenStudy(name));
     }

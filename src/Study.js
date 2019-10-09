@@ -4,9 +4,12 @@ class StudyDBT{
         this.name = name;
         this.recipe = CreateGrid(dim_recipe[0], dim_recipe[1]);
         this.consumer = CreateGrid(dim_consumer[0], dim_consumer[1]);
+        //this.preference = CreateGrid(dim_preference[0], dim_preference[1]);
         this.meta = {
-            create_date: 1,
-            edit_date: 2
+            create_date: currDate('-'),
+            create_time: currTime(':'),
+            edit_date: currDate('-'),
+            edit_time: currTime(':')
         }
     }
 
@@ -15,7 +18,8 @@ class StudyDBT{
         clone.name = this.name
         clone.recipe = this.recipe
         clone.consumer = this.consumer
-        clone.meta = this.meta
+        clone.meta.create_date = this.meta.create_date
+        clone.meta.create_time = this.meta.create_time
         return clone;
     };
 
@@ -47,6 +51,21 @@ function CreateGrid(rows, cols){
     return Array(rows).fill(
         Array(cols).fill({value:  ''})
     );
+}
+
+function currDate(sep){
+    const d = new Date();
+    let date = [d.getFullYear(),'',d.getMonth()+1,'',d.getDate()];
+    date[2]<10 ? date[1] = [sep, "0"] : date[1] = sep;
+    date[4]<10 ? date[3] = [sep, "0"] : date[3] = sep;
+    return date;
+}
+
+function currTime(sep){
+    const d = new Date(); 
+    let logon = [d.getHours(),"", d.getMinutes()];
+	logon[2]<10 ? logon[1] = [sep, "0"] : logon[1] = sep;
+	return logon;
 }
 
 
