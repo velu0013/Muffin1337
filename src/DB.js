@@ -1,17 +1,16 @@
-import StudyDBT from "./Study";
-
 /* Version 1.4
  * Responsible: Felix Djuphammar
  *
- * Import command: import {SaveStudy, OpenStudy, RemoveStudy, ClearAll, GetStudies} from './DB.js';
+ * Import:   import DB from './DB.js';
+ * Usage ex: DB.SaveStudy(StudyDBT)
  */
 
-const StudyList = 'DBT_Studies_TAG:ReKlGhAt' 
+
+import StudyDBT from "./Study";
+const StudyListKey = 'DBT_Studies_TAG:ReKlGhAt' 
 
 
 // Private Functions (Not exported) 
-
-
 function RecordStudy(name){
     var studies = GetStudies();
     if(studies===null){
@@ -21,7 +20,7 @@ function RecordStudy(name){
     }else{
         return;
     }
-    localStorage.setItem(StudyList, JSON.stringify(studies));  
+    localStorage.setItem(StudyListKey, JSON.stringify(studies));  
 }
 
 function DeleteStudy(name){
@@ -33,7 +32,7 @@ function DeleteStudy(name){
         const i = FindStudyIndex(name, studies)
         if(i > -1){
             studies.splice(i,1);
-            localStorage.setItem(StudyList, JSON.stringify(studies));
+            localStorage.setItem(StudyListKey, JSON.stringify(studies));
         }
         return;
     }   
@@ -50,8 +49,9 @@ function FindStudyIndex(name, studies){
 
 // Public Functions (Exported)
 // 1: newest first, 2: oldest first
+
 function GetStudies(){
-    return JSON.parse(localStorage.getItem(StudyList));
+    return JSON.parse(localStorage.getItem(StudyListKey));
 }
 
 function SaveStudy(study){
@@ -74,12 +74,31 @@ function RemoveStudy(name){
 }
 
 function ClearAll(){
+    sessionStorage.clear();
     localStorage.clear();
 }
 
 function NameFree(name){
-    return FindStudyIndex(name, GetStudies()) === -1
+    return (name !== '' && FindStudyIndex(name, GetStudies()) === -1)
 }
 
+function setCurrentStudy(name){
+    sessionStorage.setItem(StudyListKey, name)
+}
+function getCurrentStudy(){
+    return sessionStorage.getItem(StudyListKey)
+}
 
-export {SaveStudy, OpenStudy, RemoveStudy, ClearAll, GetStudies, NameFree};
+// Exported method structure
+const DB = {
+    GetStudies: GetStudies,
+    SaveStudy: SaveStudy,
+    OpenStudy: OpenStudy,
+    RemoveStudy: RemoveStudy,
+    ClearAll: ClearAll,
+    NameFree: NameFree,
+    setCurrentStudy: setCurrentStudy,
+    getCurrentStudy: getCurrentStudy
+}
+
+export default DB

@@ -9,7 +9,7 @@ class StudyDBT{
             edit_date: 2
         }
     }
-    
+
     shallowClone(){
         const clone = new StudyDBT('', [0,0], [0,0])
         clone.name = this.name
