@@ -6,7 +6,7 @@ import StudyDBT from './Study.js';
 
 
 function Editpage({study, setStudy}){
-    if(study.name == null){
+    if(study.name === ''){
         return 'No study selected';
     }
 
