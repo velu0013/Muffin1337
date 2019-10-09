@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import {SaveStudy, OpenStudy, RemoveStudy, ClearAll, GetStudies} from './DB.js';
+import {SaveStudy, OpenStudy, NameFree} from './DB.js';
 import Popup from "reactjs-popup";
-import StudyDBT, {CreateGrid} from './Study.js';
+import {CreateGrid} from './Study.js';
+import {Redirect} from "react-router-dom";
 
 
 
@@ -9,25 +10,50 @@ import StudyDBT, {CreateGrid} from './Study.js';
 //   f={RemoveStudy} confirm={true} study={props.study} close={close}
 //		  <NewButton study={studyName} changeName={setStudy} empty={setData} startEdit={setEdit}/>
 function NewButton(props){
+	const [select, setSelect] = useState(false)
+	const [nameAvailable, setAvailable] = useState(true)
+	const [dims, setDims] = useState([[0,0],[0,0]])
 	return(
+		<>
+		{select && <Redirect to='/Edit' />}
 		<Popup trigger={<button>Create</button>} position={'bottom center'}>
 		{close =>(
 			<>
+			{nameAvailable ? 'Choose study name' : 'Name exists'}
             <input
                 type="text"
                 value={props.study.name}
                 onChange={event => props.setStudy(props.study.changeName(event.target.value))}
 		    />
-            <ConfirmButton label={'Confirm'} f=
-            {x => {
-                SaveStudy(props.study.changeRecipe(CreateGrid(2,5)).changeConsumer(CreateGrid(3,4)))
-                props.setStudy(OpenStudy(props.study.name))
-            }} arg={props.study} close={close}
+			Recipe datasheet dimensions
+			<DimInput dim={[0,0]} dims={dims} setDims={setDims}/>
+			<DimInput dim={[0,1]} dims={dims} setDims={setDims}/>
+			Consumer datasheet dimensions
+			<DimInput dim={[1,0]} dims={dims} setDims={setDims}/>
+			<DimInput dim={[1,1]} dims={dims} setDims={setDims}/>
+
+			{/* CONFIRMATION BUTTONS */}
+			<ConfirmButton label={'Confirm'} 
+			f = {arg => {
+				if(NameFree(arg))
+				{	
+					SaveStudy(props.study
+						.changeRecipe(CreateGrid(dims[0][0],dims[0][1]))
+						.changeConsumer(CreateGrid(dims[1][0],dims[1][1])));
+					props.setStudy(OpenStudy(arg))
+					setAvailable(true)
+					setSelect(true)
+					close()
+				}else{
+					setAvailable(false)
+				}
+            }} arg={props.study.name}
             />
 			<ConfirmButton label={'Close'} close={close}/>
 			</>
 		)}
 		</Popup>
+		</>
 	)
 }
 
@@ -49,5 +75,30 @@ function ConfirmButton({label, f=null, arg, close=null}){
 	)	
 }
 
+function DimInput({dim, dims, setDims}){
+	return(
+		<input
+			type="number"
+			value={dims[dim[0]][dim[1]]>0?dims[dim[0]][dim[1]]:''}
+			onChange={event => 
+			{
+				if(parseInt(event.target.value, 10)>=0){
+					let newDims = dimsCopy(dims)
+					newDims[dim[0]][dim[1]] = parseInt(event.target.value, 10)
+					setDims(newDims)
+				}
+			}}
+		/>
+	)
+}
+
+function dimsCopy(dims){
+	let newDims = [[0,0],[0,0]]
+	newDims[0][0] = parseInt(dims[0][0], 10)
+	newDims[0][1] = parseInt(dims[0][1], 10)
+	newDims[1][0] = parseInt(dims[1][0], 10)
+	newDims[1][1] = parseInt(dims[1][1], 10)
+	return newDims;
+}
 
 export  {NewButton, ConfirmButton}
