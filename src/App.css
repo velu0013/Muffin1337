@@ -5,10 +5,8 @@
  */
 
  .App{
-
   font-family: "Droid Sans";  
   text-align: center;
-
  }
 
 .App-logo{
@@ -26,10 +24,12 @@
   padding-left:130px;
   padding-top: 100px;
   height: auto;
-  align-items: center;
-  padding-left: 10%;
   font-size: calc(10px + 2vmin);
-
+}
+.App-header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .Header-bar{
   height: 100%; 
