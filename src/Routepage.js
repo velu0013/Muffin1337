@@ -10,6 +10,7 @@ import StudyDBT from './Study.js';
 import {Homepage} from './Home.js';
 import {Openpage} from './Open.js';
 import {Editpage} from './Edit.js';
+import {Analysispage} from './Analysis.js';
 import {Testpage} from './test.js';
 import logo from './vonkansmuffin.svg';
 
@@ -25,6 +26,7 @@ function RoutePage() {
                     <Link to="/" className="Header-link" >Home</Link>
                     <Link to="/MyStudies" className="Header-link">My Studies</Link>
                     <Link to="/Edit" className="Header-link">Edit Study</Link>
+                    <Link to="/Analysis" className="Header-link">Analyze Study</Link>
                     <Link to="/Test" className="Header-link">Test</Link>
                 </ul>
             </div>
@@ -35,7 +37,10 @@ function RoutePage() {
                 </Route>   
                 <Route path="/Edit"> 
                     <Editpage study={study} setStudy={setStudy}/>
-                </Route>          
+                </Route>
+                <Route path="/Analysis"> 
+                    <Analysispage study={study} setStudy={setStudy}/>
+                </Route>             
                 <Route path="/Test" component={Testpage} />
                 
             </div>
