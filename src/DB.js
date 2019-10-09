@@ -74,6 +74,7 @@ function RemoveStudy(name){
 }
 
 function ClearAll(){
+    sessionStorage.clear();
     localStorage.clear();
 }
 

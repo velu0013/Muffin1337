@@ -15,7 +15,7 @@ import logo from './vonkansmuffin.svg';
 
 
 function RoutePage() {
-    const [study, setStudy] = useState(new StudyDBT('', [2,3], [3,2]))
+    const [study, setStudy] = useState(new StudyDBT('', [0,0], [0,0]))
     return(
         <div className="App">
         <Router>

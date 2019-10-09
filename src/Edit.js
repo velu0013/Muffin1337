@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
-import {SaveStudy, OpenStudy, getCurrentStudy, RemoveStudy, ClearAll, GetStudies} from './DB.js';
-import Popup from "reactjs-popup";
+import React, {/* useState */} from 'react';
+import DB from './DB.js';
 import ReactjsTable from './tableTest.js';
-import StudyDBT from './Study.js';
+
+//import Popup from "reactjs-popup";
+//import StudyDBT from './Study.js';
 
 
 function Editpage({study, setStudy}){
     if(study.name === ''){
-        const name = getCurrentStudy();
+        const name = DB.getCurrentStudy();
         if(name === null){
             return 'No study selected';
         }
-        setStudy(OpenStudy(name));
+        setStudy(DB.OpenStudy(name));
     }
 
-    return(<header className="App-header"> 
-        {study.name}
-        <SaveButton study={study}/>
+    return(<>
+    <SaveButton study={study}/>
+    {'Now editing: '}{study.name}
+    <header className="App-header">
         <br></br>
         <ReactjsTable 
             key = {study.name+'reci'}
@@ -29,7 +31,7 @@ function Editpage({study, setStudy}){
             tableData={study.consumer} 
             setData={x => setStudy(study.changeConsumer(x))}
         />
-    </header>
+    </header></>
     )
 }
 
@@ -40,7 +42,7 @@ function SaveButton(props){
             className="button_pop"
             type="button"
             value="Save"
-            onClick={event => SaveStudy(props.study)}
+            onClick={event => DB.SaveStudy(props.study)}
         />
 	)
 }
