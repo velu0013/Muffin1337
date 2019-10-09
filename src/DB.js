@@ -50,7 +50,7 @@ function FindStudyIndex(name, studies){
 
 // Public Functions (Exported)
 // 1: newest first, 2: oldest first
-function GetStudies(sort){
+function GetStudies(){
     return JSON.parse(localStorage.getItem(StudyList));
 }
 
@@ -77,4 +77,9 @@ function ClearAll(){
     localStorage.clear();
 }
 
-export {SaveStudy, OpenStudy, RemoveStudy, ClearAll, GetStudies};
+function NameFree(name){
+    return FindStudyIndex(name, GetStudies()) === -1
+}
+
+
+export {SaveStudy, OpenStudy, RemoveStudy, ClearAll, GetStudies, NameFree};
