@@ -1,6 +1,6 @@
 import React, {/* useState */} from 'react';
 import DB from './DB.js';
-import ReactjsTable from './tableTest.js';
+import StudyTable from './StudyTable.js';
 
 //import Popup from "reactjs-popup";
 //import StudyDBT from './Study.js';
@@ -20,13 +20,13 @@ function Editpage({study, setStudy}){
     {'Now editing: '+study.name+' | Last change: '+study.getEditDate()+' '+study.getEditTime()}
     <header className="App-header">
         <br></br>
-        <ReactjsTable 
+        <StudyTable 
             key = {study.name+'reci'}
             tableData={study.recipe} 
             setData={x => setStudy(study.changeRecipe(x))}
         />
         <br></br>
-        <ReactjsTable 
+        <StudyTable 
             key = {study.name+'cons'}
             tableData={study.consumer} 
             setData={x => setStudy(study.changeConsumer(x))}

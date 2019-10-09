@@ -2,7 +2,7 @@ import ReactDataSheet from 'react-datasheet';
 import React from 'react';
 import 'react-datasheet/lib/react-datasheet.css'
 
-class ReactjsTable extends React.Component {
+class StudyTable extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -31,5 +31,5 @@ class ReactjsTable extends React.Component {
 
 
 
-export default ReactjsTable
+export default StudyTable
 
