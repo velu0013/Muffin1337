@@ -1,143 +1,53 @@
-/* Version 1.2...
- * Responsible: John Isaksson
- *
- *
- */
-
 import React, { useState } from 'react';
-import {SaveStudy, OpenStudy, RemoveStudy, ClearAll} from './DB.js';
-import { breakStatement } from '@babel/types';
+import {SaveStudy, OpenStudy, RemoveStudy, ClearAll, GetStudies} from './DB.js';
+import Popup from "reactjs-popup";
+import StudyDBT, {CreateGrid} from './Study.js';
 
 
-function Newpage(){
-  const [StudyList, setStudyList] = useState('')
-  const [study, setStudy] = useState('')
-  const [NameConfirmed, setBool] = useState(false)
-  const [bool2, setBool2] = useState(true)
-  const [data, setData] =useState('')
-  const [data2, setData2] =useState('')
-  return (
-    <div className="App">
-      <header className="App-header">
-        {NameConfirmed ?
-        <EnterData  setData = {setData} bool = {NameConfirmed} setBool = {setBool} bool2 ={bool2} setBool2 = {setBool2} data = {data} setData2 ={setData2}/>
-        : //else
-        <EnterName study={study} setStudy={setStudy} list={StudyList} setStudyList={setStudyList} setBool ={setBool} bool = {NameConfirmed}/>
-        }
-  
-        <p>
-          File name: {StudyList}    
-        </p>
 
-        <p>
-          Data: {data2}
-        </p>
-        <br/>
-        <SaveButton data2 = {data2} StudyList = {StudyList} />
-		  </header>
-          
-		</div>
-  )
-}
-function EnterName(props){
-  return(
-    <> 
-    {'Enter your file name'}
-    <p>
-      <FormInput study={props.study} setStudy={props.setStudy}/>
-      <NewButton study={props.study} setStudy={props.setStudy} list={props.StudyList} setStudyList={props.setStudyList} setBool ={props.setBool} bool = {props.bool}/> 
-    </p>
-    <p>{''}</p>
-    </>
-  )
-}
-
-function EnterData(props){
-  return(
-    <> 
-    {'Enter your data below'}
-    <p>
-      <Back bool = {props.bool} setBool = {props.setBool} /> 
-    </p>
-    <p>
-      <FormInput study ={props.data} setStudy = {props.setData}/> 
-      <Enter bool2 ={props.bool2} setBool2 = {props.setBool2} data = {props.data} setData2 ={props.setData2} /> 
-    </p>
-    </> 
-  )
-}
-
-function FormInput(props){
-    return(
-        <input
-            type="text"
-            value={props.study}
-            onChange={event => props.setStudy(event.target.value)}
-		/>)
-}
-
+// <NewButton changeName={setStudy} empty={setData} startEdit={setEdit}/>
+//   f={RemoveStudy} confirm={true} study={props.study} close={close}
+//		  <NewButton study={studyName} changeName={setStudy} empty={setData} startEdit={setEdit}/>
 function NewButton(props){
 	return(
-		<input
-			type="button"
-			value={'Confirm'}
-			onClick={
-                function(event){
-                props.setStudyList(props.study)
-                props.setBool(!props.bool)    
-                    {/*const newlist = props.list
-                    newlist.push(props.study)
-                    props.setList(newlist)
-                    props.setStudy('') 
-                    props.setBool(!props.bool) */}
-                } 
-            }
-    />
+		<Popup trigger={<button>Create</button>} position={'bottom center'}>
+		{close =>(
+			<>
+            <input
+                type="text"
+                value={props.study.name}
+                onChange={event => props.setStudy(props.study.changeName(event.target.value))}
+		    />
+            <ConfirmButton label={'Confirm'} f=
+            {x => {
+                SaveStudy(props.study.changeRecipe(CreateGrid(2,5)).changeConsumer(CreateGrid(3,4)))
+                props.setStudy(OpenStudy(props.study.name))
+            }} arg={props.study} close={close}
+            />
+			<ConfirmButton label={'Close'} close={close}/>
+			</>
+		)}
+		</Popup>
 	)
 }
 
 
-function Back(props) {
-  return (  
-    <input
-      type="button"
-      value={'Return'}
-      onClick={event => 
-        props.setBool(!props.bool)
-      }
-    />
-  );
-}
-function Enter(props) {
-  return (  
-    <input
-      type="button"
-      value={'Enter'}
-      onClick={
-        function(event){
-        props.setBool2(!props.bool2)
-        props.setData2(props.data)
-        }
-    }
-    />
-  );
-}
-
-function SaveButton(props){
+// Performs the function f(arg) and then the function close().
+// To disable either function call, set to null.
+function ConfirmButton({label, f=null, arg, close=null}){
 	return(
 		<input
-			type="button"
-			value={'Save a File'}
-			onClick={
-                function(event){
-                    SaveStudy(props.StudyList, props.data2);
-                } 
-            }
+		type="button"
+		value={label}
+		onClick={event => 
+			{	
+				if(f !== null){f(arg)};
+				if(close !== null){close()};
+			}
+		}
 		/>
-	)
+	)	
 }
 
 
-
-export {Newpage}
-
+export  {NewButton, ConfirmButton}

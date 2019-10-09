@@ -32,15 +32,11 @@ function Editpage({study, setStudy}){
 
 function SaveButton(props){
 	return(
-        <Popup trigger={<button>Save</button>} position={'bottom center'}>
-		{close=> (
-            <input
+        <input
             type="button"
-            value="Confirm"
-            onClick={event => {SaveStudy(props.study) && close()}}
-            />
-        )}
-        </Popup>
+            value="Save"
+            onClick={event => SaveStudy(props.study)}
+        />
 	)
 }
 

@@ -15,6 +15,7 @@ import React, { useState } from 'react';
 import {SaveStudy, OpenStudy, RemoveStudy, ClearAll, GetStudies} from './DB.js';
 import Popup from "reactjs-popup";
 import StudyDBT from './Study.js';
+import {NewButton, ConfirmButton} from './New.js';
 
 function Openpage({study, setStudy}){
 	return (
@@ -22,6 +23,7 @@ function Openpage({study, setStudy}){
         <NewButton study={study} setStudy={setStudy}/>
         <OpenButton study={study} setStudy={setStudy}/>
         <SaveButton study={study}/>
+		<ClearButton study={study} setStudy={setStudy}/>
     </>
 	)
 }
@@ -36,25 +38,7 @@ function FormInput({form, setForm}){
 		/>)
 }
 
-// <NewButton changeName={setStudy} empty={setData} startEdit={setEdit}/>
-//   f={RemoveStudy} confirm={true} study={props.study} close={close}
-//		  <NewButton study={studyName} changeName={setStudy} empty={setData} startEdit={setEdit}/>
-function NewButton(props){
-	return(
-		<Popup trigger={<button>Create</button>} position={'bottom center'}>
-		{close =>(
-			<>
-            <FormInput 
-                form={props.study.name} 
-                setForm={x => props.setStudy(props.study.changeName(x))}
-            />
-			<ConfirmButton label={'Confirm'} f={x => {SaveStudy(props.study)}} arg={props.study} close={close}/>
-			<ConfirmButton label={'Close'} close={close}/>
-			</>
-		)}
-		</Popup>
-	)
-}
+
 
 
 //<OpenButton study={studyName} changeName={setStudy} setData={setData} startEdit={setEdit}/>
@@ -106,34 +90,20 @@ function DeleteButton(props){
 }
 
 
-
-// Performs the function f(arg) and then the function close().
-// To disable either function call, set to null.
-function ConfirmButton({label, f=null, arg, close=null}){
-	return(
-		<input
-		type="button"
-		value={label}
-		onClick={event => 
-			{	
-				if(f !== null){f(arg)};
-				if(close !== null){close()};
-			}
-		}
-		/>
-	)	
-}
-
-
 function ClearButton(props){
 	return(
-		<Popup trigger={<button> Delete All</button>} position="right center">
+		<Popup trigger={<button>Delete All</button>} position="right center">
 		{close => (
 		<div>
 			{'Delete All Entries?'}
 			<br></br>
-			<ConfirmButton label={'Yes'} f={ClearAll} confirm={true} study={props.study} close={close}/>
-			<ConfirmButton label={'No'} f={ClearAll} confirm={false} study={props.study} close={close}/>
+			<ConfirmButton label={'Yes'} f={_ => 
+				{
+					ClearAll()
+					props.setStudy(new StudyDBT(null, [2,3], [3,2]))
+				}} arg={null} close={close}
+			/>
+			<ConfirmButton label={'No'} close={close}/>
 		</div>
 		)}
 		</Popup>	

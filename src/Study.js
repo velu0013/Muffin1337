@@ -49,3 +49,4 @@ function CreateGrid(rows, cols){
 
 
 export default StudyDBT
+export {CreateGrid}
