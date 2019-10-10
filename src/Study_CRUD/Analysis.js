@@ -14,7 +14,7 @@ function Analysispage({study, setStudy}){
     }
 	return (
     <>
-        {study.name+' is now super analyzed'}
+        {study.name+' will be analyzed here'}
 
     </>
 	)
