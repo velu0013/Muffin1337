@@ -15,9 +15,7 @@ function Openpage({study, setStudy}){
 	return (
     <>
         <NewButton study={study} setStudy={setStudy}/>
-        <OpenButton study={study} setStudy={setStudy}/>
 		<ClearButton study={study} setStudy={setStudy}/>
-		<br></br>
 		<br></br>
 		<PrintStudyList study={study} setStudy={setStudy}/>
     </>
@@ -25,6 +23,7 @@ function Openpage({study, setStudy}){
 }
 
 
+/*
 //<OpenButton study={studyName} changeName={setStudy} setData={setData} startEdit={setEdit}/>
 function OpenButton(props){
 	const [select, setSelect] = useState(false)
@@ -32,7 +31,7 @@ function OpenButton(props){
 	return(
 		<>
 		{select && <Redirect to='/Edit' />}
-		<Popup trigger={<button>Open</button>} position={'bottom center'}>
+		<Popup trigger={<button className="button_pop">Open</button>} position={'bottom center'}>
 		{close=> (
 			<>
 			{studyValid?'Select Study':'No Such Study'}
@@ -67,32 +66,31 @@ function OpenButton(props){
 	)
 }
 
+*/
+
+
 
 
 function PrintStudyList({study, setStudy}){
-	const [existingentries, setExistingentries] = useState(true) //ändra till true om du får nedanstående att funka
-	const [temp, setTemp] = useState(true)
-	var StudyList = DB.GetStudies();
+	const StudyList = DB.GetStudies()
+
 
 	if(StudyList === null){
 		return 'You have no studies yet'
 	}
-	
-	if(temp){
-		if(!StudyList)
-			{setExistingentries(false) 
-			setTemp(false)}
-		else{}}
-	else{}
-	
-		return(
-			<> 
-				{existingentries &&
-					<RedirectToEdit study={study} setStudy={setStudy} GetStudy={StudyList[0]} />
-				}
-			</>
-		)
+
+
+	return (
+		<ul>
+		  {StudyList.map((value, index) => {
+			return <ul key={index}>{<RedirectToEdit study={study} setStudy={setStudy} GetStudy={StudyList[index]} />}</ul>
+		  })}
+		</ul>
+	  )
 }
+
+
+
 
 function RedirectToEdit(props){
 	const [select, setSelect] = useState(false)
@@ -100,7 +98,7 @@ function RedirectToEdit(props){
 
     return (
 		<> 
-			<ConfirmButton label={Study} f={name => 
+			<ConfirmText label={Study} f={name => 
 				{
 					props.setStudy(DB.OpenStudy(name))
 					setSelect(true)
@@ -112,10 +110,26 @@ function RedirectToEdit(props){
     );
 }
 
+function ConfirmText({label, f=null, arg, close=null}){
+	return(
+		<input
+		type="button"
+		value={label}
+		className="button_pop"
+		onClick={event => 
+			{	
+				if(f !== null){f(arg)};
+				if(close !== null){close()};
+			}
+		}
+		/>
+	)	
+}
+
 
 function ClearButton(props){
 	return(
-		<Popup trigger={<button>Delete All</button>} position="right center">
+		<Popup trigger={<button className="button_pop">Delete All</button>} position="right center">
 		{close => (
 		<div>
 			{'Delete All Entries?'}
