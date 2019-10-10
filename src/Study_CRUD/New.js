@@ -3,6 +3,7 @@ import DB from './DB.js';
 import Popup from "reactjs-popup";
 import {CreateGrid} from './Study.js';
 import {Redirect} from "react-router-dom";
+import utils from './utils.js'
 
 const contentStyle = {
 	background: "#F0F0F0",
@@ -47,7 +48,7 @@ function NewButton(props){
 			</div>
 			{/* CONFIRMATION BUTTONS */}
 			<div className="pop_div">
-			<ConfirmButton label={'Confirm'} 
+			<utils.ConfirmButton label={'Confirm'} 
 			f = {arg => {
 				if(DB.NameFree(arg))
 				{	
@@ -63,7 +64,7 @@ function NewButton(props){
 				}
             }} arg={props.study.name}
             />
-			<ConfirmButton label={'Close'} close={close}/>
+			<utils.ConfirmButton label={'Close'} close={close}/>
 			</div>
 			</div>
 		)}
@@ -73,23 +74,6 @@ function NewButton(props){
 }
 
 
-// Performs the function f(arg) and then the function close().
-// To disable either function call, set to null.
-function ConfirmButton({label, f=null, arg, close=null}){
-	return(
-		<input
-		type="button"
-		value={label}
-		className="button_pop"
-		onClick={event => 
-			{	
-				if(f !== null){f(arg)};
-				if(close !== null){close()};
-			}
-		}
-		/>
-	)	
-}
 
 function DimInput({dim, dims, setDims}){
 	return(
@@ -118,4 +102,4 @@ function dimsCopy(dims){
 	return newDims;
 }
 
-export  {NewButton, ConfirmButton}
+export  {NewButton}

@@ -1,6 +1,8 @@
-import React, {/* useState */} from 'react';
+import React, {useState} from 'react';
 import DB from './DB.js';
+import utils from './utils.js'
 import StudyTable from './StudyTable.js';
+import Popup from "reactjs-popup";
 
 //import Popup from "reactjs-popup";
 //import StudyDBT from './Study.js';
@@ -16,8 +18,8 @@ function Editpage({study, setStudy}){
     }
 
     return(<>
-    <SaveButton study={study}/>
-    {'Now editing: '+study.name+' | Last change: '+study.getEditDate()+' '+study.getEditTime()}
+    <FileButton study={study} setStudy={setStudy}/>
+    {'Now editing: '+study.name}<br></br>{'Last change: '+study.getEditDate()+', '+study.getEditTime()}
     <header className="App-header">
         <br></br>
         <StudyTable 
@@ -36,14 +38,64 @@ function Editpage({study, setStudy}){
 }
 
 
+
+function FileButton(props){
+	return(
+        <Popup trigger={<button className="button_pop">File</button>} position={'bottom left'}>
+		{close => (
+            <>
+            <SaveButton study={props.study} close={close}/>
+            <SaveAsButton study={props.study} setStudy={props.setStudy} close={close}/>
+            </>
+        )}
+        </Popup>
+	)
+}
+
 function SaveButton(props){
 	return(
         <input
             className="button_pop"
             type="button"
             value="Save"
-            onClick={event => DB.SaveStudy(props.study)}
+            onClick={event => {DB.SaveStudy(props.study); props.close()}}
         />
+	)
+}
+
+function SaveAsButton(props){
+    const [string, setString] = useState(props.study.name);
+	const [nameAvailable, setAvailable] = useState(true)
+	return(
+        <Popup trigger={<button className="button_pop">Save as...</button>} modal>
+        {close => (   
+            <>
+            {nameAvailable ? 'Choose new study name' : 'Name exists'}
+            <br></br>
+            <input
+                type="text"
+                value={string}
+                onChange={event => setString(event.target.value)}
+            />
+            <br></br>
+            <utils.ConfirmButton label={'Save'}
+                f={arg => {
+                    if(DB.NameFree(arg.name))
+                    {	
+                        DB.SaveStudy(arg);
+                        props.setStudy(DB.OpenStudy(arg.name))
+                        setAvailable(true)
+                        props.close()
+                    }else{
+                        setAvailable(false)
+                    }
+                }} 
+                arg={props.study.changeName(string)}
+            />
+            <utils.ConfirmButton label={'Cancel'} f={close}/>
+            </>
+        )}
+        </Popup>
 	)
 }
 

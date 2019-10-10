@@ -6,9 +6,10 @@
 
 import React, { useState } from 'react';
 import DB from './DB.js';
+import utils from './utils.js'
 import Popup from "reactjs-popup";
 import StudyDBT from './Study.js';
-import {NewButton, ConfirmButton} from './New.js';
+import {NewButton} from './New.js';
 import {Redirect} from "react-router-dom";
 
 function Openpage({study, setStudy}){
@@ -134,13 +135,13 @@ function ClearButton(props){
 		<div>
 			{'Delete All Entries?'}
 			<br></br>
-			<ConfirmButton label={'Yes'} f={_ => 
+			<utils.ConfirmButton label={'Yes'} f={_ => 
 				{
 					DB.ClearAll()
 					props.setStudy(new StudyDBT('', [0,0], [0,0]))
 				}} arg={null} close={close}
 			/>
-			<ConfirmButton label={'No'} close={close}/>
+			<utils.ConfirmButton label={'No'} close={close}/>
 		</div>
 		)}
 		</Popup>	
@@ -170,8 +171,8 @@ function DeleteButton(props){
 			<>
 			{'Delete'}{props.study}{'?'}
 			<br></br>
-			<ConfirmButton label={'Yes'} f={DB.RemoveStudy} arg={props.study} close={close}/>
-			<ConfirmButton label={'No'} close={close}/>
+			<utils.ConfirmButton label={'Yes'} f={DB.RemoveStudy} arg={props.study} close={close}/>
+			<utils.ConfirmButton label={'No'} close={close}/>
 			</>
 		)}
 		</Popup>	
