@@ -60,6 +60,9 @@ function SaveStudy(study){
 }
 
 function OpenStudy(name){
+    if(NameFree(name)){
+        return null;
+    }
     const data = JSON.parse(localStorage.getItem(name))
     const study = new StudyDBT(data.name,[0,0],[0,0]);
     return study
@@ -79,7 +82,7 @@ function ClearAll(){
 }
 
 function NameFree(name){
-    return (name !== '' && FindStudyIndex(name, GetStudies()) === -1)
+    return (name !== null && name !== '' && FindStudyIndex(name, GetStudies()) === -1)
 }
 
 function setCurrentStudy(name){

@@ -28,26 +28,34 @@ function Openpage({study, setStudy}){
 //<OpenButton study={studyName} changeName={setStudy} setData={setData} startEdit={setEdit}/>
 function OpenButton(props){
 	const [select, setSelect] = useState(false)
-
+	const [studyValid, setValid] = useState(true)
 	return(
 		<>
 		{select && <Redirect to='/Edit' />}
 		<Popup trigger={<button>Open</button>} position={'bottom center'}>
 		{close=> (
 			<>
+			{studyValid?'Select Study':'No Such Study'}
 			<input
 				type="text" 
                 value={props.study.name} 
-                onChange = {event => props.setStudy(props.study.changeName(event.target.value))}
+				onChange = {event => props.setStudy(props.study.changeName(event.target.value))}
             />
 
 
 			<ConfirmButton label={'Open'} f={name => 
 			{
-				props.setStudy(DB.OpenStudy(name))
-				DB.setCurrentStudy(name) // Gör så att sidan går att refresha
-				setSelect(true)
-			}} arg={props.study.name} close={close}/>
+				if(DB.NameFree(name)){
+					// Studyn finns inte, varna här
+					setValid(false)
+				}else{
+					props.setStudy(DB.OpenStudy(name))
+					DB.setCurrentStudy(name) // Gör så att sidan går att refresha
+					setSelect(true)
+					setValid(true)
+					close()
+				}
+			}} arg={props.study.name}/>
 
 
 			<ConfirmButton label={'Close'} close={close}/>
