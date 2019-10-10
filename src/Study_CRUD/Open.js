@@ -15,7 +15,6 @@ function Openpage({study, setStudy}){
 	return (
     <>
         <NewButton study={study} setStudy={setStudy}/>
-        <OpenButton study={study} setStudy={setStudy}/>
 		<ClearButton study={study} setStudy={setStudy}/>
 		<br></br>
 		<PrintStudyList study={study} setStudy={setStudy}/>
@@ -24,6 +23,7 @@ function Openpage({study, setStudy}){
 }
 
 
+/*
 //<OpenButton study={studyName} changeName={setStudy} setData={setData} startEdit={setEdit}/>
 function OpenButton(props){
 	const [select, setSelect] = useState(false)
@@ -66,7 +66,7 @@ function OpenButton(props){
 	)
 }
 
-
+*/
 
 
 
@@ -83,7 +83,7 @@ function PrintStudyList({study, setStudy}){
 	return (
 		<ul>
 		  {StudyList.map((value, index) => {
-			return <li key={index}>{<RedirectToEdit study={study} setStudy={setStudy} GetStudy={StudyList[index]} />}</li>
+			return <ul key={index}>{<RedirectToEdit study={study} setStudy={setStudy} GetStudy={StudyList[index]} />}</ul>
 		  })}
 		</ul>
 	  )
@@ -98,7 +98,7 @@ function RedirectToEdit(props){
 
     return (
 		<> 
-			<ConfirmButton label={Study} f={name => 
+			<ConfirmText label={Study} f={name => 
 				{
 					props.setStudy(DB.OpenStudy(name))
 					setSelect(true)
@@ -108,6 +108,22 @@ function RedirectToEdit(props){
 			{select && <Redirect to='/Edit' />}
 		</>
     );
+}
+
+function ConfirmText({label, f=null, arg, close=null}){
+	return(
+		<input
+		type="button"
+		value={label}
+		className="button_pop"
+		onClick={event => 
+			{	
+				if(f !== null){f(arg)};
+				if(close !== null){close()};
+			}
+		}
+		/>
+	)	
 }
 
 
