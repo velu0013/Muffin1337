@@ -20,12 +20,14 @@ function Editpage({study, setStudy}){
     {'Now editing: '+study.name+' | Last change: '+study.getEditDate()+' '+study.getEditTime()}
     <header className="App-header">
         <br></br>
+        Recipe
         <StudyTable 
             key = {study.name+'reci'}
             tableData={study.recipe} 
             setData={x => setStudy(study.changeRecipe(x))}
         />
         <br></br>
+        Consumer description
         <StudyTable 
             key = {study.name+'cons'}
             tableData={study.consumer} 
