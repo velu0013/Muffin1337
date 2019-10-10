@@ -18,7 +18,6 @@ function Openpage({study, setStudy}){
         <OpenButton study={study} setStudy={setStudy}/>
 		<ClearButton study={study} setStudy={setStudy}/>
 		<br></br>
-		<br></br>
 		<PrintStudyList study={study} setStudy={setStudy}/>
     </>
 	)
@@ -32,7 +31,7 @@ function OpenButton(props){
 	return(
 		<>
 		{select && <Redirect to='/Edit' />}
-		<Popup trigger={<button>Open</button>} position={'bottom center'}>
+		<Popup trigger={<button className="button_pop">Open</button>} position={'bottom center'}>
 		{close=> (
 			<>
 			{studyValid?'Select Study':'No Such Study'}
@@ -69,30 +68,29 @@ function OpenButton(props){
 
 
 
+
+
+
 function PrintStudyList({study, setStudy}){
-	const [existingentries, setExistingentries] = useState(true) //ändra till true om du får nedanstående att funka
-	const [temp, setTemp] = useState(true)
-	var StudyList = DB.GetStudies();
+	const StudyList = DB.GetStudies()
+
 
 	if(StudyList === null){
 		return 'You have no studies yet'
 	}
-	
-	if(temp){
-		if(!StudyList)
-			{setExistingentries(false) 
-			setTemp(false)}
-		else{}}
-	else{}
-	
-		return(
-			<> 
-				{existingentries &&
-					<RedirectToEdit study={study} setStudy={setStudy} GetStudy={StudyList[0]} />
-				}
-			</>
-		)
+
+
+	return (
+		<ul>
+		  {StudyList.map((value, index) => {
+			return <li key={index}>{<RedirectToEdit study={study} setStudy={setStudy} GetStudy={StudyList[index]} />}</li>
+		  })}
+		</ul>
+	  )
 }
+
+
+
 
 function RedirectToEdit(props){
 	const [select, setSelect] = useState(false)
@@ -115,7 +113,7 @@ function RedirectToEdit(props){
 
 function ClearButton(props){
 	return(
-		<Popup trigger={<button>Delete All</button>} position="right center">
+		<Popup trigger={<button className="button_pop">Delete All</button>} position="right center">
 		{close => (
 		<div>
 			{'Delete All Entries?'}
