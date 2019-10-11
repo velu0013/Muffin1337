@@ -13,9 +13,11 @@
     #000000AA
   ),url("./img/Cupcake.jpg");
   background-size: 100vw;
-  background-repeat: repeat-y;
+  background-repeat: repeat;
   min-height: 100vh;
+  min-width: 100vw;
   height: 100%;
+  width: 100%;
   color: white;
  }
 
@@ -108,7 +110,9 @@
   outline: none;
 }     
 .button_pop:active,  .button_pop:hover, .button_pop:focus{
- border-color: #70707050; 
+ background-color: #70707080; 
+ border-color: white;
+ color: white;
 }
 .button_text{
   color: white;
