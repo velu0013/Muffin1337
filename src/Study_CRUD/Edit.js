@@ -50,6 +50,7 @@ function FileButton(props){
             closeOnDocumentClick
             mouseLeaveDelay={300}
             mouseEnterDelay={0}
+            on='hover'
             contentStyle={{ padding: "0px", border: "none" }}
             arrow={false}
         >
