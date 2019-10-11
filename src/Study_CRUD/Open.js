@@ -80,7 +80,7 @@ function PrintStudyList({study, setStudy, Skey, setKey}){
 	}
 	return (
 		<>
-		<input type="text" placeholder="Search..." value={Skey} onChange={event => setKey(event.target.value)}/>
+		<input className="Text-input" type="text" placeholder="Search..." value={Skey} onChange={event => setKey(event.target.value)}/>
 		<br></br>
 		<ul>
 		  {StudyList.map((value, index) => {
