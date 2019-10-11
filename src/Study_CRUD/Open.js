@@ -117,7 +117,7 @@ function ConfirmText({label, f=null, arg, close=null}){
 		<input
 		type="button"
 		value={label}
-		className="button_pop"
+		className="button_text"
 		onClick={event => 
 			{	
 				if(f !== null){f(arg)};
