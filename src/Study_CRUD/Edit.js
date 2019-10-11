@@ -124,7 +124,7 @@ function DeleteButton(props){
                 f={arg => 
                 {
                     DB.RemoveStudy(arg); 
-                    props.setStudy(new StudyDBT('', [0,0], [0,0])); 
+                    props.setStudy(new StudyDBT()); 
                     props.close()
                 }}
                 arg={props.study}
