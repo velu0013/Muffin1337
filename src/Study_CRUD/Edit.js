@@ -50,6 +50,7 @@ function FileButton(props){
             closeOnDocumentClick
             mouseLeaveDelay={300}
             mouseEnterDelay={0}
+            on='hover'
             contentStyle={{ padding: "0px", border: "none" }}
             arrow={false}
         >
@@ -123,7 +124,7 @@ function DeleteButton(props){
                 f={arg => 
                 {
                     DB.RemoveStudy(arg); 
-                    props.setStudy(new StudyDBT('', [0,0], [0,0])); 
+                    props.setStudy(new StudyDBT()); 
                     props.close()
                 }}
                 arg={props.study}

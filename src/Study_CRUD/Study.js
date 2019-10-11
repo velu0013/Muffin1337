@@ -1,10 +1,10 @@
 // new StudyDTB('myStudy', [w,h], [w,h])
 class StudyDBT{
-    constructor(name, dim_recipe, dim_consumer){
+    constructor(name = '', dim_recipe = [0,0], dim_consumer = [0,0], dim_preference = [0,0]){
         this.name = name;
         this.recipe = CreateGrid(dim_recipe[0], dim_recipe[1]);
         this.consumer = CreateGrid(dim_consumer[0], dim_consumer[1]);
-        //this.preference = CreateGrid(dim_preference[0], dim_preference[1]);
+        this.preference = CreateGrid(dim_preference[0], dim_preference[1]);
         this.meta = {
             create: new Date(),
             edit: new Date()
@@ -16,6 +16,7 @@ class StudyDBT{
         clone.name = this.name
         clone.recipe = this.recipe
         clone.consumer = this.consumer
+        clone.preference = this.preference
         clone.meta.create = this.meta.create
         return clone;
     };
@@ -33,6 +34,11 @@ class StudyDBT{
     changeConsumer(newConsumer){
         const clone = this.shallowClone();
         clone.consumer = newConsumer;
+        return clone;
+    };
+    changePreference(newPreference){
+        const clone = this.shallowClone();
+        clone.preference = newPreference;
         return clone;
     };
     changeMeta(newMeta){
