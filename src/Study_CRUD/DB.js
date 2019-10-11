@@ -7,7 +7,8 @@
 
 
 import StudyDBT from "./Study";
-const StudyListKey = 'DBT_Studies_TAG:ReKlGhAt' 
+const StudyListKey = 'DBT_Studies_TAG:ReKlGhAt';
+const ext = '.dbt';
 
 
 // Private Functions (Not exported) 
@@ -50,20 +51,34 @@ function FindStudyIndex(name, studies){
 // Public Functions (Exported)
 // 1: newest first, 2: oldest first
 
-function GetStudies(){
-    return JSON.parse(localStorage.getItem(StudyListKey));
+function GetStudies(search = null, sort = null){
+    let studies = JSON.parse(localStorage.getItem(StudyListKey))
+    if(search !== null && search !== ''){
+        const letters = search.length;
+        studies = studies.filter(name => {
+            for(let i=0; i<letters; i++){
+                if(search[i] !== name[i]){
+                    return false;
+                }
+            }
+            return true;
+        })
+    }
+    return studies;
 }
 
 function SaveStudy(study){
+    setCurrentStudy(study.name)
     RecordStudy(study.name);
-    localStorage.setItem(study.name, JSON.stringify(study));
+    localStorage.setItem(study.name+ext, JSON.stringify(study));
 }
 
 function OpenStudy(name){
     if(NameFree(name)){
         return null;
     }
-    const data = JSON.parse(localStorage.getItem(name))
+    setCurrentStudy(name)
+    const data = JSON.parse(localStorage.getItem(name+ext))
     const study = new StudyDBT(data.name,[0,0],[0,0]);
     return study
         .changeRecipe(data.recipe)
@@ -71,9 +86,12 @@ function OpenStudy(name){
         .changeMeta(data.meta);
 }
 
-function RemoveStudy(name){
-    DeleteStudy(name)
-    localStorage.removeItem(name)
+function RemoveStudy(study){
+    DeleteStudy(study.name)
+    if(study.name === getCurrentStudy()){
+        sessionStorage.removeItem(StudyListKey);
+    }
+    localStorage.removeItem(study.name+ext)
 }
 
 function ClearAll(){

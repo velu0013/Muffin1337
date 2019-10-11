@@ -13,12 +13,13 @@ import {NewButton} from './New.js';
 import {Redirect} from "react-router-dom";
 
 function Openpage({study, setStudy}){
+	const [Skey, setKey] = useState('');
 	return (
     <>
         <NewButton study={study} setStudy={setStudy}/>
 		<ClearButton study={study} setStudy={setStudy}/>
 		<br></br>
-		<PrintStudyList study={study} setStudy={setStudy}/>
+		<PrintStudyList study={study} setStudy={setStudy} Skey={Skey} setKey={setKey}/>
     </>
 	)
 }
@@ -72,21 +73,21 @@ function OpenButton(props){
 
 
 
-function PrintStudyList({study, setStudy}){
-	const StudyList = DB.GetStudies()
-
-
+function PrintStudyList({study, setStudy, Skey, setKey}){
+	const StudyList = DB.GetStudies(Skey)
 	if(StudyList === null){
 		return 'You have no studies yet'
 	}
-
-
 	return (
+		<>
+		<input type="text" placeholder="Search..." value={Skey} onChange={event => setKey(event.target.value)}/>
+		<br></br>
 		<ul>
 		  {StudyList.map((value, index) => {
 			return <ul key={index}>{<RedirectToEdit study={study} setStudy={setStudy} GetStudy={StudyList[index]} />}</ul>
 		  })}
 		</ul>
+		</>
 	  )
 }
 
@@ -163,23 +164,6 @@ function SaveButton(props){
         </Popup>
 	)
 }
-
-function DeleteButton(props){
-	return(
-		<Popup trigger={<button> Delete</button>} position={'right center'}>
-		{close => (
-			<>
-			{'Delete'}{props.study}{'?'}
-			<br></br>
-			<utils.ConfirmButton label={'Yes'} f={DB.RemoveStudy} arg={props.study} close={close}/>
-			<utils.ConfirmButton label={'No'} close={close}/>
-			</>
-		)}
-		</Popup>	
-	)
-}
-
-
 
 
 function Back(props) {
