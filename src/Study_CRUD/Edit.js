@@ -38,6 +38,12 @@ function Editpage({study, setStudy}){
             tableData={study.consumer} 
             setData={x => setStudy(study.changeConsumer(x))}
         />
+        <br></br>
+        <StudyTable 
+            key = {study.name+'pref'}
+            tableData={study.preference} 
+            setData={x => setStudy(study.changePreference(x))}
+        />
     </header>
     </>
     )

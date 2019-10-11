@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import DB from './DB.js';
 import Popup from "reactjs-popup";
 import StudyDBT from './Study.js';
+import {Redirect} from "react-router-dom";
 import gender from '../img/Demo_Gender.svg';
 import drink from '../img/Demo_Drink.svg';
 import trial from '../img/Demo_TrialPlan.svg';
@@ -9,19 +10,22 @@ import age from '../img/Demo_Age.svg';
 
 function Analysispage({study, setStudy}){
     const [image, setimage] = useState(0);
-    if(study.name === ''){
+    console.log(study)
+    if(study === null || study.name === ''){
         const name = DB.getCurrentStudy();
         if(name === null){
-            return 'No study selected to analyze';
+            return <Redirect to='/MyStudies' />
         }
         setStudy(DB.OpenStudy(name));
+        return <Redirect to='/Analysis' />
     }
 	return (
     <>
         {'Plots of data from study '}
         <span className="studyname"> {study.name}</span>{' can be analyzed here'} 
+        
         <br></br>
-        <PlotSelector image={image} setimage={setimage}/>
+        <PlotSelector study={study} image={image} setimage={setimage}/>
         <br></br>
         <ShowImg img={image}/> 
     </>
@@ -29,6 +33,7 @@ function Analysispage({study, setStudy}){
 }
 
 function PlotSelector(props){
+    const consHead = props.study.getConsumerHeader();
 	return(
         <Popup trigger={<button className="button_pop">Select property to analyze</button>} 
             position={'right top'}
@@ -41,30 +46,26 @@ function PlotSelector(props){
         >
 		{close => (
             <>
-            <div 
-                className="dropdown-item"
-                onClick={event => {props.setimage(1)}}
-                >Gender
-            </div>
-            <div 
-                className="dropdown-item"
-                onClick={event => {props.setimage(2)}}
-                >Drink
-            </div>
-            <div 
-                className="dropdown-item"
-                onClick={event => {props.setimage(3)}}
-                >Age
-            </div>
-            <div 
-                className="dropdown-item"
-                onClick={event => {props.setimage(4)}}
-                >Trial Plan
-            </div>
+            {consHead.map((value, index) => {
+                return <ul key={index} className="dropdown-item">
+                    {<AnaButton label={value} img={index} setimage={props.setimage}/>}
+                </ul>
+            })}
             </>
         )}
         </Popup>
 	)
+}
+
+// <AnaButton label={value} img={index} setimage={props.setimage}/
+function AnaButton(props){
+    return(<div 
+            onClick={event => {
+                props.setimage(props.img)
+            }}
+            >{props.label}
+        </div>
+    )
 }
 
 function ShowImg({img}){

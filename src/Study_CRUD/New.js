@@ -11,13 +11,16 @@ const contentStyle = {
 	border: "none"
 };
 
+
+const testdata_dims=[[9,3],[26,7],[26,9]];
+
 // <NewButton changeName={setStudy} empty={setData} startEdit={setEdit}/>
 //   f={RemoveStudy} confirm={true} study={props.study} close={close}
 //		  <NewButton study={studyName} changeName={setStudy} empty={setData} startEdit={setEdit}/>
 function NewButton(props){
 	const [select, setSelect] = useState(false)
 	const [nameAvailable, setAvailable] = useState(true)
-	const [dims, setDims] = useState([[0,0],[0,0]])
+	const [dims, setDims] = useState([[0,0],[0,0],[0,0]])
 	return(
 		<>
 		{select && <Redirect to='/Edit' />}
@@ -36,15 +39,20 @@ function NewButton(props){
                 onChange={event => props.setStudy(props.study.changeName(event.target.value))}
 		    />
 
-			Recipe datasheet dimensions
+			Recipe dimensions
 			<div className="pop_div">
 			<DimInput  dim={[0,0]} dims={dims} setDims={setDims}/>
 			<DimInput dim={[0,1]} dims={dims} setDims={setDims}/>
 			</div>
-			Consumer datasheet dimensions
+			Consumer description
 			<div className="pop_div">
 			<DimInput dim={[1,0]} dims={dims} setDims={setDims}/>
 			<DimInput dim={[1,1]} dims={dims} setDims={setDims}/>
+			</div>
+			Consumer preference 
+			<div className="pop_div">
+			<DimInput dim={[2,0]} dims={dims} setDims={setDims}/>
+			<DimInput dim={[2,1]} dims={dims} setDims={setDims}/>
 			</div>
 			{/* CONFIRMATION BUTTONS */}
 			<div className="pop_div">
@@ -54,7 +62,8 @@ function NewButton(props){
 				{	
 					DB.SaveStudy(props.study
 						.changeRecipe(CreateGrid(dims[0][0],dims[0][1]))
-						.changeConsumer(CreateGrid(dims[1][0],dims[1][1])));
+						.changeConsumer(CreateGrid(dims[1][0],dims[1][1]))
+						.changePreference(CreateGrid(dims[2][0],dims[2][1])));
 					props.setStudy(DB.OpenStudy(arg))
 					setAvailable(true)
 					setSelect(true)
@@ -65,6 +74,8 @@ function NewButton(props){
             }} arg={props.study.name}
             />
 			<utils.ConfirmButton label={'Close'} close={close}/>
+			<br></br>
+			{testdata_dims}
 			</div>
 			</div>
 		)}
@@ -94,11 +105,13 @@ function DimInput({dim, dims, setDims}){
 }
 
 function dimsCopy(dims){
-	let newDims = [[0,0],[0,0]]
+	let newDims = [[0,0],[0,0],[0,0]]
 	newDims[0][0] = parseInt(dims[0][0], 10)
 	newDims[0][1] = parseInt(dims[0][1], 10)
 	newDims[1][0] = parseInt(dims[1][0], 10)
 	newDims[1][1] = parseInt(dims[1][1], 10)
+	newDims[2][0] = parseInt(dims[2][0], 10)
+	newDims[2][1] = parseInt(dims[2][1], 10)
 	return newDims;
 }
 

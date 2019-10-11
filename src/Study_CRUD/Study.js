@@ -47,6 +47,29 @@ class StudyDBT{
         return clone;
     };
 
+    getRecipeHeader(){
+        let head = [];
+        for(let i=0; i<this.recipe[0].length; i++){
+            head.push(this.recipe[0][i].value);
+        }
+        return head;
+    }
+    getConsumerHeader(){
+        let head = [];
+        for(let i=0; i<this.consumer[0].length; i++){
+            head.push(this.consumer[0][i].value);
+        }
+        return head;
+    }
+    getPreferenceHeader(){
+        let head = [];
+        for(let i=0; i<this.preference[0].length; i++){
+            head.push(this.preference[0][i].value);
+        }
+        return head;
+    }
+
+
     getCreateTime(){
         return(getTime(new Date(this.meta.create)));
     }
@@ -75,8 +98,6 @@ function getDate(d){
     const date = [year,month<10?'0'+month:month,day<10?'0'+day:day];
     return date.join('-')
 }
-
-
 
 
 function CreateGrid(rows, cols){

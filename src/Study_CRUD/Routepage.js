@@ -14,31 +14,50 @@ import {Analysispage} from './Analysis.js';
 import {Testpage} from '../test.js';
 import logo from '../img/vonkansmuffin.svg';
 
+const Home = '/'
+const Stud = '/MyStudies'
+const Edit = '/Edit'
+const Anys = '/Analysis'
+const Test = '/Test'
 
 function RoutePage() {
     const [study, setStudy] = useState(new StudyDBT())
+    const [hi, ha] = ["Header-link", "Header-link-active"]
+    const [web, setPath] = useState('/')
     return(
         <div className="App">
         <Router>
             <div className="Header-bar">   
                 <ul >
                 <Link to="/" className="Header-link" ><img src={logo} className="App-logo-header" alt="logo" /> </Link>
-                    <Link to="/" className="Header-link" >Home</Link>
-                    <Link to="/MyStudies" className="Header-link">My Studies</Link>
-                    <Link to="/Edit" className="Header-link">Edit Study</Link>
-                    <Link to="/Analysis" className="Header-link">Analyze Study</Link>
-                    <Link to="/Test" className="Header-link">Test</Link>
+                    <Link to={Home} className={Home===web?ha:hi} onClick={event => setPath(Home)}>
+                        Home
+                    </Link>
+                    <Link to={Stud} className={Stud===web?ha:hi} onClick={event => setPath(Stud)}>
+                        My Studies
+                    </Link>
+                    <Link to={Edit} className={Edit===web?ha:hi} onClick={event => setPath(Edit)}>
+                        Edit Study
+                    </Link>
+                    <Link to={Anys} className={Anys===web?ha:hi} onClick={event => setPath(Anys)}>
+                        Analyze
+                    </Link>
+                    <Link to={Test} className={Test===web?ha:hi} onClick={event => setPath(Test)}>
+                        Test
+                    </Link>
                 </ul>
             </div>
             <div className="App-body">
-                <Route exact path="/" component={Homepage} />
+                <Route exact path="/">
+                    <Homepage/>
+                </Route>
                 <Route path="/MyStudies">
                     <Openpage study={study} setStudy={setStudy}/>
                 </Route>   
                 <Route path="/Edit"> 
                     <Editpage study={study} setStudy={setStudy}/>
                 </Route>
-                <Route path="/Analysis"> 
+                <Route path="/Analysis">
                     <Analysispage study={study} setStudy={setStudy}/>
                 </Route>             
                 <Route path="/Test" component={Testpage} />
