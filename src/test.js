@@ -1,27 +1,37 @@
 
-/* MERGE PAGE
+ /*MERGE PAGE
  * 
  *
  *
- */
+ 
 
-/* Version 1.2
+ Version 1.3
  * Responsible: John Isaksson
+ *
  *
  *
  */
 
 import React, { useState } from 'react';
-import {SaveStudy, OpenStudy, RemoveStudy, ClearAll, GetStudies} from './DB.js';
+import DB from './Study_CRUD/DB.js';
 import Popup from "reactjs-popup";
-import ReactjsTable from './tableTest.js';
-import StudyDBT from './Study.js';
+import StudyDBT from './Study_CRUD/Study.js';
+import StudyTable from './Study_CRUD/StudyTable.js';
 
 function Testpage(){
 	const [studyName, setStudy] = useState('')
-    const [data, setData] =useState([ [{value: 0},{value: 0}] , [{value: 0},{value: 0}] ]);
-    const [editOrNot, setEdit] = useState(false)
-
+    const [data, setData] =useState([ [{value: 1},{value: 5}, {value: 3}] , [{value: 3},{value: 2},{value:3}] ]);
+	const [editOrNot, setEdit] = useState(false)
+	const arra1 = [
+		[{value: 'Maja'},{value: 'Henrik'},{value:'Markus'},{value:'John'}],
+		[{value: 'Maja'},{value: 'Henrik'},{value:'Markus'},{value:'John'}]
+	]
+	{console.log(arra1[0][0].value === arra1[0][3].value)}
+	const arra2 = [
+		['ja','nej','kanske','kanske'],
+		['hejdå', 'då', 'hej','va'],
+		['ja', 'nej', 'hej','va']
+	]
     const [STUDY, setStudyDATA] = useState(new StudyDBT('Tja', [1,1], [1,1]))
     const openEdit = () => setEdit(true)
     const closeEdit = () => setEdit(true)
@@ -31,8 +41,10 @@ function Testpage(){
     <OpenButton study={studyName} changeName={setStudy} setData={setData} setEdit={openEdit}/>
     <div className="App">
 		  <header className="App-header">
-		  {editOrNot && <ReactjsTable tableData={data} setData={setData}/>}  
+		  {editOrNot && <StudyTable tableData={data} setData={setData}/>}  
+		<Duplicate_finder arra1 = {arra1}  />
           </header>
+		
 	</div>
     </>
 	)
@@ -59,7 +71,7 @@ function NewButton(props){
 		{close =>(
 			<>
 			<FormInput form={props.study.name} setForm={props.changeName}/>
-			<ConfirmButton label={'Confirm'} f={x => {props.setEdit(); SaveStudy(x,'')}} arg={props.study} close={close}/>
+			<ConfirmButton label={'Confirm'} f={x => {props.setEdit(); DB.SaveStudy(x,'')}} arg={props.study} close={close}/>
 			<ConfirmButton label={'Close'} f={null} arg={null} close={close}/>
 			</>
 		)}
@@ -75,7 +87,7 @@ function OpenButton(props){
 		{close=> (
 			<>
 			<FormInput form={props.study} setForm={props.changeName}/>
-			<ConfirmButton label={'Open'} f={name => props.setData(OpenStudy(name))} arg={props.study} close={close}/>
+			<ConfirmButton label={'Open'} f={name => props.setData(DB.OpenStudy(name))} arg={props.study} close={close}/>
 			<ConfirmButton label={'Close'} f={null} arg={null} close={null}/>
 			</>
 		)}
@@ -92,7 +104,7 @@ function DeleteButton(props){
 			<>
 			{'Delete'}{props.study}{'?'}
 			<br></br>
-			<ConfirmButton label={'Yes'} f={RemoveStudy} arg={props.study} close={close}/>
+			<ConfirmButton label={'Yes'} f={DB.RemoveStudy} arg={props.study} close={close}/>
 			<ConfirmButton label={'No'} f={null} arg={null} close={close}/>
 			</>
 		)}
@@ -127,8 +139,8 @@ function ClearButton(props){
 		<div>
 			{'Delete All Entries?'}
 			<br></br>
-			<ConfirmButton label={'Yes'} f={ClearAll} confirm={true} study={props.study} close={close}/>
-			<ConfirmButton label={'No'} f={ClearAll} confirm={false} study={props.study} close={close}/>
+			<ConfirmButton label={'Yes'} f={DB.ClearAll} confirm={true} study={props.study} close={close}/>
+			<ConfirmButton label={'No'} f={DB.ClearAll} confirm={false} study={props.study} close={close}/>
 		</div>
 		)}
 		</Popup>	
@@ -146,5 +158,38 @@ function Back(props) {
         />
     );
 }
+
+function Duplicate_finder (props) {
+	const result = []
+	const rowlist = []
+	const collist = []
+	const result2 = []
+	var i;
+	for (i=0; i < 4; i++) {
+		collist.push(props.arra1[0][i].value)
+	}
+
+	for (i=0; i < collist.length; i++) {
+		if (i != collist.lastIndexOf(collist[i]))
+			result.push(collist[i])
+	}
+
+	for (i=0; i < props.arra1.length; i++) {
+		rowlist.push(props.arra1[i][0].value)
+	}
+	
+	for (i=0; i < rowlist.length; i++) {
+		if (i != rowlist.lastIndexOf(rowlist[i]))
+			result2.push( rowlist[i])
+	}
+	result.push(' ', result2)
+	
+	return result
+}
+
+
+
+
+
 
 export {Testpage}
