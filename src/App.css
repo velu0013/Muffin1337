@@ -12,9 +12,10 @@
     #00000080,
     #000000AA
   ),url("./img/Cupcake.jpg");
-  background-repeat: no-repeat;
-  background-size: cover; 
-  height: 100vh;
+  background-size: 100vw;
+  background-repeat: repeat-y;
+  min-height: 100vh;
+  height: 100%;
   color: white;
  }
 
@@ -51,6 +52,10 @@
 @font-face{
   font-family: "Esphimere Light";
   src: url("./Fonts/esphimere/Esphimere Light.otf");
+}
+@font-face{
+  font-family: "Esphimere Bold";
+  src: url("./Fonts/esphimere/Esphimere Bold Italic.otf");
 }
 
 .Header-bar{
@@ -103,7 +108,7 @@
   outline: none;
 }     
 .button_pop:active,  .button_pop:hover, .button_pop:focus{
- border-color: #A0A0A0; 
+ border-color: #70707050; 
 }
 .button_text{
   color: white;
@@ -125,17 +130,22 @@
 }
 
 .cell{
-color: black;
+  color: black;
 min-width: 50px;
 max-width: 100px;
 background-color: #ffffff !important;
 font-size: 10px;
+font-family: "Esphimere Bold";
 overflow: hidden;
 border: 1px solid #333333 !important;
+text-align: center !important;
 }
 .cell > input{
 max-width: 50px;
 font-size: 10px;
+text-align: center !important;
+font-size: 10px;
+font-family: "Esphimere Bold";
 }
 .modal {
   display: flex;
