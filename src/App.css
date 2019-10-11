@@ -13,7 +13,7 @@
     #000000AA
   ),url("./img/Cupcake.jpg");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; 
   height: 100vh;
   color: white;
  }
@@ -74,7 +74,7 @@
   }
 
   a:hover, a:active {
-    color: #A0A0A0;
+    color: #F0F0F0;
    }
 
 
@@ -125,16 +125,16 @@
 }
 
 .cell{
+color: black;
 min-width: 50px;
 max-width: 100px;
 background-color: #ffffff !important;
-color: black;
 font-size: 10px;
 overflow: hidden;
 border: 1px solid #333333 !important;
 }
 .cell > input{
-  max-width: 50px;
+max-width: 50px;
 font-size: 10px;
 }
 .modal {
