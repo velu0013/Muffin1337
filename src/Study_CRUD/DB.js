@@ -79,10 +79,11 @@ function OpenStudy(name){
     }
     setCurrentStudy(name)
     const data = JSON.parse(localStorage.getItem(name+ext))
-    const study = new StudyDBT(data.name,[0,0],[0,0]);
+    const study = new StudyDBT(data.name);
     return study
         .changeRecipe(data.recipe)
         .changeConsumer(data.consumer)
+        .changePreference(data.preference)
         .changeMeta(data.meta);
 }
 

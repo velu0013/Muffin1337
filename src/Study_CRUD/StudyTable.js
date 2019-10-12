@@ -27,9 +27,5 @@ class StudyTable extends React.Component {
   }
 }
 
-
-
-
-
 export default StudyTable
 

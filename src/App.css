@@ -7,15 +7,18 @@
  .App{
   font-family: "Esphimere Thin";  
   text-align: center;
-  /*background-image: 
+  background-image: 
   linear-gradient(
-    #000000AA,
+    #00000080,
     #000000AA
   ),url("./img/Cupcake.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;*/
-  height: 100vh;
-  color: black;
+  background-size: 100vw;
+  background-repeat: repeat;
+  min-height: 100vh;
+  min-width: 100vw;
+  height: 100%;
+  width: 100%;
+  color: white;
  }
 
 
@@ -44,13 +47,55 @@
   font-weight: bold;
 }
 
+/* Font imports */
 @font-face{
   font-family: "Esphimere Thin";
   src: url("./Fonts/esphimere/Esphimere Thin.otf");
 }
 @font-face{
+  font-family: "Esphimere Extra Light";
+  src: url("./Fonts/esphimere/Esphimere Extra Light.otf");
+}
+@font-face{
   font-family: "Esphimere Light";
   src: url("./Fonts/esphimere/Esphimere Light.otf");
+}
+@font-face{
+  font-family: "Esphimere";
+  src: url("./Fonts/esphimere/Esphimere.otf");
+}
+@font-face{
+  font-family: "Esphimere Semi Bold";
+  src: url("./Fonts/esphimere/Esphimere Semi Bold.otf");
+}
+@font-face{
+  font-family: "Esphimere Bold";
+  src: url("./Fonts/esphimere/Esphimere Bold.otf");
+}
+/* Italics */
+@font-face{
+  font-family: "Esphimere Thin Italic";
+  src: url("./Fonts/esphimere/Esphimere Thin Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Extra Light Italic";
+  src: url("./Fonts/esphimere/Esphimere Extra Light Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Light Italic";
+  src: url("./Fonts/esphimere/Esphimere Light Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Italic";
+  src: url("./Fonts/esphimere/Esphimere Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Semi Bold Italic";
+  src: url("./Fonts/esphimere/Esphimere Semi Bold Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Bold Italic";
+  src: url("./Fonts/esphimere/Esphimere Bold Italic.otf");
 }
 
 .Header-bar{
@@ -60,7 +105,7 @@
   flex-direction: row; 
   position: fixed; 
   z-index: 1; 
-  background-color:#F0F0F0FF; 
+  background-color:#DDDDDD80; 
   padding-top: 5vmin;
   
 }
@@ -70,12 +115,21 @@
   padding: 15px 0px;
   font-family: "Esphimere Light";  
   text-Decoration: none;
-  color: #484848;
-  }
+  color: rgb(0, 0, 0);
+}
+.Header-link-active{
+  display:flex;
+  flex-direction: column;
+  padding: 15px 0px;
+  font-family: "Esphimere Light";  
+  text-Decoration: none;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
 
-  a:hover, a:active {
-    color: #A0A0A0;
-   }
+a:hover, a:active {
+  color: #F0F0F0;
+}
 
 
 
@@ -97,16 +151,18 @@
   letter-spacing: 1.5px;
   position: relative;
   font-size: 14px;
-  border: 3px solid #A0A0A080;
+  border: 3px solid #70707080;
   background-color:white;
   border-radius: 15px;
   outline: none;
 }     
 .button_pop:active,  .button_pop:hover, .button_pop:focus{
- border-color: #A0A0A0; 
+ background-color: #70707080; 
+ border-color: white;
+ color: white;
 }
 .button_text{
-  color: #000000;
+  color: white;
   font-family: "Esphimere Light";  
   cursor: pointer;
   padding-right: 100px;
@@ -114,8 +170,8 @@
   line-height: 2em;
   letter-spacing: 1.5px;
   font-size: 14px;
-  border: 3px solid white;
-  background-color:white;
+  border: 0px solid white;
+  background-color:transparent;
   border-radius: 15px;
   outline: none;
 }
@@ -125,18 +181,26 @@
 }
 
 .cell{
+  color: black;
 min-width: 50px;
 max-width: 100px;
+background-color: #ffffff !important;
 font-size: 10px;
+font-family: "Esphimere Bold";
 overflow: hidden;
-border: 1px solid #A0A0A0 !important;
+border: 1px solid #333333 !important;
+text-align: center !important;
 }
 .cell > input{
-  max-width: 50px;
+max-width: 50px;
 font-size: 10px;
+text-align: center !important;
+font-size: 10px;
+font-family: "Esphimere Bold";
 }
 .modal {
   display: flex;
+  color: black;
   flex-direction: column;
   align-items: center;
   padding-top: 20px;  
@@ -170,8 +234,10 @@ font-size: 10px;
   display: flex;
   flex-direction: column;
   background: #ffffff;
+
 }
-.dropdown-item {
+.dropdown-item {  
+  color: #000000FF;
   cursor: pointer;
   padding: 5px;
   height: 28px;
@@ -179,6 +245,7 @@ font-size: 10px;
 }
 .dropdown-item:hover {
   color: #2980b9;
+  font-weight: bold;
 }
  
 .studyname{
