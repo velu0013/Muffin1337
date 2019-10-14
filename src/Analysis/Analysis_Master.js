@@ -1,3 +1,6 @@
+import Testanalys1 from './Components/Testanalys1.js'
+
+
 const Analyzer = [ 
   {name: 'analys1', 
   description: 'testar setup', 
