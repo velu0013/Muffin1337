@@ -3,6 +3,8 @@ import DB from './DB.js';
 import Popup from "reactjs-popup";
 import StudyDBT from './Study.js';
 import {Redirect} from "react-router-dom";
+import Analyzer from '../Analysis/Analysis_Master.js'
+
 import gender from '../img/Demo_Gender.svg';
 import drink from '../img/Demo_Drink.svg';
 import trial from '../img/Demo_TrialPlan.svg';
@@ -27,7 +29,10 @@ function Analysispage({study, setStudy}){
         <br></br>
         <PlotSelector study={study} image={image} setimage={setimage}/>
         <br></br>
-        <ShowImg img={image}/> 
+        <ShowImg img={image}/>
+        {Analyzer[0].name+' demo:'} 
+        <br></br>
+        <Analyzer[0].component study={study} params={['Param1', 'Param2']} />
     </>
 	)
 }
