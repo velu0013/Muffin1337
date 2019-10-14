@@ -1,17 +1,20 @@
 import Testanalys1 from './Components/Testanalys_c.js'
 
 
-const Analyzer = [ 
-  {name: 'Testanalys1', 
-  description: 'Här testar jag att filerna kommunicerar som tänkt', 
-  component: Testanalys1}, 
-  {name: 'analys2', 
-  description: 'test igen', 
-  component: analyze1}
- ]; 
+const Analyzers = [
+  {name: 'Test1', 
+  component: Testanalys1,
+  description: 'Här testar jag att filerna kommunicerar som tänkt'
+  },
+  {name: 'Test2', 
+  component: Testanalys1,
+  description: 'Tjenare'
+  },
+  {name: 'Test3', 
+  component: Testanalys1,
+  description: 'Tjofräs'
+  }
+];
 
-function analyze1(props){
-  return 1;
-}
 
-export default Analyzer;
+export default Analyzers;

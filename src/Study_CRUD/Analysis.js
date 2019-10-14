@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import DB from './DB.js';
 import Popup from "reactjs-popup";
-import StudyDBT from './Study.js';
 import {Redirect} from "react-router-dom";
-import Analyzer from '../Analysis/Analysis_Master.js'
+import Analyzers from '../Analysis/Analysis_Master.js'
 
-import gender from '../img/Demo_Gender.svg';
-import drink from '../img/Demo_Drink.svg';
-import trial from '../img/Demo_TrialPlan.svg';
-import age from '../img/Demo_Age.svg';
 
 function Analysispage({study, setStudy}){
-    const [image, setimage] = useState(0);
-    console.log(study)
+    const [analyzer, setAnalyzer] = useState(null);
+
     if(study === null || study.name === ''){
         const name = DB.getCurrentStudy();
         if(name === null){
@@ -21,26 +16,30 @@ function Analysispage({study, setStudy}){
         setStudy(DB.OpenStudy(name));
         return <Redirect to='/Analysis' />
     }
+
 	return (
     <>
         {'Plots of data from study '}
-        <span className="studyname"> {study.name}</span>{' can be analyzed here'} 
+        <span className="studyname"> {study.name}</span>{' can be analyzed here'}
         
+        <input type="button" value="Back" className="button_pop" onClick={() => setAnalyzer(null)}/>
         <br></br>
-        <PlotSelector study={study} image={image} setimage={setimage}/>
-        <br></br>
-        <ShowImg img={image}/>
-        {Analyzer[0].name+' demo:'} 
-        <br></br>
-        <Analyzer[0].component study={study} params={['Param1', 'Param2']} />
+        
+        {analyzer === null ? <AnalyzeSelector setAnalyzer={setAnalyzer}/>:
+        <>
+            <br></br>
+            {analyzer.name+' demo:'} 
+            <br></br>
+            <analyzer.component study={study} close={() => setAnalyzer(null)}/>
+        </>
+        }
     </>
 	)
 }
 
-function PlotSelector(props){
-    const consHead = props.study.getConsumerHeader();
+function AnalyzeSelector(props){
 	return(
-        <Popup trigger={<button className="button_pop">Select property to analyze</button>} 
+        <Popup trigger={<button className="button_pop">Select analysis type</button>} 
             position={'right top'}
             closeOnDocumentClick
             mouseLeaveDelay={300}
@@ -51,9 +50,19 @@ function PlotSelector(props){
         >
 		{close => (
             <>
-            {consHead.map((value, index) => {
+            {Analyzers.map((value, index) => {
                 return <ul key={index} className="dropdown-item">
-                    {<AnaButton label={value} img={index} setimage={props.setimage}/>}
+                    {<div onClick={event => {props.setAnalyzer(value)}}>
+                        <Popup trigger={<button className="info_pop">i</button>} 
+                            position={'left top'}
+                            closeOnDocumentClick
+                            mouseLeaveDelay={100}
+                            mouseEnterDelay={0}
+                            on='hover'
+                            >{value.description}
+                        </Popup>
+                        {value.name}
+                    </div>}
                 </ul>
             })}
             </>
@@ -62,30 +71,5 @@ function PlotSelector(props){
 	)
 }
 
-// <AnaButton label={value} img={index} setimage={props.setimage}/
-function AnaButton(props){
-    return(<div 
-            onClick={event => {
-                props.setimage(props.img)
-            }}
-            >{props.label}
-        </div>
-    )
-}
-
-function ShowImg({img}){
-    switch(img){
-        case 1: 
-            return(<img src={gender} alt="Gender" />)
-        case 2: 
-            return <img src={drink} alt="Drink" /> 
-        case 3: 
-            return <img src={age} alt="Age" />
-        case 4: 
-            return <img src={trial} alt="Trial Plan" /> 
-        default: 
-            return ('Please select a property above')
-    }  
-}
 
 export {Analysispage}

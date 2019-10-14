@@ -251,3 +251,21 @@ font-family: "Esphimere Bold";
 .studyname{
   font-weight: bold;
 }
+
+
+.info_pop{
+  color: rgb(0,125,255);
+  font-family: "Droid Sans";  
+  font-style: italic;
+  cursor: help;
+  padding: 0px 10px;
+  margin: 0px 0px;
+  line-height: 1.2em;
+  letter-spacing: 0px;
+  position: center;
+  font-size: 22px;
+  border: 1px solid rgb(0,125,255);
+  background-color:white;
+  border-radius: 100%;
+  outline: none;
+} 

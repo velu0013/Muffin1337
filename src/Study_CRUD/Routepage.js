@@ -23,7 +23,7 @@ const Test = '/Test'
 function RoutePage() {
     const [study, setStudy] = useState(new StudyDBT())
     const [hi, ha] = ["Header-link", "Header-link-active"]
-    const [web, setPath] = useState('/')
+    const [web, setPath] = useState(window.location.pathname)
     return(
         <div className="App">
         <Router>
