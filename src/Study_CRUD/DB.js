@@ -68,7 +68,7 @@ function GetStudies(search = null, sort = null){
 }
 
 function SaveStudy(study){
-    setCurrentStudy(study.name)
+    setCurrentStudy(study)
     RecordStudy(study.name);
     localStorage.setItem(study.name+ext, JSON.stringify(study));
 }
@@ -77,14 +77,14 @@ function OpenStudy(name){
     if(NameFree(name)){
         return null;
     }
-    setCurrentStudy(name)
     const data = JSON.parse(localStorage.getItem(name+ext))
-    const study = new StudyDBT(data.name);
-    return study
+    const study = new StudyDBT(data.name)
         .changeRecipe(data.recipe)
         .changeConsumer(data.consumer)
         .changePreference(data.preference)
         .changeMeta(data.meta);
+    setCurrentStudy(study);
+    return study;        
 }
 
 function RemoveStudy(study){
@@ -104,11 +104,17 @@ function NameFree(name){
     return (name !== null && name !== '' && FindStudyIndex(name, GetStudies()) === -1)
 }
 
-function setCurrentStudy(name){
-    sessionStorage.setItem(StudyListKey, name)
+function setCurrentStudy(study){
+    sessionStorage.setItem(StudyListKey, JSON.stringify(study))
 }
 function getCurrentStudy(){
-    return sessionStorage.getItem(StudyListKey)
+    const data = JSON.parse(sessionStorage.getItem(StudyListKey))
+    const study = new StudyDBT(data.name)
+        .changeRecipe(data.recipe)
+        .changeConsumer(data.consumer)
+        .changePreference(data.preference)
+        .changeMeta(data.meta);
+    return study
 }
 
 // Exported method structure

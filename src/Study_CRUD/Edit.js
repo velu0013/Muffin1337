@@ -12,11 +12,11 @@ import {Redirect} from "react-router-dom";
 
 function Editpage({study, setStudy}){
     if(study === null || study.name === ''){
-        const name = DB.getCurrentStudy();
-        if(name === null){
+        const currstudy = DB.getCurrentStudy();
+        if(currstudy === null){
             return <Redirect to='/MyStudies' />
         }
-        setStudy(DB.OpenStudy(name));
+        setStudy(currstudy);
     }
 
     return(
@@ -30,19 +30,31 @@ function Editpage({study, setStudy}){
         <StudyTable 
             key = {study.name+'reci'}
             tableData={study.recipe} 
-            setData={x => setStudy(study.changeRecipe(x))}
+            setData={x => {
+                const newStudy = study.changeRecipe(x)
+                DB.setCurrentStudy(newStudy)
+                setStudy(newStudy)
+            }}
         />
         <br></br>
         <StudyTable 
             key = {study.name+'cons'}
             tableData={study.consumer} 
-            setData={x => setStudy(study.changeConsumer(x))}
+            setData={x =>{
+                const newStudy = study.changeConsumer(x)
+                DB.setCurrentStudy(newStudy)
+                setStudy(newStudy)
+            }}
         />
         <br></br>
         <StudyTable 
             key = {study.name+'pref'}
             tableData={study.preference} 
-            setData={x => setStudy(study.changePreference(x))}
+            setData={x =>{
+                const newStudy = study.changePreference(x)
+                DB.setCurrentStudy(newStudy)
+                setStudy(newStudy)
+            }}
         />
     </header>
     </>
