@@ -131,13 +131,14 @@ function ConfirmText({label, f=null, arg, close=null}){
 
 function ClearButton(props){
 	return(
+		
 		<Popup trigger={<button className="button_pop">Delete All</button>} position="right center">
 		{close => (
-		<div>
+		<div className="Delete-all">
 			{'Delete All Entries?'}
 			<br></br>
-			<utils.ConfirmButton label={'Yes'} f={_ => 
-				{
+				<utils.ConfirmButton label={'Yes'} f={_ => 
+				{	
 					DB.ClearAll()
 					props.setStudy(new StudyDBT('', [0,0], [0,0]))
 				}} arg={null} close={close}

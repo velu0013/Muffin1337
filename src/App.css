@@ -47,57 +47,6 @@
   font-weight: bold;
 }
 
-/* Font imports */
-@font-face{
-  font-family: "Esphimere Thin";
-  src: url("./Fonts/esphimere/Esphimere Thin.otf");
-}
-@font-face{
-  font-family: "Esphimere Extra Light";
-  src: url("./Fonts/esphimere/Esphimere Extra Light.otf");
-}
-@font-face{
-  font-family: "Esphimere Light";
-  src: url("./Fonts/esphimere/Esphimere Light.otf");
-}
-@font-face{
-  font-family: "Esphimere";
-  src: url("./Fonts/esphimere/Esphimere.otf");
-}
-@font-face{
-  font-family: "Esphimere Semi Bold";
-  src: url("./Fonts/esphimere/Esphimere Semi Bold.otf");
-}
-@font-face{
-  font-family: "Esphimere Bold";
-  src: url("./Fonts/esphimere/Esphimere Bold.otf");
-}
-/* Italics */
-@font-face{
-  font-family: "Esphimere Thin Italic";
-  src: url("./Fonts/esphimere/Esphimere Thin Italic.otf");
-}
-@font-face{
-  font-family: "Esphimere Extra Light Italic";
-  src: url("./Fonts/esphimere/Esphimere Extra Light Italic.otf");
-}
-@font-face{
-  font-family: "Esphimere Light Italic";
-  src: url("./Fonts/esphimere/Esphimere Light Italic.otf");
-}
-@font-face{
-  font-family: "Esphimere Italic";
-  src: url("./Fonts/esphimere/Esphimere Italic.otf");
-}
-@font-face{
-  font-family: "Esphimere Semi Bold Italic";
-  src: url("./Fonts/esphimere/Esphimere Semi Bold Italic.otf");
-}
-@font-face{
-  font-family: "Esphimere Bold Italic";
-  src: url("./Fonts/esphimere/Esphimere Bold Italic.otf");
-}
-
 .Header-bar{
   height: 100%; 
   width: 140px;
@@ -132,15 +81,6 @@ a:hover, a:active {
 }
 
 
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
 .button_pop{
   color: #000000;
   font-family: "Esphimere Light";  
@@ -161,6 +101,25 @@ a:hover, a:active {
  border-color: white;
  color: white;
 }
+.button_popup{
+  color: #000000;
+  font-family: "Esphimere Light";  
+  cursor: pointer;
+  padding: 0px 15px;
+  margin: 10px 15px;
+  line-height: 2em;
+  letter-spacing: 1.5px;
+  position: relative;
+  font-size: 14px;
+  border: 3px solid #70707080;
+  background-color:white;
+  border-radius: 15px;
+  outline: none;
+}
+.button_popup:active,  .button_popup:hover, .button_popup:focus{
+  background-color: #70707080; 
+   }
+
 .button_text{
   color: white;
   font-family: "Esphimere Light";  
@@ -205,6 +164,9 @@ font-family: "Esphimere Bold";
   align-items: center;
   padding-top: 20px;  
   padding-bottom: 20px;
+}
+.Delete-all {
+  color: #000000;
 }
 .Dimmer{
   align-items: center;
@@ -277,4 +239,68 @@ font-family: "Esphimere Bold";
   color: rgb(255, 155, 0);
   font-family: "Esphimere Light";
   position: center;
+}
+
+
+/**** Spinning logo ****/
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/**** Font imports ****/
+@font-face{
+  font-family: "Esphimere Thin";
+  src: url("./Fonts/esphimere/Esphimere Thin.otf");
+}
+@font-face{
+  font-family: "Esphimere Extra Light";
+  src: url("./Fonts/esphimere/Esphimere Extra Light.otf");
+}
+@font-face{
+  font-family: "Esphimere Light";
+  src: url("./Fonts/esphimere/Esphimere Light.otf");
+}
+@font-face{
+  font-family: "Esphimere";
+  src: url("./Fonts/esphimere/Esphimere.otf");
+}
+@font-face{
+  font-family: "Esphimere Semi Bold";
+  src: url("./Fonts/esphimere/Esphimere Semi Bold.otf");
+}
+@font-face{
+  font-family: "Esphimere Bold";
+  src: url("./Fonts/esphimere/Esphimere Bold.otf");
+}
+/* Italics */
+@font-face{
+  font-family: "Esphimere Thin Italic";
+  src: url("./Fonts/esphimere/Esphimere Thin Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Extra Light Italic";
+  src: url("./Fonts/esphimere/Esphimere Extra Light Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Light Italic";
+  src: url("./Fonts/esphimere/Esphimere Light Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Italic";
+  src: url("./Fonts/esphimere/Esphimere Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Semi Bold Italic";
+  src: url("./Fonts/esphimere/Esphimere Semi Bold Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Bold Italic";
+  src: url("./Fonts/esphimere/Esphimere Bold Italic.otf");
 }
