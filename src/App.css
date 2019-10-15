@@ -269,3 +269,12 @@ font-family: "Esphimere Bold";
   border-radius: 100%;
   outline: none;
 } 
+
+
+/* Chart types */
+
+.Chart_bar{
+  color: rgb(255, 155, 0);
+  font-family: "Esphimere Light";
+  position: center;
+}
