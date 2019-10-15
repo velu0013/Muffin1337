@@ -8,7 +8,7 @@ function ConfirmButton({label, f=null, arg, close=null}){
 		<input
 		type="button"
 		value={label}
-		className="button_pop"
+		className="button_popup"
 		onClick={event => 
 			{	
 				if(f !== null){f(arg)};
