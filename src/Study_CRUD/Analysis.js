@@ -3,6 +3,7 @@ import DB from './DB.js';
 import Popup from "reactjs-popup";
 import {Redirect} from "react-router-dom";
 import Analyzers from '../Analysis/Analysis_Master.js'
+import utils from './utils.js'
 
 
 function Analysispage({study, setStudy}){
@@ -51,14 +52,7 @@ function AnalyzeSelector(props){
             {Analyzers.map((value, index) => {
                 return <ul key={index} className="dropdown-item">
                     {<div onClick={event => {props.setAnalyzer(value)}}>
-                        <Popup trigger={<button className="info_pop">i</button>} 
-                            position={'left top'}
-                            closeOnDocumentClick
-                            mouseLeaveDelay={100}
-                            mouseEnterDelay={0}
-                            on='hover'
-                            >{value.description}
-                        </Popup>
+                        <utils.InfoPop info={value.description}/>
                         {value.name}
                     </div>}
                 </ul>
