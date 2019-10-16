@@ -59,6 +59,7 @@ function Editpage({study, setStudy}){
                 setStudy(newStudy)
             }}
         />
+        <br></br>
     </header>
     </>
     )
