@@ -9,18 +9,22 @@
   text-align: center;
   background-image: 
   linear-gradient(
-    #00000080,
-    #000000AA
+    #000000AA,
+    #00000060
   ),url("./img/Cupcake.jpg");
   background-size: 100vw;
   background-repeat: repeat;
   min-height: 100vh;
-  min-width: 100vw;
   height: 100%;
-  width: 100%;
   color: white;
+  
  }
 
+ .App-body{
+  font-size: calc(10px + 2vmin);
+  padding-left:145px;
+  padding-top: 100px;
+}
 
 .App-logo-header{
   width: 100%;
@@ -28,14 +32,6 @@
   animation: App-logo-spin infinite 15s linear;
 }
 
-.App-body{
-  position: relative;
-  align-items: center;
-  padding-left:145px;
-  padding-top: 100px;
-  height: auto;
-  font-size: calc(10px + 2vmin);
-}
 .App-header{
   display: flex;
   flex-direction: column;
@@ -51,9 +47,7 @@
   height: 100%; 
   width: 140px;
   display: flex;
-  flex-direction: row; 
   position: fixed; 
-  z-index: 1; 
   background-color:#DDDDDD80; 
   padding-top: 5vmin;
   
@@ -89,7 +83,6 @@ a:hover, a:active {
   margin: 10px 15px;
   line-height: 2em;
   letter-spacing: 1.5px;
-  position: relative;
   font-size: 14px;
   border: 3px solid #70707080;
   background-color:white;
@@ -101,6 +94,8 @@ a:hover, a:active {
  border-color: white;
  color: white;
 }
+
+/** Formats all "non-special"-buttons**/
 .button_popup{
   color: #000000;
   font-family: "Esphimere Light";  
@@ -120,18 +115,18 @@ a:hover, a:active {
   background-color: #70707080; 
    }
 
+
+   /***Formats the lists of studies ***/
 .button_text{
   color: white;
   font-family: "Esphimere Light";  
   cursor: pointer;
-  padding-right: 100px;
-  margin: 0px 0px;
+  margin-right: 100px;
   line-height: 2em;
   letter-spacing: 1.5px;
   font-size: 14px;
-  border: 0px solid white;
+  border: 0px solid;
   background-color:transparent;
-  border-radius: 15px;
   outline: none;
 }
 
@@ -139,6 +134,9 @@ a:hover, a:active {
   text-decoration-line: underline;
 }
 
+/***Datasheet-cells ***/
+
+  /* Here we overwrites existing css file -> alot of !important */
 .cell{
   color: black;
 min-width: 50px;
@@ -157,64 +155,63 @@ text-align: center !important;
 font-size: 10px;
 font-family: "Esphimere Bold";
 }
+
+
+/** Create-popup **/
 .modal {
-  display: flex;
-  color: black;
+  color: #000000;
+  display:flex;
   flex-direction: column;
   align-items: center;
   padding-top: 20px;  
   padding-bottom: 20px;
 }
-.Delete-all {
-  color: #000000;
-}
+
+
+/**Datasheet-Dimension-counters **/
 .Dimmer{
   align-items: center;
   max-width: 44px;
   outline:none;
   margin: 10px 10px;
 }
+
+/***Everywhere there are text-inputs ***/
 .Text-input{
-  max-width: 100vmin;
   margin: 10px 10px;
   font-size: 16px;
   height: 30px; 
   border: 2px solid #A0A0A080;
   outline: none;
 }
-.Text-input:active{
+.Text-input:active, .Text-input:focus{
  border-color: #A0A0A0;
 }
-.Text-input:focus{
-  border-color: #A0A0A0;
-}
 
 
-/* Till dropdown, bara copy paste från webben */
-.dropdown {
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  background: #ffffff;
+/* Dropdowns*/
 
-}
 .dropdown-item {  
-  color: #000000FF;
+  font-size: 16px;
+  color: #000000;
   cursor: pointer;
   padding: 5px;
-  height: 28px;
-  border-bottom: 1px solid rgb(187, 187, 187);
+  height: 22px;
+  border-bottom: 1px solid #A0A0A080;
 }
 .dropdown-item:hover {
   color: #2980b9;
   font-weight: bold;
 }
- 
-.studyname{
-  font-weight: bold;
+
+
+
+/*Changes color in modal-popups*/
+.Delete-all {
+  color: #000000;
 }
 
-
+/***Information popups***/
 .info_pop{
   color: rgb(0,125,255);
   font-family: "Droid Sans";  
@@ -232,6 +229,15 @@ font-family: "Esphimere Bold";
   outline: none;
 } 
 
+.text_color{
+  color:black;
+  background-color: #FFFFFF50;
+}
+
+ /***Make active page bold in toolbar ***/
+ .studyname{
+  font-weight: bold;
+}
 
 /* Chart types */
 
