@@ -9,11 +9,11 @@ function Analysispage({study, setStudy}){
     const [analyzer, setAnalyzer] = useState(null);
 
     if(study === null || study.name === ''){
-        const name = DB.getCurrentStudy();
-        if(name === null){
+        const currstudy = DB.getCurrentStudy();
+        if(currstudy === null){
             return <Redirect to='/MyStudies' />
         }
-        setStudy(DB.OpenStudy(name));
+        setStudy(currstudy);
         return <Redirect to='/Analysis' />
     }
 
@@ -27,8 +27,6 @@ function Analysispage({study, setStudy}){
         
         {analyzer === null ? <AnalyzeSelector setAnalyzer={setAnalyzer}/>:
         <>
-            <br></br>
-            {analyzer.name+' demo:'} 
             <br></br>
             <analyzer.component study={study} close={() => setAnalyzer(null)}/>
         </>

@@ -25,6 +25,7 @@ function StudyTable(props){
     )}
     
     </Popup>
+    {props.tableData[0][0].value}
     <ReactDataSheet
       data={props.tableData}
       valueRenderer={(cell) => cell.value}
