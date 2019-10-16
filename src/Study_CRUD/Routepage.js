@@ -5,7 +5,7 @@
  */
 
 import React, {useState} from "react";
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Route, Link, useLocation} from "react-router-dom";
 import StudyDBT from './Study.js';
 import {Homepage} from './Home.js';
 import {Openpage} from './Open.js';
@@ -22,27 +22,25 @@ const Test = '/Test'
 
 function RoutePage() {
     const [study, setStudy] = useState(new StudyDBT())
-    const [hi, ha] = ["Header-link", "Header-link-active"]
-    const [web, setPath] = useState('/')
+    const web = useLocation().pathname
     return(
         <div className="App">
-        <Router>
             <div className="Header-bar">   
                 <ul >
-                <Link to="/" className="Header-link" ><img src={logo} className="App-logo-header" alt="logo" /> </Link>
-                    <Link to={Home} className={Home===web?ha:hi} onClick={event => setPath(Home)}>
+                <Link to={Home} className="Header-link" ><img src={logo} className="App-logo-header" alt="logo" /> </Link>
+                    <Link to={Home} className={Home===web?"Header-link-active":"Header-link"}>
                         Home
                     </Link>
-                    <Link to={Stud} className={Stud===web?ha:hi} onClick={event => setPath(Stud)}>
+                    <Link to={Stud} className={Stud===web?"Header-link-active":"Header-link"}>
                         My Studies
                     </Link>
-                    <Link to={Edit} className={Edit===web?ha:hi} onClick={event => setPath(Edit)}>
+                    <Link to={Edit} className={Edit===web?"Header-link-active":"Header-link"}>
                         Edit Study
                     </Link>
-                    <Link to={Anys} className={Anys===web?ha:hi} onClick={event => setPath(Anys)}>
+                    <Link to={Anys} className={Anys===web?"Header-link-active":"Header-link"}>
                         Analyze
                     </Link>
-                    <Link to={Test} className={Test===web?ha:hi} onClick={event => setPath(Test)}>
+                    <Link to={Test} className={Test===web?"Header-link-active":"Header-link"}>
                         Test
                     </Link>
                 </ul>
@@ -63,7 +61,6 @@ function RoutePage() {
                 <Route path="/Test" component={Testpage} />
                 
             </div>
-        </Router>
         </div>
     );
 }

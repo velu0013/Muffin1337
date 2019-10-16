@@ -47,7 +47,214 @@
   font-weight: bold;
 }
 
-/* Font imports */
+.Header-bar{
+  height: 100%; 
+  width: 140px;
+  display: flex;
+  flex-direction: row; 
+  position: fixed; 
+  z-index: 1; 
+  background-color:#DDDDDD80; 
+  padding-top: 5vmin;
+  
+}
+.Header-link{
+  display:flex;
+  flex-direction: column;
+  padding: 15px 0px;
+  font-family: "Esphimere Light";  
+  text-Decoration: none;
+  color: rgb(0, 0, 0);
+}
+.Header-link-active{
+  display:flex;
+  flex-direction: column;
+  padding: 15px 0px;
+  font-family: "Esphimere Light";  
+  text-Decoration: none;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
+
+a:hover, a:active {
+  color: #F0F0F0;
+}
+
+
+.button_pop{
+  color: #000000;
+  font-family: "Esphimere Light";  
+  cursor: pointer;
+  padding: 0px 15px;
+  margin: 10px 15px;
+  line-height: 2em;
+  letter-spacing: 1.5px;
+  position: relative;
+  font-size: 14px;
+  border: 3px solid #70707080;
+  background-color:white;
+  border-radius: 15px;
+  outline: none;
+}     
+.button_pop:active,  .button_pop:hover, .button_pop:focus{
+ background-color: #70707080; 
+ border-color: white;
+ color: white;
+}
+.button_popup{
+  color: #000000;
+  font-family: "Esphimere Light";  
+  cursor: pointer;
+  padding: 0px 15px;
+  margin: 10px 15px;
+  line-height: 2em;
+  letter-spacing: 1.5px;
+  position: relative;
+  font-size: 14px;
+  border: 3px solid #70707080;
+  background-color:white;
+  border-radius: 15px;
+  outline: none;
+}
+.button_popup:active,  .button_popup:hover, .button_popup:focus{
+  background-color: #70707080; 
+   }
+
+.button_text{
+  color: white;
+  font-family: "Esphimere Light";  
+  cursor: pointer;
+  padding-right: 100px;
+  margin: 0px 0px;
+  line-height: 2em;
+  letter-spacing: 1.5px;
+  font-size: 14px;
+  border: 0px solid white;
+  background-color:transparent;
+  border-radius: 15px;
+  outline: none;
+}
+
+.button_text:active, .button_text:hover, .button_text:focus{
+  text-decoration-line: underline;
+}
+
+.cell{
+  color: black;
+min-width: 50px;
+max-width: 100px;
+background-color: #ffffff !important;
+font-size: 10px;
+font-family: "Esphimere Bold";
+overflow: hidden;
+border: 1px solid #333333 !important;
+text-align: center !important;
+}
+.cell > input{
+max-width: 50px;
+font-size: 10px;
+text-align: center !important;
+font-size: 10px;
+font-family: "Esphimere Bold";
+}
+.modal {
+  display: flex;
+  color: black;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;  
+  padding-bottom: 20px;
+}
+.Delete-all {
+  color: #000000;
+}
+.Dimmer{
+  align-items: center;
+  max-width: 44px;
+  outline:none;
+  margin: 10px 10px;
+}
+.Text-input{
+  max-width: 100vmin;
+  margin: 10px 10px;
+  font-size: 16px;
+  height: 30px; 
+  border: 2px solid #A0A0A080;
+  outline: none;
+}
+.Text-input:active{
+ border-color: #A0A0A0;
+}
+.Text-input:focus{
+  border-color: #A0A0A0;
+}
+
+
+/* Till dropdown, bara copy paste från webben */
+.dropdown {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+
+}
+.dropdown-item {  
+  color: #000000FF;
+  cursor: pointer;
+  padding: 5px;
+  height: 28px;
+  border-bottom: 1px solid rgb(187, 187, 187);
+}
+.dropdown-item:hover {
+  color: #2980b9;
+  font-weight: bold;
+}
+ 
+.studyname{
+  font-weight: bold;
+}
+
+
+.info_pop{
+  color: rgb(0,125,255);
+  font-family: "Droid Sans";  
+  font-style: italic;
+  cursor: help;
+  padding: 0px 10px;
+  margin: 0px 0px;
+  line-height: 1.2em;
+  letter-spacing: 0px;
+  position: center;
+  font-size: 22px;
+  border: 1px solid rgb(0,125,255);
+  background-color:white;
+  border-radius: 100%;
+  outline: none;
+} 
+
+
+/* Chart types */
+
+.Chart_bar{
+  color: rgb(255, 155, 0);
+  font-family: "Esphimere Light";
+  position: center;
+}
+
+
+/**** Spinning logo ****/
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/**** Font imports ****/
 @font-face{
   font-family: "Esphimere Thin";
   src: url("./Fonts/esphimere/Esphimere Thin.otf");
@@ -96,158 +303,4 @@
 @font-face{
   font-family: "Esphimere Bold Italic";
   src: url("./Fonts/esphimere/Esphimere Bold Italic.otf");
-}
-
-.Header-bar{
-  height: 100%; 
-  width: 140px;
-  display: flex;
-  flex-direction: row; 
-  position: fixed; 
-  z-index: 1; 
-  background-color:#DDDDDD80; 
-  padding-top: 5vmin;
-  
-}
-.Header-link{
-  display:flex;
-  flex-direction: column;
-  padding: 15px 0px;
-  font-family: "Esphimere Light";  
-  text-Decoration: none;
-  color: rgb(0, 0, 0);
-}
-.Header-link-active{
-  display:flex;
-  flex-direction: column;
-  padding: 15px 0px;
-  font-family: "Esphimere Light";  
-  text-Decoration: none;
-  color: rgb(0, 0, 0);
-  font-weight: bold;
-}
-
-a:hover, a:active {
-  color: #F0F0F0;
-}
-
-
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.button_pop{
-  color: #000000;
-  font-family: "Esphimere Light";  
-  cursor: pointer;
-  padding: 0px 15px;
-  margin: 10px 15px;
-  line-height: 2em;
-  letter-spacing: 1.5px;
-  position: relative;
-  font-size: 14px;
-  border: 3px solid #70707080;
-  background-color:white;
-  border-radius: 15px;
-  outline: none;
-}     
-.button_pop:active,  .button_pop:hover, .button_pop:focus{
- background-color: #70707080; 
- border-color: white;
- color: white;
-}
-.button_text{
-  color: white;
-  font-family: "Esphimere Light";  
-  cursor: pointer;
-  padding-right: 100px;
-  margin: 0px 0px;
-  line-height: 2em;
-  letter-spacing: 1.5px;
-  font-size: 14px;
-  border: 0px solid white;
-  background-color:transparent;
-  border-radius: 15px;
-  outline: none;
-}
-
-.button_text:active, .button_text:hover, .button_text:focus{
-  text-decoration-line: underline;
-}
-
-.cell{
-  color: black;
-min-width: 50px;
-max-width: 100px;
-background-color: #ffffff !important;
-font-size: 10px;
-font-family: "Esphimere Bold";
-overflow: hidden;
-border: 1px solid #333333 !important;
-text-align: center !important;
-}
-.cell > input{
-max-width: 50px;
-font-size: 10px;
-text-align: center !important;
-font-size: 10px;
-font-family: "Esphimere Bold";
-}
-.modal {
-  display: flex;
-  color: black;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20px;  
-  padding-bottom: 20px;
-}
-.Dimmer{
-  align-items: center;
-  max-width: 44px;
-  outline:none;
-  margin: 10px 10px;
-}
-.Text-input{
-  max-width: 100vmin;
-  margin: 10px 10px;
-  font-size: 16px;
-  height: 30px; 
-  border: 2px solid #A0A0A080;
-  outline: none;
-}
-.Text-input:active{
- border-color: #A0A0A0;
-}
-.Text-input:focus{
-  border-color: #A0A0A0;
-}
-
-
-/* Till dropdown, bara copy paste från webben */
-.dropdown {
-  width: 200px;
-  display: flex;
-  flex-direction: column;
-  background: #ffffff;
-
-}
-.dropdown-item {  
-  color: #000000FF;
-  cursor: pointer;
-  padding: 5px;
-  height: 28px;
-  border-bottom: 1px solid rgb(187, 187, 187);
-}
-.dropdown-item:hover {
-  color: #2980b9;
-  font-weight: bold;
-}
- 
-.studyname{
-  font-weight: bold;
 }

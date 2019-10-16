@@ -25,54 +25,6 @@ function Openpage({study, setStudy}){
 }
 
 
-/*
-//<OpenButton study={studyName} changeName={setStudy} setData={setData} startEdit={setEdit}/>
-function OpenButton(props){
-	const [select, setSelect] = useState(false)
-	const [studyValid, setValid] = useState(true)
-	return(
-		<>
-		{select && <Redirect to='/Edit' />}
-		<Popup trigger={<button className="button_pop">Open</button>} position={'bottom center'}>
-		{close=> (
-			<>
-			{studyValid?'Select Study':'No Such Study'}
-			<input
-				type="text" 
-                value={props.study.name} 
-				onChange = {event => props.setStudy(props.study.changeName(event.target.value))}
-            />
-
-
-			<ConfirmButton label={'Open'} f={name => 
-			{
-				if(DB.NameFree(name)){
-					// Studyn finns inte, varna här
-					setValid(false)
-				}else{
-					props.setStudy(DB.OpenStudy(name))
-					DB.setCurrentStudy(name) // Gör så att sidan går att refresha
-					setSelect(true)
-					setValid(true)
-					close()
-				}
-			}} arg={props.study.name}/>
-
-
-			<ConfirmButton label={'Close'} close={close}/>
-			</>
-		)}
-		
-		</Popup>
-		</>
-	)
-}
-
-*/
-
-
-
-
 function PrintStudyList({study, setStudy, Skey, setKey}){
 	const StudyList = DB.GetStudies(Skey)
 	if(StudyList === null){
@@ -90,8 +42,6 @@ function PrintStudyList({study, setStudy, Skey, setKey}){
 		</>
 	  )
 }
-
-
 
 
 function RedirectToEdit(props){
@@ -128,16 +78,16 @@ function ConfirmText({label, f=null, arg, close=null}){
 	)	
 }
 
-
 function ClearButton(props){
 	return(
+		
 		<Popup trigger={<button className="button_pop">Delete All</button>} position="right center">
 		{close => (
-		<div>
+		<div className="Delete-all">
 			{'Delete All Entries?'}
 			<br></br>
-			<utils.ConfirmButton label={'Yes'} f={_ => 
-				{
+				<utils.ConfirmButton label={'Yes'} f={_ => 
+				{	
 					DB.ClearAll()
 					props.setStudy(new StudyDBT('', [0,0], [0,0]))
 				}} arg={null} close={close}
@@ -148,38 +98,6 @@ function ClearButton(props){
 		</Popup>	
 	)
 }
-
-/////////////////////////////////////////////////////////////////////////////////////
-
-function SaveButton(props){
-	return(
-        <Popup trigger={<button>Save</button>} position={'bottom center'}>
-		{close=> (
-            <input
-            type="button"
-            value="Confirm"
-            onClick={event => {DB.SaveStudy(props.study) && close()}}
-            />
-        )}
-        </Popup>
-	)
-}
-
-
-function Back(props) {
-    return (  
-        <input
-            type="button"
-            value={'Return'}
-            onClick={event => 
-            props.setBool(!props.bool)
-            }
-        />
-    );
-}
-
-
-
 
 export {Openpage} 
 
