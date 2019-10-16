@@ -49,6 +49,7 @@ function Editpage({study, setStudy}){
             }}
         />
         <br></br>
+        Consumer preference
         <StudyTable 
             key = {study.name+'pref'}
             tableData={study.preference} 
