@@ -20,11 +20,16 @@ import StudyTable from './Study_CRUD/StudyTable.js';
 
 function Testpage(){
 	const [studyName, setStudy] = useState('')
-    const [data, setData] =useState([ [{value: 1},{value: 5}, {value: 3}] , [{value: 3},{value: 2},{value:3}] ]);
+    const [data, setData] =useState([ 
+	[{value: 'John'},{value: 'Markus'},{value:'Jonas'},{value:'Erik'}],
+	[{value: 'Maja'},{value: 'Henrik'},{value:'Markus'},{value:'John'}],
+	[{value: 'Linus'},{value: 'Henrik'},{value:'Markus'},{value:'John'}]
+	]);
 	const [editOrNot, setEdit] = useState(false)
 	const arra1 = [
+		[{value: 'John'},{value: 'Markus'},{value:'Erik'},{value:'Jonas'}],
 		[{value: 'Maja'},{value: 'Henrik'},{value:'Markus'},{value:'John'}],
-		[{value: 'Maja'},{value: 'Henrik'},{value:'Markus'},{value:'John'}]
+		[{value: 'Linus'},{value: 'Henrik'},{value:'Markus'},{value:'John'}]
 	]
 	{console.log(arra1[0][0].value === arra1[0][3].value)}
 	const arra2 = [
@@ -42,9 +47,10 @@ function Testpage(){
     <div className="App">
 		  <header className="App-header">
 		  {editOrNot && <StudyTable tableData={data} setData={setData}/>}  
-		<Duplicate_finder arra1 = {arra1}  />
-          </header>
+		<Duplicate_finder arra1 = {data}  />
 		
+          </header>
+
 	</div>
     </>
 	)
@@ -164,6 +170,7 @@ function Duplicate_finder (props) {
 	const rowlist = []
 	const collist = []
 	const result2 = []
+	var message = ""
 	var i;
 	for (i=0; i < 4; i++) {
 		collist.push(props.arra1[0][i].value)
@@ -182,13 +189,13 @@ function Duplicate_finder (props) {
 		if (i != rowlist.lastIndexOf(rowlist[i]))
 			result2.push( rowlist[i])
 	}
-	result.push(' ', result2)
+	result.push(result2)
 	
-	return result
+	return message
 }
 
-
-
+function Popup(props) {
+}
 
 
 
