@@ -28,8 +28,6 @@ function Analysispage({study, setStudy}){
         {analyzer === null ? <AnalyzeSelector setAnalyzer={setAnalyzer}/>:
         <>
             <br></br>
-            {analyzer.name+' demo:'} 
-            <br></br>
             <analyzer.component study={study} close={() => setAnalyzer(null)}/>
         </>
         }

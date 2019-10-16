@@ -17,6 +17,7 @@ function Editpage({study, setStudy}){
             return <Redirect to='/MyStudies' />
         }
         setStudy(currstudy);
+        return <Redirect to='/Edit' />
     }
 
     return(

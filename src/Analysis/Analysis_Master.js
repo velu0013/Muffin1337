@@ -14,6 +14,10 @@ const Analyzers = [
   {name: 'Test3', 
   component: Testanalys2,
   description: 'Och här är bara samma test igen'
+  },
+  {name: 'Muffin', 
+  component: Testanalys2,
+  description: 'Muffin äger'
   }
 ];
 
