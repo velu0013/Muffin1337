@@ -3,7 +3,7 @@
  *
  *
  */
-
+/* Set global formats*/
  .App{
   font-family: "Esphimere Thin";  
   text-align: center;
@@ -19,30 +19,31 @@
   color: white;
   
  }
-
+/* Format everything but the header */
  .App-body{
   font-size: calc(10px + 2vmin);
   padding-left:145px;
   padding-top: 100px;
 }
-
+/*The spinning muffin */
 .App-logo-header{
   width: 100%;
   max-width: 70px;
   animation: App-logo-spin infinite 15s linear;
 }
-
+/*Fixes pos of tables*/
 .App-header{
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
+/* Format text in title */
 .Page-header{
   font-size:  calc(12px + 3vmin);
   font-weight: bold;
 }
 
+/* Format size of Header*/
 .Header-bar{
   height: 100%; 
   width: 140px;
@@ -52,14 +53,17 @@
   padding-top: 5vmin;
   
 }
+/* Format links in header*/
 .Header-link{
   display:flex;
   flex-direction: column;
   padding: 15px 0px;
   font-family: "Esphimere Light";  
   text-Decoration: none;
-  color: rgb(0, 0, 0);
+  color: #000000;
 }
+
+/* Format active-link in header*/
 .Header-link-active{
   display:flex;
   flex-direction: column;
@@ -69,12 +73,12 @@
   color: rgb(0, 0, 0);
   font-weight: bold;
 }
-
+/** All links when hovered/focused **/
 a:hover, a:active {
   color: #F0F0F0;
 }
 
-
+/*** formats all "non-special" buttons ***/
 .button_pop{
   color: #000000;
   font-family: "Esphimere Light";  
@@ -95,7 +99,7 @@ a:hover, a:active {
  color: white;
 }
 
-/** Formats all "non-special"-buttons**/
+/** Formats buttons on popups with white background**/
 .button_popup{
   color: #000000;
   font-family: "Esphimere Light";  

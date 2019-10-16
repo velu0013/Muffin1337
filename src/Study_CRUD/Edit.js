@@ -105,10 +105,11 @@ function SaveAsButton(props){
 	return(
         <Popup trigger={<div className="dropdown-item">Save as...</div>} modal>
         {close => (   
-            <>
+            <div className="Delete-all">
             {nameAvailable ? 'Choose new study name' : 'Name exists'}
             <br></br>
             <input
+                className="Text-input"
                 type="text"
                 value={string}
                 onChange={event => setString(event.target.value)}
@@ -129,7 +130,7 @@ function SaveAsButton(props){
                 arg={props.study.changeName(string)}
             />
             <utils.ConfirmButton label={'Cancel'} f={close}/>
-            </>
+            </div>
         )}
         </Popup>
 	)
@@ -140,7 +141,7 @@ function DeleteButton(props){
 	return(
 		<Popup trigger={<div className="dropdown-item">Delete</div>} modal>
 		{close => (
-            <>
+            <div className="Delete-all">
             {'Delete '}{props.study.name}{'?'}
             <br></br>
             <utils.ConfirmButton label={'Delete'}
@@ -153,7 +154,7 @@ function DeleteButton(props){
                 arg={props.study}
             />
             <utils.ConfirmButton label={'Cancel'} f={close}/>
-            </>
+            </div>
 		)}
 		</Popup>	
 	)
