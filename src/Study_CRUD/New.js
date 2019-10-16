@@ -11,9 +11,6 @@ const contentStyle = {
 	border: "none"
 };
 
-
-const testdata_dims=[[9,3],[26,7],[26,9]];
-
 // <NewButton changeName={setStudy} empty={setData} startEdit={setEdit}/>
 //   f={RemoveStudy} confirm={true} study={props.study} close={close}
 //		  <NewButton study={studyName} changeName={setStudy} empty={setData} startEdit={setEdit}/>
@@ -75,7 +72,7 @@ function NewButton(props){
             />
 			<utils.ConfirmButton label={'Close'} close={close}/>
 			<br></br>
-			{testdata_dims}
+			{'9,3 | 26,7 | 26,9'}
 			</div>
 			</div>
 		)}
