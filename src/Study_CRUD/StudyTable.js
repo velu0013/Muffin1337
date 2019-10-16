@@ -2,6 +2,7 @@ import ReactDataSheet from 'react-datasheet';
 import React, {setState} from 'react';
 import 'react-datasheet/lib/react-datasheet.css'
 import Popup from "reactjs-popup";
+import { tsModuleBlock } from '@babel/types';
 
 function StudyTable(props){
   return (
@@ -22,8 +23,9 @@ function StudyTable(props){
         <AddColumn close={close} tableData={props.tableData} setData={props.setData}/>
         </>
     )}
+    
     </Popup>
-    {props.tableData[0][0].value}
+    <Duplicate_finder arra1 = {props.tableData} />
     <ReactDataSheet
       data={props.tableData}
       valueRenderer={(cell) => cell.value}
@@ -65,6 +67,44 @@ function AddColumn(props){
       onClick={_ => props.close()}
     >Add column
     </div>
+  )
+}
+
+function Duplicate_finder (props) {
+	const rowdup = []
+	const rowlist = []
+	const collist = []
+	const coldup = []
+  var i;
+	for (i=0; i < 4; i++) {
+		collist.push(props.arra1[0][i].value)
+	}
+
+	for (i=0; i < collist.length; i++) {
+		if (i != collist.lastIndexOf(collist[i]))
+			rowdup.push(collist[i])
+	}
+
+	for (i=0; i < props.arra1.length; i++) {
+		rowlist.push(props.arra1[i][0].value)
+	}
+	
+	for (i=0; i < rowlist.length; i++) {
+		if (i != rowlist.lastIndexOf(rowlist[i]))
+			coldup.push( rowlist[i])
+	}
+
+  const dupsexists = rowdup.length > 0 || coldup.length > 0
+  return (
+    dupsexists ? 
+      <p className = "text_color">
+      Title duplicates!
+      <br></br>
+      Row: {rowdup}
+      <br></br>
+      Column: {coldup}
+      </p> :
+    ""
   )
 }
 
