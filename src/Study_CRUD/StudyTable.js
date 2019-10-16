@@ -2,6 +2,7 @@ import ReactDataSheet from 'react-datasheet';
 import React, {setState} from 'react';
 import 'react-datasheet/lib/react-datasheet.css'
 import Popup from "reactjs-popup";
+import { tsModuleBlock } from '@babel/types';
 
 function StudyTable(props){
   return (
@@ -22,6 +23,7 @@ function StudyTable(props){
         <AddColumn close={close} tableData={props.tableData} setData={props.setData}/>
         </>
     )}
+    
     </Popup>
     <ReactDataSheet
       data={props.tableData}
@@ -65,6 +67,34 @@ function AddColumn(props){
     >Add column
     </div>
   )
+}
+
+function Duplicate_finder (props) {
+	const result = []
+	const rowlist = []
+	const collist = []
+	const result2 = []
+	var i;
+	for (i=0; i < 4; i++) {
+		collist.push(props.arra1[0][i].value)
+	}
+
+	for (i=0; i < collist.length; i++) {
+		if (i != collist.lastIndexOf(collist[i]))
+			result.push(collist[i])
+	}
+
+	for (i=0; i < props.arra1.length; i++) {
+		rowlist.push(props.arra1[i][0].value)
+	}
+	
+	for (i=0; i < rowlist.length; i++) {
+		if (i != rowlist.lastIndexOf(rowlist[i]))
+			result2.push( rowlist[i])
+	}
+	result.push(result2)
+	
+	return result
 }
 
 export default StudyTable
