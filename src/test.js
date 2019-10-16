@@ -191,11 +191,9 @@ function Duplicate_finder (props) {
 	}
 	result.push(result2)
 	
-	return message
+	return result
 }
 
-function Popup(props) {
-}
 
 
 
