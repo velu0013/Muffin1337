@@ -25,7 +25,7 @@ function StudyTable(props){
     )}
     
     </Popup>
-    {props.tableData[0][0].value}
+    <Duplicate_finder arra1 = {props.tableData} />
     <ReactDataSheet
       data={props.tableData}
       valueRenderer={(cell) => cell.value}
@@ -71,18 +71,18 @@ function AddColumn(props){
 }
 
 function Duplicate_finder (props) {
-	const result = []
+	const rowdup = []
 	const rowlist = []
 	const collist = []
-	const result2 = []
-	var i;
+	const coldup = []
+  var i;
 	for (i=0; i < 4; i++) {
 		collist.push(props.arra1[0][i].value)
 	}
 
 	for (i=0; i < collist.length; i++) {
 		if (i != collist.lastIndexOf(collist[i]))
-			result.push(collist[i])
+			rowdup.push(collist[i])
 	}
 
 	for (i=0; i < props.arra1.length; i++) {
@@ -91,11 +91,21 @@ function Duplicate_finder (props) {
 	
 	for (i=0; i < rowlist.length; i++) {
 		if (i != rowlist.lastIndexOf(rowlist[i]))
-			result2.push( rowlist[i])
+			coldup.push( rowlist[i])
 	}
-	result.push(result2)
-	
-	return result
+
+  const dupsexists = rowdup.length > 0 || coldup.length > 0
+  return (
+    dupsexists ? 
+      <p className = "text_color">
+      Title duplicates!
+      <br></br>
+      Row: {rowdup}
+      <br></br>
+      Column: {coldup}
+      </p> :
+    ""
+  )
 }
 
 export default StudyTable
