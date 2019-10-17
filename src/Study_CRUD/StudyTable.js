@@ -4,6 +4,8 @@ import 'react-datasheet/lib/react-datasheet.css'
 import Popup from "reactjs-popup";
 import {CreateGrid} from './Study.js'
 import utils from './utils.js'
+import DB from './DB.js'
+import Warning from '../img/Warning.png'
 
 function StudyTable(props){
   if(props.tableData === null || props.tableData.length === 0){
@@ -15,10 +17,19 @@ function StudyTable(props){
   }
   return (
   <>
-    <EditButton tableData={props.tableData} setData={props.setData}/>
+    <div className="table-header">
 
     <DuplicateFinder arra1 = {props.tableData} />
+    <BackButton tableKey={props.tableKey} setData={grid => {
+      DB.setCurrentTable(grid, props.tableKey)
+      props.setData(grid)}}
+    />
+    <EditButton tableData={props.tableData} setData={grid => {
+      DB.setCurrentTable(grid, props.tableKey)
+      props.setData(grid)}}
+    />
 
+      </div>
     <ReactDataSheet
       data={props.tableData}
       valueRenderer={(cell) => cell.value}
@@ -27,13 +38,26 @@ function StudyTable(props){
         changes.forEach(({cell, row, col, value}) => {
           grid[row][col] = {...grid[row][col], value}
         })
+        DB.setCurrentTable(grid, props.tableKey)
         props.setData(grid)
       }}
     />
   </>);
 }
 
+function BackButton(props){
+  return(
+    <input type="button" className="button_pop" value="Undo"
+    onClick={_ => {
+      const oldTable = DB.getCurrentTable(1, props.tableKey)
+      if(oldTable !== null){
+        props.setData(oldTable)
+      }
+    }}
+    />
+  )
 
+}
 
 // Size modifiers
 function EditButton(props){
@@ -168,13 +192,16 @@ function DuplicateFinder (props) {
   const dupsexists = rowdup.length > 0 || coldup.length > 0
   return (
     dupsexists ? 
+    <div className="text_color-div">
+      <img src={Warning} className="App-logo"  />
       <p className = "text_color">
       Title duplicates!
       <br></br>
       Row: {rowdup}
       <br></br>
       Column: {coldup}
-      </p> :
+      </p> 
+    </div>   :
     ""
   )
 }
