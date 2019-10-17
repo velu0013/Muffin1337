@@ -1,5 +1,5 @@
 import ReactDataSheet from 'react-datasheet';
-import React from 'react';
+import React, {useState} from 'react';
 import 'react-datasheet/lib/react-datasheet.css'
 import Popup from "reactjs-popup";
 import {CreateGrid} from './Study.js'
@@ -18,18 +18,17 @@ function StudyTable(props){
   return (
   <>
     <div className="table-header">
+      <DuplicateFinder arra1 = {props.tableData} />
+      <BackButton tableKey={props.tableKey} setData={grid => {
+        DB.setCurrentTable(grid, props.tableKey)
+        props.setData(grid)}}
+      />
+      <EditButton tableData={props.tableData} setData={grid => {
+        DB.setCurrentTable(grid, props.tableKey)
+        props.setData(grid)}}
+      />
+    </div>
 
-    <DuplicateFinder arra1 = {props.tableData} />
-    <BackButton tableKey={props.tableKey} setData={grid => {
-      DB.setCurrentTable(grid, props.tableKey)
-      props.setData(grid)}}
-    />
-    <EditButton tableData={props.tableData} setData={grid => {
-      DB.setCurrentTable(grid, props.tableKey)
-      props.setData(grid)}}
-    />
-
-      </div>
     <ReactDataSheet
       data={props.tableData}
       valueRenderer={(cell) => cell.value}
@@ -76,6 +75,7 @@ function EditButton(props){
         <AutoAdjust close={close} tableData={props.tableData} setData={props.setData}/>
         <AddRow close={close} tableData={props.tableData} setData={props.setData}/>
         <AddColumn close={close} tableData={props.tableData} setData={props.setData}/>
+        <SetSize close={close}/> 
         </>
     )}
     </Popup>
@@ -159,6 +159,43 @@ function AddColumn(props){
       }}
     >Add column
     </div>
+  )
+}
+function DimInput({dim, setDims}){
+	return(
+		<input
+			className="Dimmer"
+			type="number"
+			value={dim}
+			onChange={event => 
+			{
+				if(parseInt(event.target.value, 10)>=0){
+					setDims(event.target.value)
+				}
+			}}
+		/>
+	)
+}
+
+function SetSize(props){
+  const [dims, setDims] = useState([10, 5])
+  return(
+    <Popup trigger={<div className="dropdown-item" > Set Size </div>}
+      position={'bottom left'}
+      closeOnDocumentClick
+      contentStyle={{ padding: "0px", border: "none" }}
+      modal
+    > 
+    {close => (
+        <>
+        <span className="dropdown-item">Rows</span>
+        <DimInput dim={dims[0]} setDims = {x => setDims([x, dims[1]])}/>
+        <span className="dropdown-item">Columns</span>
+        <DimInput dim={dims[1]} setDims = {x => setDims([dims[0], x])}/>
+        </>
+    )}
+
+    </Popup>
   )
 }
 
