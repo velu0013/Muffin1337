@@ -11,6 +11,7 @@ import {Homepage} from './Home.js';
 import {Openpage} from './Open.js';
 import {Editpage} from './Edit.js';
 import {Analysispage} from './Analysis.js';
+import {Muffinpage} from './Muffingroup.js';
 import {Testpage} from '../test.js';
 import logo from '../img/vonkansmuffin.svg';
 
@@ -20,6 +21,8 @@ const Edit = '/Edit'
 const Anys = '/Analysis'
 const Test = '/Test'
 
+const Muff = '/MuffinGroup'
+
 function RoutePage() {
     const [study, setStudy] = useState(new StudyDBT())
     const web = useLocation().pathname
@@ -27,7 +30,7 @@ function RoutePage() {
         <div className="App">
             <div className="Header-bar">   
                 <ul >
-                <Link to={Home} className="Header-link" ><img src={logo} className="App-logo-header" alt="logo" /> </Link>
+                    <Link to={Muff} className="Header-link" ><img src={logo} className="App-logo-header" alt="logo" /> </Link>
                     <Link to={Home} className={Home===web?"Header-link-active":"Header-link"}>
                         Home
                     </Link>
@@ -46,6 +49,9 @@ function RoutePage() {
                 </ul>
             </div>
             <div className="App-body">
+                <Route path="/MuffinGroup">
+                    <Muffinpage/>
+                </Route>
                 <Route exact path="/">
                     <Homepage/>
                 </Route>

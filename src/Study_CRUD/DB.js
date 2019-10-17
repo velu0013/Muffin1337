@@ -109,6 +109,9 @@ function setCurrentStudy(study){
 }
 function getCurrentStudy(){
     const data = JSON.parse(sessionStorage.getItem(StudyListKey))
+    if(data === null){
+        return null
+    }
     const study = new StudyDBT(data.name)
         .changeRecipe(data.recipe)
         .changeConsumer(data.consumer)

@@ -14,7 +14,7 @@ function Editpage({study, setStudy}){
     if(study === null || study.name === ''){
         const currstudy = DB.getCurrentStudy();
         if(currstudy === null){
-            return <Redirect to='/MyStudies' />
+            return 'No study selected'//<Redirect to='/MyStudies' />
         }
         setStudy(currstudy);
         return <Redirect to='/Edit' />

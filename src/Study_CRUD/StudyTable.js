@@ -6,8 +6,38 @@ import {CreateGrid} from './Study.js'
 import utils from './utils.js'
 
 function StudyTable(props){
-  return (
+  if(props.tableData === null || props.tableData.length === 0){
+    return(
     <>
+      <EditButton tableData={props.tableData} setData={props.setData}/>
+      <span >[ No table data ]</span>
+    </>);
+  }
+  return (
+  <>
+    <EditButton tableData={props.tableData} setData={props.setData}/>
+
+    <DuplicateFinder arra1 = {props.tableData} />
+
+    <ReactDataSheet
+      data={props.tableData}
+      valueRenderer={(cell) => cell.value}
+      onCellsChanged={changes => {
+        const grid = props.tableData.map(row => [...row])
+        changes.forEach(({cell, row, col, value}) => {
+          grid[row][col] = {...grid[row][col], value}
+        })
+        props.setData(grid)
+      }}
+    />
+  </>);
+}
+
+
+
+// Size modifiers
+function EditButton(props){
+  return(
     <Popup trigger={<button className="button_pop" > Edit Size </button>}
       position={'bottom left'}
       closeOnDocumentClick
@@ -24,61 +54,45 @@ function StudyTable(props){
         <AddColumn close={close} tableData={props.tableData} setData={props.setData}/>
         </>
     )}
-    
     </Popup>
-
-    <DuplicateFinder arra1 = {props.tableData} />
-
-    <ReactDataSheet
-      data={props.tableData}
-      valueRenderer={(cell) => cell.value}
-      onCellsChanged={changes => {
-        const grid = props.tableData.map(row => [...row])
-        changes.forEach(({cell, row, col, value}) => {
-          grid[row][col] = {...grid[row][col], value}
-        })
-        props.setData(grid)
-      }}
-    />
-    </>);
+  )
 }
 
-
-
-// Size modifiers
 function AutoAdjust(props){
   return( 
     <div
       className="dropdown-item"
       onClick={_=> {
-        let [rows, cols] = [props.tableData.length, props.tableData[0].length];
-        let [rs, cs, i] = [0,0,0];
-        while(++i < rows*cols && props.tableData[rs][cs].value === ''){
-          rs = Math.floor(i/cols)
-          cs = i%cols
-        }
-        if(i < rows*cols){
-          let columns = -1;
-          while(++columns < cols-cs && props.tableData[rs][columns+cs].value !== '');
-          let newRow = [];
-          let newGrid = [];
-          for(let r=rs; r<rows; r++){
-            for(let ci=cs; ci<columns+cs; ci++){
-              if(props.tableData[r][ci].value !== ''){
-                for(let c=cs; c<columns+cs; c++){
-                  newRow.push(props.tableData[r][c]);
+        if(props.tableData !== null && props.tableData.length > 0){
+          let [rows, cols] = [props.tableData.length, props.tableData[0].length];
+          let [rs, cs, i] = [0,0,0];
+          while(++i < rows*cols && props.tableData[rs][cs].value === ''){
+            rs = Math.floor(i/cols)
+            cs = i%cols
+          }
+          if(i < rows*cols){
+            let columns = -1;
+            while(++columns < cols-cs && props.tableData[rs][columns+cs].value !== '');
+            let newRow = [];
+            let newGrid = [];
+            for(let r=rs; r<rows; r++){
+              for(let ci=cs; ci<columns+cs; ci++){
+                if(props.tableData[r][ci].value !== ''){
+                  for(let c=cs; c<columns+cs; c++){
+                    newRow.push(props.tableData[r][c]);
+                  }
+                  newGrid.push(newRow);
+                  newRow = [];
+                  break;
                 }
-                newGrid.push(newRow);
-                newRow = [];
-                break;
               }
             }
+            props.setData(newGrid);
           }
-          props.setData(newGrid);
         }
         props.close();
       }}
-    ><utils.InfoPop info={'Auto adjustment'}/>Auto adjust
+    ><utils.InfoPop info={'Locates the top left cell and uses the width of the header row, then keeps any none empty rows below'}/> Auto adjust
     </div>
   )
 }
@@ -88,10 +102,14 @@ function AddRow(props){
     <div
       className="dropdown-item"
       onClick={_ => {
-        const newRow = CreateGrid(1, props.tableData[0].length)[0]
-        const row_update = props.tableData
-        row_update.push(newRow)
-        props.setData(row_update)
+        if(props.tableData === null || props.tableData.length === 0){
+          props.setData(CreateGrid(1, 1))
+        }else{
+          const newRow = CreateGrid(1, props.tableData[0].length)[0]
+          const row_update = props.tableData
+          row_update.push(newRow)
+          props.setData(row_update)
+        }
         props.close()
       }}
     >Add row
@@ -104,11 +122,15 @@ function AddColumn(props){
     <div
       className="dropdown-item"
       onClick={_ => {
-        const column_update = props.tableData
-        for(let i=0; i<props.tableData.length; i++){
-          column_update[i].push({value: ''})  
-        }  
-        props.setData(column_update)
+        if(props.tableData === null || props.tableData.length === 0){
+          props.setData(CreateGrid(1, 1))
+        }else{
+          const column_update = props.tableData
+          for(let i=0; i<props.tableData.length; i++){
+            column_update[i].push({value: ''})  
+          }  
+          props.setData(column_update)
+        }
         props.close()
       }}
     >Add column
