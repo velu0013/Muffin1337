@@ -46,6 +46,7 @@
 /* Format size of Header*/
 .Header-bar{
   height: 100%; 
+  z-index: 1;
   width: 140px;
   display: flex;
   position: fixed; 
