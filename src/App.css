@@ -236,7 +236,9 @@ font-family: "Esphimere Bold";
 } 
 
 
-/*** Varnings meddelande****/
+/*** Table-hader with Varnings meddelande****/
+.table-header{
+}
 .App-logo{
   max-width: 100px;
 }

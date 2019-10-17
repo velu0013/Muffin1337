@@ -5,7 +5,7 @@ import Popup from "reactjs-popup";
 import {CreateGrid} from './Study.js'
 import utils from './utils.js'
 import DB from './DB.js'
-
+import Warning from '../img/Warning.png'
 
 function StudyTable(props){
   if(props.tableData === null || props.tableData.length === 0){
@@ -17,6 +17,9 @@ function StudyTable(props){
   }
   return (
   <>
+    <div className="table-header">
+
+    <DuplicateFinder arra1 = {props.tableData} />
     <BackButton tableKey={props.tableKey} setData={grid => {
       DB.setCurrentTable(grid, props.tableKey)
       props.setData(grid)}}
@@ -26,8 +29,7 @@ function StudyTable(props){
       props.setData(grid)}}
     />
 
-    <DuplicateFinder arra1 = {props.tableData} />
-
+      </div>
     <ReactDataSheet
       data={props.tableData}
       valueRenderer={(cell) => cell.value}
@@ -190,13 +192,16 @@ function DuplicateFinder (props) {
   const dupsexists = rowdup.length > 0 || coldup.length > 0
   return (
     dupsexists ? 
+    <div className="text_color-div">
+      <img src={Warning} className="App-logo"  />
       <p className = "text_color">
       Title duplicates!
       <br></br>
       Row: {rowdup}
       <br></br>
       Column: {coldup}
-      </p> :
+      </p> 
+    </div>   :
     ""
   )
 }
