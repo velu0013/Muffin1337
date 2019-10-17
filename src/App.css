@@ -31,6 +31,7 @@
   max-width: 70px;
   animation: App-logo-spin infinite 15s linear;
 }
+
 /*Fixes pos of tables*/
 .App-header{
   display: flex;
@@ -234,9 +235,21 @@ font-family: "Esphimere Bold";
   outline: none;
 } 
 
+
+/*** Varnings meddelande****/
+.App-logo{
+  max-width: 100px;
+}
+.text_color-div{
+  max-height: 100px;
+  background-color: #fa282880;
+  display: flex;
+  min-width: 250px;
+}
 .text_color{
-  color:black;
-  background-color: #FFFFFF50;
+  font-size: 20px;
+  font-weight: bold;
+  color:white;
 }
 
  /***Make active page bold in toolbar ***/
