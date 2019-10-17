@@ -78,11 +78,18 @@ function OpenStudy(name){
         return null;
     }
     const data = JSON.parse(localStorage.getItem(name+ext))
+    setCurrentTable(null, '_reci')
+    setCurrentTable(data.recipe, '_reci')
+    setCurrentTable(null, '_cons')
+    setCurrentTable(data.consumer, '_cons')
+    setCurrentTable(null, '_pref')
+    setCurrentTable(data.preference, '_pref')
     const study = new StudyDBT(data.name)
         .changeRecipe(data.recipe)
         .changeConsumer(data.consumer)
         .changePreference(data.preference)
         .changeMeta(data.meta);
+    setCurrentStudy(null);
     setCurrentStudy(study);
     return study;        
 }
@@ -105,10 +112,17 @@ function NameFree(name){
 }
 
 function setCurrentStudy(study){
+    sessionStorage.setItem(StudyListKey+'_old', sessionStorage.getItem(StudyListKey))
     sessionStorage.setItem(StudyListKey, JSON.stringify(study))
 }
-function getCurrentStudy(){
-    const data = JSON.parse(sessionStorage.getItem(StudyListKey))
+function getCurrentStudy(offset = 0){
+    let storageKey;
+    if(offset){
+        storageKey = StudyListKey+'_old'
+    }else{
+        storageKey = StudyListKey
+    }
+    const data = JSON.parse(sessionStorage.getItem(storageKey))
     if(data === null){
         return null
     }
@@ -120,6 +134,22 @@ function getCurrentStudy(){
     return study
 }
 
+function setCurrentTable(tableData, tableKey){
+    sessionStorage.setItem(StudyListKey+tableKey+'_old', sessionStorage.getItem(StudyListKey+tableKey))
+    sessionStorage.setItem(StudyListKey+tableKey, JSON.stringify(tableData))
+}
+
+function getCurrentTable(offset = 0, tableKey){
+    let storageKey;
+    if(offset){
+        storageKey = StudyListKey+tableKey+'_old'
+    }
+    else{
+        storageKey = StudyListKey+tableKey
+    }
+    return JSON.parse(sessionStorage.getItem(storageKey))
+}
+
 // Exported method structure
 const DB = {
     GetStudies: GetStudies,
@@ -129,7 +159,9 @@ const DB = {
     ClearAll: ClearAll,
     NameFree: NameFree,
     setCurrentStudy: setCurrentStudy,
-    getCurrentStudy: getCurrentStudy
+    getCurrentStudy: getCurrentStudy,
+    setCurrentTable: setCurrentTable,
+    getCurrentTable: getCurrentTable
 }
 
 export default DB

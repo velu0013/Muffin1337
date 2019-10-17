@@ -30,7 +30,7 @@ function Editpage({study, setStudy}){
         <br></br>
         Recipe
         <StudyTable 
-            key = {study.name+'reci'}
+            tableKey = {'_reci'}
             tableData={study.recipe} 
             setData={x => {
                 const newStudy = study.changeRecipe(x)
@@ -41,7 +41,7 @@ function Editpage({study, setStudy}){
         <br></br>
         Consumer description
         <StudyTable 
-            key = {study.name+'cons'}
+            tableKey = {'_cons'}
             tableData={study.consumer} 
             setData={x =>{
                 const newStudy = study.changeConsumer(x)
@@ -52,7 +52,7 @@ function Editpage({study, setStudy}){
         <br></br>
         Consumer preference
         <StudyTable 
-            key = {study.name+'pref'}
+            tableKey = {'_pref'}
             tableData={study.preference} 
             setData={x =>{
                 const newStudy = study.changePreference(x)
