@@ -8,7 +8,7 @@ import DB from './DB.js'
 import Warning from '../img/Warning.png'
 
 function StudyTable(props){
-  if(props.tableData === null || props.tableData.length === 0){
+  if(props.tableData === null || props.tableData.length === 0 || props.tableData[0].length === 0){
     return(
     <>
       <EditButton tableData={props.tableData} setData={props.setData}/>
@@ -18,7 +18,7 @@ function StudyTable(props){
   return (
   <>
     <div className="table-header">
-      <DuplicateFinder arra1 = {props.tableData} />
+      {/* <DuplicateFinder arra1 = {props.tableData} /> */}
       <BackButton tableKey={props.tableKey} setData={grid => {
         DB.setCurrentTable(grid, props.tableKey)
         props.setData(grid)}}
@@ -54,14 +54,13 @@ function BackButton(props){
       }
     }}
     />
-  )
-
+  );
 }
 
 // Size modifiers
 function EditButton(props){
   return(
-    <Popup trigger={<button className="button_pop" > Edit Size </button>}
+    <Popup trigger={<button className="button_pop" > Edit </button>}
       position={'bottom left'}
       closeOnDocumentClick
       mouseLeaveDelay={300}
@@ -73,9 +72,9 @@ function EditButton(props){
     {close => (
         <>
         <AutoAdjust close={close} tableData={props.tableData} setData={props.setData}/>
-        <AddRow close={close} tableData={props.tableData} setData={props.setData}/>
-        <AddColumn close={close} tableData={props.tableData} setData={props.setData}/>
-        <SetSize close={close}/> 
+        <AddRow     close={close} tableData={props.tableData} setData={props.setData}/>
+        <AddColumn  close={close} tableData={props.tableData} setData={props.setData}/>
+        <SetSize    close={close} tableData={props.tableData} setData={props.setData}/>
         </>
     )}
     </Popup>
@@ -170,7 +169,7 @@ function DimInput({dim, setDims}){
 			onChange={event => 
 			{
 				if(parseInt(event.target.value, 10)>=0){
-					setDims(event.target.value)
+					setDims(parseInt(event.target.value, 10))
 				}
 			}}
 		/>
@@ -178,7 +177,11 @@ function DimInput({dim, setDims}){
 }
 
 function SetSize(props){
-  const [dims, setDims] = useState([10, 5])
+  let [rows, cols] = [0, 0]
+  if(props.tableData !== null && props.tableData.length > 0){
+    [rows, cols] = [props.tableData.length, props.tableData[0].length];
+  }
+  const [dims, setDims] = useState([rows, cols])
   return(
     <Popup trigger={<div className="dropdown-item" > Set Size </div>}
       position={'bottom left'}
@@ -188,10 +191,43 @@ function SetSize(props){
     > 
     {close => (
         <>
-        <span className="dropdown-item">Rows</span>
+        <div>
+        <span className="Delete-all">Set dimensions</span>
+        </div>
+        <div>
         <DimInput dim={dims[0]} setDims = {x => setDims([x, dims[1]])}/>
-        <span className="dropdown-item">Columns</span>
         <DimInput dim={dims[1]} setDims = {x => setDims([dims[0], x])}/>
+        </div>
+        <div>
+        <utils.ConfirmButton label="Resize" 
+          f={([nr, nc]) => {
+            if(props.tableData === null || props.tableData.length === 0){
+              props.setData(CreateGrid(nr, nc));
+            }else{
+              let newRow = [];
+              let newGrid = [];
+              for(let r=0; r<Math.min(rows, nr); r++){
+                for(let c=0; c<nc; c++){
+                  if(c >= cols){
+                    newRow.push({value: ''});
+                  }else{
+                    newRow.push(props.tableData[r][c]);
+                  }
+                }
+                newGrid.push(newRow);
+                newRow = [];
+              }
+              for(let r=rows; r<nr; r++){
+                newGrid.push(CreateGrid(1, nc)[0]);
+              }
+              props.setData(newGrid);
+            }
+          }}
+          arg={dims}
+          close={props.close}
+        />
+        <utils.ConfirmButton label="Close" f={close}/>
+        </div>
         </>
     )}
 
