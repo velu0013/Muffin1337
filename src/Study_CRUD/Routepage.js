@@ -1,9 +1,3 @@
-/* Version 1.1
- * 
- *
- *
- */
-
 import React, {useState} from "react";
 import {BrowserRouter as Router, Route, Link, useLocation} from "react-router-dom";
 import StudyDBT from './Study.js';
@@ -12,14 +6,14 @@ import {Openpage} from './Open.js';
 import {Editpage} from './Edit.js';
 import {Analysispage} from './Analysis.js';
 import {Muffinpage} from './Muffingroup.js';
-import {Testpage} from '../test.js';
+import {Helppage} from './Help.js';
 import logo from '../img/vonkansmuffin.svg';
 
 const Home = '/'
 const Stud = '/MyStudies'
 const Edit = '/Edit'
 const Anys = '/Analysis'
-const Test = '/Test'
+const Help = '/Help'
 
 const Muff = '/MuffinGroup'
 
@@ -43,8 +37,8 @@ function RoutePage() {
                     <Link to={Anys} className={Anys===web?"Header-link-active":"Header-link"}>
                         Analyze
                     </Link>
-                    <Link to={Test} className={Test===web?"Header-link-active":"Header-link"}>
-                        Test
+                    <Link to={Help} className={Help===web?"Header-link-active":"Header-link"}>
+                        Help
                     </Link>
                 </ul>
             </div>
@@ -64,7 +58,7 @@ function RoutePage() {
                 <Route path="/Analysis">
                     <Analysispage study={study} setStudy={setStudy}/>
                 </Route>             
-                <Route path="/Test" component={Testpage} />
+                <Route path="/Help" component={Helppage} />
                 
             </div>
         </div>
