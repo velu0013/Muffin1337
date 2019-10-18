@@ -330,3 +330,113 @@ font-family: "Esphimere Bold";
   font-family: "Esphimere Bold Italic";
   src: url("./Fonts/esphimere/Esphimere Bold Italic.otf");
 }
+
+/**** SMALL SCREEEN ****/
+
+@media only screen and (max-width: 768px) {
+  .App{
+  font-weight: 600;
+  }
+  /* Format everything but the header */
+   .App-body{
+    font-size: calc(10px + 2vmin);
+    padding-left:0px;
+    padding-top: 100px;
+  }
+  /*The spinning muffin */
+  .App-logo-header{
+    width: 50px;
+  }
+  
+  /*Fixes pos of tables*/
+  .App-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Format size of Header*/
+  .Header-bar{
+    align-items: center;
+    height: 80px; 
+    z-index: 1;
+    width: 100%;
+    position: fixed; 
+    background-color:#DDDDDD80;
+    padding-top: 0vmin;
+  }
+  /* Format links in header*/
+  .Header-link{
+    display: unset;
+    width: 20px;
+    padding: 0px 10px;
+    }
+  
+  /* Format active-link in header*/
+  .Header-link-active{
+    display: unset;
+    width: 20px;
+    padding: 0px 0px;
+    }
+}
+
+
+@media only screen and (max-width: 459px) {
+  .App{
+  font-weight: 600;
+  }
+  /* Format everything but the header */
+   .App-body{
+    font-size: calc(10px + 2vmin);
+    padding-left:0px;
+    padding-top: 150px;
+  }
+  /*The spinning muffin */
+  .App-logo-header{
+    width: 50px;
+  }
+  
+
+  /* Format size of Header*/
+  .Header-bar{
+    align-items: center;
+    height: 100px; 
+    z-index: 1;
+    width: 100%;
+    position: fixed; 
+    background-color:#DDDDDD80;
+    padding-top: 0vmin;
+  }
+  /* Format links in header*/
+  .Header-link{
+    display: unset;
+    width: 20px;
+    padding: 20px 10px;
+    }
+  
+  /* Format active-link in header*/
+  .Header-link-active{
+    display: unset;
+    width: 20px;
+    padding: 0px 0px;
+    }
+}
+/*
+.Header-link{
+  display:flex;
+  flex-direction: column;
+  padding: 15px 0px;
+  font-family: "Esphimere Light";  
+  text-Decoration: none;
+  color: #000000;
+}
+* Format size of Header*
+.Header-bar{
+  height: 100%; 
+  z-index: 1;
+  width: 140px;
+  display: flex;
+  position: fixed; 
+  background-color:#DDDDDD80; 
+  padding-top: 5vmin;
+  */
