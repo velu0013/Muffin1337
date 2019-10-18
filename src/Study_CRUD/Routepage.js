@@ -38,7 +38,7 @@ function RoutePage() {
                         Analyze
                     </Link>
                     <Link to={Help} className={Help===web?"Header-link-active":"Header-link"}>
-                        Help
+                        Help Me
                     </Link>
                 </ul>
             </div>

@@ -18,7 +18,7 @@ function StudyTable(props){
   return (
   <>
     <div className="table-header">
-      {/* <DuplicateFinder arra1 = {props.tableData} /> */}
+      <DuplicateFinder arra1 = {props.tableData} />
       <BackButton tableKey={props.tableKey} setData={grid => {
         DB.setCurrentTable(grid, props.tableKey)
         props.setData(grid)}}
@@ -115,7 +115,7 @@ function AutoAdjust(props){
         }
         props.close();
       }}
-    ><utils.InfoPop info={'Locates the top left cell and uses the width of the header row, then keeps any none empty rows below'}/> Auto adjust
+    ><utils.InfoPop info={'Locates the top left non-empty cell and keeps only the columns width a header on that row, then removes any empty rows below. Does nothing if the table is empty.'}/> Auto adjust
     </div>
   )
 }
