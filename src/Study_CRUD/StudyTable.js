@@ -8,7 +8,7 @@ import DB from './DB.js'
 import Warning from '../img/Warning.png'
 
 function StudyTable(props){
-  if(props.tableData === null || props.tableData.length === 0){
+  if(props.tableData === null || props.tableData.length === 0 || props.tableData[0].length === 0){
     return(
     <>
       <EditButton tableData={props.tableData} setData={props.setData}/>
@@ -177,7 +177,10 @@ function DimInput({dim, setDims}){
 }
 
 function SetSize(props){
-  const [rows, cols] = [props.tableData.length, props.tableData[0].length];
+  let [rows, cols] = [0, 0]
+  if(props.tableData !== null && props.tableData.length > 0){
+    [rows, cols] = [props.tableData.length, props.tableData[0].length];
+  }
   const [dims, setDims] = useState([rows, cols])
   return(
     <Popup trigger={<div className="dropdown-item" > Set Size </div>}
