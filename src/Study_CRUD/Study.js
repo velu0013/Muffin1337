@@ -47,26 +47,48 @@ class StudyDBT{
         return clone;
     };
 
-    getRecipeHeader(){
+
+
+    getHeader(tabular){
         let head = [];
-        for(let i=0; i<this.recipe[0].length; i++){
-            head.push(this.recipe[0][i].value);
+        for(let i=0; i<this[tabular][0].length; i++){
+            head.push(this[tabular][0][i].value);
         }
         return head;
+    }
+    getRecipeHeader(){
+        return(this.getHeader('recipe'));
     }
     getConsumerHeader(){
-        let head = [];
-        for(let i=0; i<this.consumer[0].length; i++){
-            head.push(this.consumer[0][i].value);
-        }
-        return head;
+        return(this.getHeader('consumer'));
     }
     getPreferenceHeader(){
-        let head = [];
-        for(let i=0; i<this.preference[0].length; i++){
-            head.push(this.preference[0][i].value);
+        return(this.getHeader('preference'));
+    }
+
+    getTabular(tabular){
+        let tableData = [];
+        for(let r=1; r<this[tabular].length; r++){
+            let row = [];
+            for(let c=0; c<this[tabular][0].length; c++){
+                let elem = parseInt(this[tabular][r][c].value)
+                if(isNaN(elem)){
+                    elem = this[tabular][r][c].value;
+                }
+                row.push(elem);
+            }
+            tableData.push(row);
         }
-        return head;
+        return tableData;
+    }
+    getRecipeTabular(){
+        return(this.getTabular('recipe'));
+    }
+    getConsumerTabular(){
+        return(this.getTabular('consumer'));
+    }
+    getPreferenceTabular(){
+        return(this.getTabular('preference'));
     }
 
 
