@@ -71,7 +71,7 @@ class StudyDBT{
         for(let r=1; r<this[tabular].length; r++){
             let row = [];
             for(let c=0; c<this[tabular][0].length; c++){
-                let elem = parseInt(this[tabular][r][c].value)
+                let elem = parseFloat(this[tabular][r][c].value)
                 if(isNaN(elem)){
                     elem = this[tabular][r][c].value;
                 }
