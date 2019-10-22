@@ -1,5 +1,6 @@
 import Testanalys1 from './Components/Testanalys_c.js'
 import Testanalys2 from './Components/Testanalys2_c.js'
+import ClusterAnalysis from './Components/Cluster.js'
 
 
 const Analyzers = [
@@ -18,6 +19,10 @@ const Analyzers = [
   {name: 'Muffin', 
   component: Testanalys2,
   description: 'Muffin äger'
+  },
+  {name: 'ClusterBoss', 
+  component: ClusterAnalysis,
+  description: 'Plots clusters'
   }
 ];
 
