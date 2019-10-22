@@ -1,7 +1,7 @@
 import Testanalys1 from './Components/Testanalys_c.js'
 import Testanalys2 from './Components/Testanalys2_c.js'
 import ClusterAnalysis from './Components/Cluster.js'
-
+import ParameterRelevance from './Components/ParameterRelevance.js'
 
 const Analyzers = [
   {name: 'Test1', 
@@ -23,6 +23,11 @@ const Analyzers = [
   {name: 'ClusterBoss', 
   component: ClusterAnalysis,
   description: 'Plots clusters'
+  }
+  ,
+  {name: 'Parameter Relevance', 
+  component: ParameterRelevance,
+  description: 'Uses machine learning to try and predict a parameter based on patterns in the data. The relevance of a parameter is then based on the success rate of the predictions.'
   }
 ];
 
