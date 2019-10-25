@@ -1,8 +1,8 @@
 /* ANN related codes */
 
 const reruns = 10;
-const epochs = 20000;
-const lr = x => 0.005*(1+Math.exp(-(x-epochs/20)*(x-epochs/20)));
+const epochs = 2000;
+const lr = x => 0.005*(1+10*Math.exp(-(x-epochs/20)*(x-epochs/20)));
 
 function Predict(study, param){
     const data = getData(study, 'preference')
