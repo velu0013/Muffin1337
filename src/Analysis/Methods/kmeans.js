@@ -94,7 +94,7 @@ function getDistance(dataPoint, clusterCenter){
     //clustercenter är en vektor med ett värde för varje dimension
     var i = 0;
     var distance = 0;
-    for(i = 0; )
+
 }
 
 
