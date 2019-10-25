@@ -2,9 +2,7 @@ import React from 'react'
 import {kmeans} from '../Methods/kmeans.js'
 
 function ClusterAnalysis({study, close}){
-
-
-
+    let recipe = study.getRecipeTabular()
     return (
         <>
         En annan analys på {study.name} som delar in data i kluster. 
@@ -12,37 +10,10 @@ function ClusterAnalysis({study, close}){
         <br></br>
         <input type="button" className="info_pop" value="Back" onClick={close}/>
         </>
-       ); 
-
-
-
+    ); 
 }
 
 export default ClusterAnalysis
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
    // return <input type="button" value="Ctrl+Z" onClick={close}/>
     //let recipe = study.getRecipe()
