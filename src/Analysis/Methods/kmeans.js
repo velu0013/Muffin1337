@@ -82,8 +82,9 @@ function findDistance(A, B){
     //B is array corresponding to one cluster.  -||-
     var i = 0;
     var distance = 0;
-    for (i = 0; i <=A.length; i++){ //loop over every dimension. Usually 2.
-        distance = distance + (A[i] - B[i])^2;
+    for (i = 0; i <=A.length-1; i++){ //loop over every dimension. Usually 2.
+        var diff = A[i] - B[i];
+        distance = distance + Math.pow(diff,2);
     }
     return Math.sqrt(distance);
 }

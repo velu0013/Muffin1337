@@ -7,7 +7,8 @@ function ClusterAnalysis({study, close}){
 
     return (
         <>
-        En annan analys på {study.name} som visar att 2^3={kmeans(2)}
+        En annan analys på {study.name} som delar in data i kluster. 
+        {kmeans(2)}
         <br></br>
         <input type="button" className="info_pop" value="Back" onClick={close}/>
         </>

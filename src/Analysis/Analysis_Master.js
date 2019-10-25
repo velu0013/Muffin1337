@@ -20,7 +20,7 @@ const Analyzers = [
   component: Testanalys2,
   description: 'Muffin äger'
   },
-  {name: 'ClusterBoss', 
+  {name: 'Cluster Analysis', 
   component: ClusterAnalysis,
   description: 'Plots clusters'
   }
