@@ -1,24 +1,73 @@
 /* ANN related codes */
 
-const reruns = 20;
-const epochs = 2500;
-
+const reruns = 10;
+const epochs = 20000;
+const lr = x => 0.005*(1+Math.exp(-(x-epochs/20)*(x-epochs/20)));
 
 function Predict(study, param){
     const data = getData(study, 'preference')
-    const [labels, uniques] = getLabels(study, param)
+    const [labels, uniques, counts] = getLabels(study, param)
     let accuracy = 0
     for(let run=0; run<reruns; run++){
-        let network = Network(uniques, data[0].length)
-        // let [trainData, trainLabels] = dataDivider(data, labels, )
-        // let [testData, testLabels]
+        let networkA = Network(uniques, data[0].length)
+        let networkB = Network(uniques, data[0].length)
+        let [setA, setB] = dataDivider(data, labels, uniques, counts)
         for(let e=0; e<epochs; e++){
-            trainNetwork(network, data, labels)
+            trainNetwork(networkA, setA.data, setA.labels, e)
+            trainNetwork(networkB, setB.data, setB.labels, e)
         }
-        accuracy = accuracy + testNetwork(network, data, labels)/reruns
+        let accA = testNetwork(networkA, setB.data, setA.labels)
+        let accB = testNetwork(networkB, setA.data, setA.labels)
+        console.log(Math.round(accA))
+        console.log(Math.round(accB))
+        accuracy = accuracy + accA/reruns
     }
-    return accuracy;
+    return Math.round(accuracy);
 }
+
+function dataDivider(data, labels, uniques, counts){
+    const order = randomOrder(labels.length);
+    let occur = {}
+    for(let i=0; i<uniques.length; i++){
+        occur[uniques[i]] = 0
+    }
+    const trainSet = {
+        data: [],
+        labels: []
+    }
+    const testSet = {
+        data: [],
+        labels: []
+    }
+    for( let i=0; i<data.length; i++){
+        let index = order[i];
+        let dataRow = data[index];
+        let labelRow = labels[index]
+
+        if(counts[labels[index]] <= 2*occur[labels[index]]){
+            trainSet.data.push(dataRow)
+            trainSet.labels.push(labelRow)
+            occur[labels[index]]++
+        }else{
+            testSet.data.push(dataRow)
+            testSet.labels.push(labelRow)
+            occur[labels[index]]++
+        }
+    }
+    return [trainSet, testSet];
+}
+
+function randomOrder(stop) {
+    let i = stop, temp, ri;
+    let arr = new Array(stop).fill(0).map((value, index) => index)
+    while (i) {
+      ri = Math.floor(Math.random() * i--);
+      temp = arr[i];
+      arr[i] = arr[ri];
+      arr[ri] = temp;
+    }
+    return arr;
+  }
 
 function getData(study, tabular){
     let baseData = study.getTabular(tabular).map(x => {x.shift(); return x});
@@ -38,7 +87,8 @@ function getLabels(study, param){
     const col = study.getHeader(tableName).indexOf(param)
     const tableData = study.getTabular(tableName)
     const uniques = [];
-    const labels= [];
+    const labels = [];
+    let counts = {};
     for(let r=0; r<tableData.length; r++){
         let elem = tableData[r][col];
         let isUnique = true;
@@ -49,10 +99,12 @@ function getLabels(study, param){
         }
         if(isUnique){
             uniques.push(elem);
+            counts[elem] = 0;
         }
-        labels.push(elem)
+        counts[elem]++;
+        labels.push(elem);
     }
-    return [labels, uniques];
+    return [labels, uniques, counts];
 }
 
 
@@ -74,14 +126,14 @@ class ANN_Node{
 
 const sigmoid = x => 1/(1+Math.exp(-x));
 
-function trainNetwork(network, data, labels){
+function trainNetwork(network, data, labels, epoch){
     network.forEach((node, node_nr) => {
         labels.forEach((label, label_nr) => {
             let target_output = 1*(label === node.label)
             let w = node.weights
             let d = data[label_nr]
             let error = target_output - node.act(d)
-            let dw = d.map(x => 0.005 * error * x)
+            let dw = d.map(x => lr(epoch) * error * x)
             node.weights = w.map((x, i) => x+dw[i])
         })
     })
