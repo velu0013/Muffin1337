@@ -11,8 +11,7 @@
 
 
 
-function kmeans(num){;
-    num = [1, 2, 3, 1, 2, 3, 7, 8, 9, 7, 8, 9, 7, 8, 9, 1, 2, 3, 1, 2, 3, 7, 8, 9]; //godtyckligt data
+function kmeans(num){
     const num2 = [1, 2, 3, 1, 2, 3, 7, 8, 9, 7, 8, 9, 7, 8, 9, 1, 2, 3, 1, 2, 3, 7, 8, 9]; //godtyckligt data
     const data = [num, num2]
 
@@ -26,7 +25,6 @@ function kmeans(num){;
         oldClusterCenter = clusterCenter[0]
         clusterCenter = setClusterCenters(c);
     }
-
     return nameClustercenter(c);
 }
 
@@ -44,13 +42,8 @@ function convergenceTest(clusterCenter, oldClusterCenter, iteration){
 
 
 
-function clusterAssignment(data, clusterCenters){
-    /*
-        Nu är data en vektor med värden. Gör till en vektor med vektorer
-    */ 
-
-    data = data[0]
-
+function clusterAssignment(data, clusterCenters){    
+   data = data[0]
    const k = clusterCenters.length; //number of clusters
    var vectorOfLengths = [];
    var c = []; // vektor med vektorer av avstånd till klustercenter. Varje center har egen vec. data till andra center = 0
@@ -77,6 +70,8 @@ function clusterAssignment(data, clusterCenters){
 
 
 
+
+
 function findDistance(A, B){
     //A is an arrays corresponding to one datapoint. length is length of analysisdimension. Usually 2.
     //B is array corresponding to one cluster.  -||-
@@ -92,7 +87,15 @@ function findDistance(A, B){
 /*
     skriv om    Math.abs(data[j] - clusterCenters[l]) till
     sqrt(   (data[1][1]-clustercenters[1][1])^2     +    (data[1][2]-clustercenters[1][2])^2    +...    )
- */
+*/
+
+function getDistance(dataPoint, clusterCenter){
+    //dataPoint är en vektor med ett värde för varje dimension
+    //clustercenter är en vektor med ett värde för varje dimension
+    var i = 0;
+    var distance = 0;
+    for(i = 0; )
+}
 
 
 
