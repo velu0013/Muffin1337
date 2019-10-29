@@ -32,12 +32,17 @@ function InfoPop(props){
 	</Popup>);
 }
 
-
+function Loader(){
+	return(
+		<div className="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div> 
+	);
+}
 
 
 const utils = {
 	ConfirmButton: ConfirmButton,
-	InfoPop: InfoPop
+	InfoPop: InfoPop,
+	Loader: Loader
 }
 
 export default utils

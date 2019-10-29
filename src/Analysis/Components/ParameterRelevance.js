@@ -1,14 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import Popup from "reactjs-popup";
 import {Predict} from '../Methods/ANN.js';
+import utils from '../../Study_CRUD/utils.js';
 
 function ParameterRelevance({study, close}){
     const [param, setParam] = useState(null)
+    const [loadinger, setloadinger] = useState(false)
+    const [predictions, setPredicted] = useState(null)
+    
+        //Ändra Loadinger till true varje gång vi byter param
+    useEffect(() => {
+        if(param !==null){
+            setPredicted(null)
+            setloadinger(true)
+        }
+    },[param,study]
+    );
+        //Varje gång Loadinger ändras kör Predict, 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if(loadinger){
+                setPredicted(Predict(study, param))
+                setloadinger(false)
+            }
+
+        }, 10000);
+        return () => clearTimeout(timer);
+    }, [loadinger,study,param]
+    );
     
     return(
         <>
+
         <ParameterSelector paramList={study.getHeader('consumer')} param={param} setParam={setParam}/>
-        {param !== null && 'Correctly predicted: '+Predict(study, param)}
+         {predictions!==null && 'Correctly predicted: '+predictions}
+        <br></br>
+        {loadinger && utils.Loader()}
         </>
     )
 }

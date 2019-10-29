@@ -4,8 +4,7 @@ import utils from './utils.js'
 import StudyDBT from './Study.js';
 import StudyTable from './StudyTable.js';
 import Popup from "reactjs-popup";
-import {Redirect} from "react-router-dom";
-
+import {Redirect} from 'react-router-dom';
 //import Popup from "reactjs-popup";
 //import StudyDBT from './Study.js';
 
@@ -22,11 +21,14 @@ function Editpage({study, setStudy}){
 
     return(
     <>
+       
     <FileButton study={study} setStudy={setStudy}/>
+    
     {'Now editing: '+study.name}
     <br></br>
     {'Last change: '+study.getEditDate()+', '+study.getEditTime()}
-    <header className="App-header">
+   <header className="App-header">
+   
         <br></br>
         Recipe
         <StudyTable 
@@ -68,7 +70,7 @@ function Editpage({study, setStudy}){
 
 function FileButton(props){
 	return(
-        <Popup trigger={<button className="button_pop">File</button>} 
+        <Popup trigger={<button className="button_pop left">File</button>} 
             position={'bottom left'}
             closeOnDocumentClick
             mouseLeaveDelay={300}
