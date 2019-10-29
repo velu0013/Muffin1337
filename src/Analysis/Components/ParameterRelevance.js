@@ -24,7 +24,7 @@ function ParameterRelevance({study, close}){
                 setloadinger(false)
             }
 
-        }, 10000);
+        }, 100);
         return () => clearTimeout(timer);
     }, [loadinger,study,param]
     );
