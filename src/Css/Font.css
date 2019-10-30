@@ -1,0 +1,51 @@
+
+/**** Font imports ****/
+@font-face{
+  font-family: "Esphimere Thin";
+  src: url("../Fonts/esphimere/Esphimere Thin.otf");
+}
+@font-face{
+  font-family: "Esphimere Extra Light";
+  src: url("../Fonts/esphimere/Esphimere Extra Light.otf");
+}
+@font-face{
+  font-family: "Esphimere Light";
+  src: url("../Fonts/esphimere/Esphimere Light.otf");
+}
+@font-face{
+  font-family: "Esphimere";
+  src: url("../Fonts/esphimere/Esphimere.otf");
+}
+@font-face{
+  font-family: "Esphimere Semi Bold";
+  src: url("../Fonts/esphimere/Esphimere Semi Bold.otf");
+}
+@font-face{
+  font-family: "Esphimere Bold";
+  src: url("../Fonts/esphimere/Esphimere Bold.otf");
+}
+/* Italics */
+@font-face{
+  font-family: "Esphimere Thin Italic";
+  src: url("../Fonts/esphimere/Esphimere Thin Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Extra Light Italic";
+  src: url("../Fonts/esphimere/Esphimere Extra Light Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Light Italic";
+  src: url("../Fonts/esphimere/Esphimere Light Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Italic";
+  src: url("../Fonts/esphimere/Esphimere Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Semi Bold Italic";
+  src: url("../Fonts/esphimere/Esphimere Semi Bold Italic.otf");
+}
+@font-face{
+  font-family: "Esphimere Bold Italic";
+  src: url("../Fonts/esphimere/Esphimere Bold Italic.otf");
+}

@@ -3,6 +3,7 @@ import Popup from "reactjs-popup";
 import {Predict} from '../Methods/ANN.js';
 import utils from '../../Study_CRUD/utils.js';
 
+
 function ParameterRelevance({study, close}){
     const [param, setParam] = useState(null)
     const [loadinger, setloadinger] = useState(false)
@@ -31,7 +32,6 @@ function ParameterRelevance({study, close}){
     
     return(
         <>
-
         <ParameterSelector paramList={study.getHeader('consumer')} param={param} setParam={setParam}/>
          {predictions!==null && 'Correctly predicted: '+predictions}
         <br></br>
