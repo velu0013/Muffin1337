@@ -11,15 +11,19 @@ import Popup from "reactjs-popup";
 import StudyDBT from './Study.js';
 import {NewButton} from './New.js';
 import {Redirect} from "react-router-dom";
+import {UploadButton} from './Filemgmt.js'
 
 function Openpage({study, setStudy}){
 	const [Skey, setKey] = useState('');
+	const [select, setSelect] = useState(false)
 	return (
     <>
         <NewButton study={study} setStudy={setStudy}/>
+		<UploadButton study={study} setStudy={x => {setStudy(x); setSelect(true)}}/>
 		<ClearButton study={study} setStudy={setStudy}/>
 		<br></br>
 		<PrintStudyList study={study} setStudy={setStudy} Skey={Skey} setKey={setKey}/>
+		{select && <Redirect to='/Edit' />}
     </>
 	)
 }

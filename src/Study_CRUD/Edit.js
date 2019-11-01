@@ -5,6 +5,8 @@ import StudyDBT from './Study.js';
 import StudyTable from './StudyTable.js';
 import Popup from "reactjs-popup";
 import {Redirect} from 'react-router-dom';
+import {DownloadButton} from './Filemgmt.js'
+
 //import Popup from "reactjs-popup";
 //import StudyDBT from './Study.js';
 
@@ -84,6 +86,7 @@ function FileButton(props){
             <SaveButton study={props.study} close={close}/>
             <SaveAsButton study={props.study} setStudy={props.setStudy} close={close}/>
             <DeleteButton study={props.study} setStudy={props.setStudy} close={close}/>
+            <DownloadButton study={props.study}/>
             </>
         )}
         </Popup>

@@ -24,21 +24,28 @@ function UploadButton(props){
 
 
 
-function DownloadButton(props){
-	const [select, setSelect] = useState(false)
-	const [nameAvailable, setAvailable] = useState(true)
+function DownloadButton(props){    
 	return(
 		<Popup 
-		trigger={<button className="button_pop">Downloadload</button>} 
+		trigger={<div className="dropdown-item">Download as .dbt</div>} 
 		modal
 		>
 		{close => (
-			<div className="modal">
-                Under construction
-            </div>
+			<LinkToDL study = {props.study}/>
         )}
 		</Popup>
 	)
+}
+
+
+function LinkToDL(props){
+    const studyFile = URL.createObjectURL(new File([JSON.stringify(props.study)], {type: 'plain/text', endings: 'native'}))
+
+    return(
+        <div className="modal">
+            <a href={studyFile} download={props.study.name+'.dbt'}>Download {props.study.name}</a>
+        </div>
+    );
 }
 
 
@@ -66,7 +73,6 @@ function ImportFromFile({setStudy}){
                 fileReader = new FileReader();
                 fileReader.onload = handleFileRead;
                 fileReader.readAsText(e.target.files[0])
-                console.log('Loading File: '+e.target.files[0].name)
             }
         }}
         />
