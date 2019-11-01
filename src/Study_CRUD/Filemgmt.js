@@ -40,7 +40,6 @@ function DownloadButton(props){
 
 function LinkToDL(props){
     const studyFile = URL.createObjectURL(new File([JSON.stringify(props.study)], {type: 'plain/text', endings: 'native'}))
-
     return(
         <div className="modal">
             <a href={studyFile} download={props.study.name+'.dbt'}>Download {props.study.name}</a>
