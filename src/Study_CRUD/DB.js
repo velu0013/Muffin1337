@@ -77,7 +77,11 @@ function OpenStudy(name){
     if(NameFree(name)){
         return null;
     }
-    const data = JSON.parse(localStorage.getItem(name+ext))
+    return LoadStudy(localStorage.getItem(name+ext));        
+}
+
+function LoadStudy(StudyJSON){
+    const data = JSON.parse(StudyJSON)
     setCurrentTable(null, '_reci')
     setCurrentTable(data.recipe, '_reci')
     setCurrentTable(null, '_cons')
@@ -91,7 +95,7 @@ function OpenStudy(name){
         .changeMeta(data.meta);
     setCurrentStudy(null);
     setCurrentStudy(study);
-    return study;        
+    return study;
 }
 
 function RemoveStudy(study){
@@ -155,6 +159,7 @@ const DB = {
     GetStudies: GetStudies,
     SaveStudy: SaveStudy,
     OpenStudy: OpenStudy,
+    LoadStudy: LoadStudy,
     RemoveStudy: RemoveStudy,
     ClearAll: ClearAll,
     NameFree: NameFree,

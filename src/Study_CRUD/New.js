@@ -4,6 +4,7 @@ import Popup from "reactjs-popup";
 import {CreateGrid} from './Study.js';
 import {Redirect} from "react-router-dom";
 import utils from './utils.js'
+import {DownloadButton, UploadButton} from './Filemgmt.js'
 
 const contentStyle = {
 	background: "#F0F0F0",
@@ -29,6 +30,7 @@ function NewButton(props){
 		{close =>(
 			<div className="modal">
 			{nameAvailable ? 'Choose study name' : 'Name exists'}
+			<UploadButton setStudy={props.setStudy}/>
             <input
 				type="text"
 				className="Text-input"
