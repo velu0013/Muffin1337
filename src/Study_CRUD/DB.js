@@ -7,17 +7,19 @@
 
 
 import StudyDBT from "./Study";
+import * as XLSX from 'xlsx';
 const StudyListKey = 'DBT_Studies_TAG:ReKlGhAt';
 const ext = '.dbt';
 
 
-// Private Functions (Not exported) 
+// ----------- Private Functions (Not exported) ------------
 function RecordStudy(name){
     var studies = GetStudies();
     if(studies===null){
         studies=[name]
     }else if(FindStudyIndex(name, studies) === -1){
         studies.push(name)
+        studies.sort()
     }else{
         return;
     }
@@ -47,10 +49,27 @@ function FindStudyIndex(name, studies){
     }
 }
 
+function LoadStudy(StudyJSON){
+    const data = JSON.parse(StudyJSON)
+    const study = new StudyDBT(data.name)
+        .changeRecipe(data.recipe)
+        .changeConsumer(data.consumer)
+        .changePreference(data.preference)
+        .changeMeta(data.meta);
+    setCurrentStudy(null);
+    setCurrentStudy(study);
+    setCurrentTable(null, '_reci')
+    setCurrentTable(study.recipe, '_reci')
+    setCurrentTable(null, '_cons')
+    setCurrentTable(study.consumer, '_cons')
+    setCurrentTable(null, '_pref')
+    setCurrentTable(study.preference, '_pref')
+    return study;
+}
 
-// Public Functions (Exported)
-// 1: newest first, 2: oldest first
 
+// ------------- Public Functions (Exported in DB) ---------------
+// Returns a list of existing studies
 function GetStudies(search = null, sort = null){
     let studies = JSON.parse(localStorage.getItem(StudyListKey))
     if(search !== null && search !== ''){
@@ -67,12 +86,14 @@ function GetStudies(search = null, sort = null){
     return studies;
 }
 
+// Saves a study to storage with the provided name and set extension
 function SaveStudy(study){
     setCurrentStudy(study)
     RecordStudy(study.name);
     localStorage.setItem(study.name+ext, JSON.stringify(study));
 }
 
+// Opens a study with the requested name from storage, nulls if not available
 function OpenStudy(name){
     if(NameFree(name)){
         return null;
@@ -80,45 +101,33 @@ function OpenStudy(name){
     return LoadStudy(localStorage.getItem(name+ext));        
 }
 
-function LoadStudy(StudyJSON){
-    const data = JSON.parse(StudyJSON)
-    setCurrentTable(null, '_reci')
-    setCurrentTable(data.recipe, '_reci')
-    setCurrentTable(null, '_cons')
-    setCurrentTable(data.consumer, '_cons')
-    setCurrentTable(null, '_pref')
-    setCurrentTable(data.preference, '_pref')
-    const study = new StudyDBT(data.name)
-        .changeRecipe(data.recipe)
-        .changeConsumer(data.consumer)
-        .changePreference(data.preference)
-        .changeMeta(data.meta);
-    setCurrentStudy(null);
-    setCurrentStudy(study);
-    return study;
-}
-
+// Removes a study from storage and workspace
 function RemoveStudy(study){
     DeleteStudy(study.name)
-    if(study.name === getCurrentStudy()){
+    if(study.name === getCurrentStudy().name){
         sessionStorage.removeItem(StudyListKey);
     }
     localStorage.removeItem(study.name+ext)
 }
 
+// Completely clears local and session storage
 function ClearAll(){
     sessionStorage.clear();
     localStorage.clear();
 }
 
+// Checks if a name is free
 function NameFree(name){
     return (name !== null && name !== '' && FindStudyIndex(name, GetStudies()) === -1)
 }
 
+// Sets the current workspace study
 function setCurrentStudy(study){
     sessionStorage.setItem(StudyListKey+'_old', sessionStorage.getItem(StudyListKey))
     sessionStorage.setItem(StudyListKey, JSON.stringify(study))
 }
+
+// Returns the current workspace study, can look back in time with offset
 function getCurrentStudy(offset = 0){
     let storageKey;
     if(offset){
@@ -138,11 +147,13 @@ function getCurrentStudy(offset = 0){
     return study
 }
 
+// Sets the current workspace table
 function setCurrentTable(tableData, tableKey){
     sessionStorage.setItem(StudyListKey+tableKey+'_old', sessionStorage.getItem(StudyListKey+tableKey))
     sessionStorage.setItem(StudyListKey+tableKey, JSON.stringify(tableData))
 }
 
+// Gets the current workspace table
 function getCurrentTable(offset = 0, tableKey){
     let storageKey;
     if(offset){
@@ -154,12 +165,53 @@ function getCurrentTable(offset = 0, tableKey){
     return JSON.parse(sessionStorage.getItem(storageKey))
 }
 
+// Returns a study in the form of a file URL for the browser to download as a file
+const DownloadStudy = {
+    dbt: study => {
+        return URL.createObjectURL(new File([JSON.stringify(study)], {type: 'plain/text', endings: 'native'}))
+    },
+    xlsx: study => {
+        const toCSV = (header, table) =>{
+            let CSVdata = [];
+            for(let r = 0; r<table.length; r++){
+                let CSVrow = {}
+                for(let c = 0; c<header.length; c++){
+                    CSVrow[header[c]] = table[r][c]
+                }
+                CSVdata.push(CSVrow)
+            }
+            return CSVdata;
+        }
+        const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const recp = XLSX.utils.json_to_sheet(toCSV(study.getRecipeHeader(), study.getRecipeTabular()));
+        const cons = XLSX.utils.json_to_sheet(toCSV(study.getConsumerHeader(), study.getConsumerTabular()));
+        const pref = XLSX.utils.json_to_sheet(toCSV(study.getPreferenceHeader(), study.getPreferenceTabular()));
+
+        const wb = { Sheets: { 'Recipe': recp, 'Consumer Description': cons, 'Consumer Preference': pref}, SheetNames: ['Recipe', 'Consumer Description', 'Consumer Preference'] };
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const data = new Blob([excelBuffer], {type: fileType});
+        return(URL.createObjectURL(data))
+    }
+}
+
+// Accepts a file and and reads to the current workspace study
+function UploadStudy(file, setStudy){
+    let fileReader = new FileReader();
+    fileReader.onload = () =>{
+        const uploadedStudy = LoadStudy(fileReader.result)
+        setStudy(uploadedStudy)
+    }
+    fileReader.readAsText(file)
+}
+
+
 // Exported method structure
 const DB = {
     GetStudies: GetStudies,
     SaveStudy: SaveStudy,
     OpenStudy: OpenStudy,
-    LoadStudy: LoadStudy,
+    UploadStudy: UploadStudy,
+    DownloadStudy: DownloadStudy,
     RemoveStudy: RemoveStudy,
     ClearAll: ClearAll,
     NameFree: NameFree,

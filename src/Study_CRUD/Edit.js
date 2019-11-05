@@ -86,7 +86,7 @@ function FileButton(props){
             <SaveButton study={props.study} close={close}/>
             <SaveAsButton study={props.study} setStudy={props.setStudy} close={close}/>
             <DeleteButton study={props.study} setStudy={props.setStudy} close={close}/>
-            <DownloadButton study={props.study}/>
+            <DownloadButton study={props.study} trigger={<div className="dropdown-item">Download</div>}/>
             </>
         )}
         </Popup>

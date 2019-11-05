@@ -1,81 +1,80 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import DB from './DB.js';
 import Popup from "reactjs-popup";
-import {CreateGrid} from './Study.js';
-import {Redirect} from "react-router-dom";
-import utils from './utils.js'
 
-function UploadButton(props){
-	const [select, setSelect] = useState(false)
+// Renders a trigger to a modal popup that lets a user select a file for upload.
+// Trigger is by default a button but can be overridden by supplying a trigger prop.
+function UploadButton({setStudy, trigger=<button className="button_pop">Upload</button>}){
+    const [newStudy, setNewStudy] = useState(null)
 	const [nameAvailable, setAvailable] = useState(true)
-	return(
+    return(
 		<Popup 
-		trigger={<button className="button_pop">Upload</button>} 
+		trigger={trigger} 
 		modal
 		>
 		{close => (
 			<div className="modal">
-                <ImportFromFile setStudy={x => {props.setStudy(x); close();}}/>
+                <input type="file"
+                id="file"
+                name="file"
+                className="inputfile_hidden"
+                accept=".dbt"
+                onChange={e => {
+                    if(e.target.files.length){
+                        DB.UploadStudy(e.target.files[0], setNewStudy)
+                    }
+                }}
+                />
+                Choose a .dbt file
+                <label className="button_pop" for="file">Upload File</label>
+                {newStudy !== null && 
+                <>
+                    {nameAvailable?'Choose study name':'Name exists'}
+                    <input
+                        className="Text-input"
+                        type = 'text'
+                        value = {newStudy.name}
+                        onChange = {event => setNewStudy(newStudy.changeName(event.target.value))}
+                    />
+                    <input
+                        type="button"
+                        className="button_pop"
+                        value="Confirm"
+                        onClick={() => {
+                            if(DB.NameFree(newStudy.name)){	
+                                DB.SaveStudy(newStudy);
+                                setStudy(newStudy)
+                                setAvailable(true)
+                                close()
+                            }else{
+                                setAvailable(false)
+                            }
+                        }}
+                    />
+                </>}
             </div>
         )}
 		</Popup>
 	)
 }
 
-
-
-function DownloadButton(props){    
+// Renders a trigger to a modal popup that lets a user download a study as a file.
+// Trigger is by default a button but can be overridden by supplying a trigger prop.
+function DownloadButton({study, trigger=<button className="button_pop">Download</button>}){    
 	return(
 		<Popup 
-		trigger={<div className="dropdown-item">Download as .dbt</div>} 
+		trigger={trigger}
 		modal
 		>
 		{close => (
-			<LinkToDL study = {props.study}/>
+			<div className="modal">
+                Download {study.name}
+                <a className="button_pop" href={DB.DownloadStudy.dbt(study)} download={study.name+'.dbt'}>DBT File (.dbt)</a>
+                <a className="button_pop" href={DB.DownloadStudy.xlsx(study)} download={study.name+'.xlsx'}>Excel File (.xlsx)</a>
+            </div>
         )}
 		</Popup>
 	)
-}
-
-
-function LinkToDL(props){
-    const studyFile = URL.createObjectURL(new File([JSON.stringify(props.study)], {type: 'plain/text', endings: 'native'}))
-    return(
-        <div className="modal">
-            <a href={studyFile} download={props.study.name+'.dbt'}>Download {props.study.name}</a>
-        </div>
-    );
-}
-
-
-function ImportFromFile({setStudy}){
-    let fileReader;
-    const handleFileRead = (e) => {
-        const uploadedStudy = DB.LoadStudy(fileReader.result)
-        DB.SaveStudy(uploadedStudy)
-        setStudy(uploadedStudy)
-    }
-    const handleFileChosen = (file) => {
-        fileReader = new FileReader();
-        fileReader.onloaded = handleFileRead;
-        fileReader.readAsText(file)
-    }
-
-    return <div>
-        <input type="file"
-        id="file"
-        className="input-file"
-        accept=".dbt"
-        onChange={e => {
-            if(e.target.files.length){
-                handleFileChosen(e.target.files[0])
-                fileReader = new FileReader();
-                fileReader.onload = handleFileRead;
-                fileReader.readAsText(e.target.files[0])
-            }
-        }}
-        />
-    </div>
 }
 
 export {DownloadButton, UploadButton}
