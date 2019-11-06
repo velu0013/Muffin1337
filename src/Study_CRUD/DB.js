@@ -195,15 +195,31 @@ const DownloadStudy = {
 }
 
 // Accepts a file and and reads to the current workspace study
-function UploadStudy(file, setStudy){
-    let fileReader = new FileReader();
-    fileReader.onload = () =>{
-        const uploadedStudy = LoadStudy(fileReader.result)
-        setStudy(uploadedStudy)
+const UploadStudy = {
+    dbt: (file, setStudy) => {
+        let fileReader = new FileReader();
+        fileReader.onload = () =>{
+            const uploadedStudy = LoadStudy(fileReader.result)
+            setStudy(uploadedStudy)
+        }
+        fileReader.readAsText(file)
+    },
+    xlsx: (file, setStudy) => {
+        let fileReader = new FileReader();
+        fileReader.onload = () =>{
+            const studyData = XLSX.read(new Uint8Array(fileReader.result), {type: 'array'});
+            const recipe = XLSX.utils.sheet_to_json(studyData.Sheets['Recipe'])
+            const consum = XLSX.utils.sheet_to_json(studyData.Sheets['Consumer Description'])
+            const prefer = XLSX.utils.sheet_to_json(studyData.Sheets['Consumer Preference'])
+            const uploadedStudy = new StudyDBT()
+                .changeRecipe(recipe)
+                .changeConsumer(consum)
+                .changePreference(prefer)
+            setStudy(uploadedStudy)
+        }
+        fileReader.readAsArrayBuffer(file)
     }
-    fileReader.readAsText(file)
 }
-
 
 // Exported method structure
 const DB = {

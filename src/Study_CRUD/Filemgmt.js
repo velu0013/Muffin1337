@@ -13,21 +13,10 @@ function UploadButton({setStudy, trigger=<button className="button_pop">Upload</
 		modal
 		>
 		{close => (
-			<div className="modal">
-                <input type="file"
-                id="file"
-                name="file"
-                className="inputfile_hidden"
-                accept=".dbt"
-                onChange={e => {
-                    if(e.target.files.length){
-                        DB.UploadStudy(e.target.files[0], setNewStudy)
-                    }
-                }}
-                />
-                Choose a .dbt file
-                <label className="button_pop" for="file">Upload File</label>
-                {newStudy !== null && 
+            <>
+            <FileSelector type='.dbt'  label='DBT File' setStudy={setNewStudy}/>
+            <FileSelector type='.xlsx' label='Excel File' setStudy={setNewStudy}/>
+			{newStudy !== null && 
                 <>
                     {nameAvailable?'Choose study name':'Name exists'}
                     <input
@@ -51,11 +40,29 @@ function UploadButton({setStudy, trigger=<button className="button_pop">Upload</
                             }
                         }}
                     />
-                </>}
-            </div>
+                </>
+            }
+            </>
         )}
 		</Popup>
 	)
+}
+
+function FileSelector({type, label, setStudy}){
+    return(<div className="modal">
+                <input type="file"
+                id={'file'+type}
+                name={'file'+type}
+                className="inputfile_hidden"
+                accept={type}
+                onChange={e => {
+                    if(e.target.files.length){
+                        DB.UploadStudy[type.substr(1)](e.target.files[0], setStudy)
+                    }
+                }}
+                />
+                <label className="button_pop" for={'file'+type}>{label+' ('+type+')'}</label>
+            </div>);
 }
 
 // Renders a trigger to a modal popup that lets a user download a study as a file.
