@@ -17,6 +17,7 @@
   min-height: 100vh;
   height: 100%;
   color: white;
+
   
 }
 
@@ -29,14 +30,15 @@
 
 
 /*The spinning muffin */
-.App-logo-header{
+.Cupcake-spinner{
   width: 100%;
   max-width: 70px;
-  animation: App-logo-spin infinite 15s linear;
+  animation: App-logo-spin infinite 5s Linear ;
+
 }
 
 /*Fixes pos of tables*/
-.App-header{
+.Table-fix{
   display:flex;
   flex-direction: column;
   align-items: center;
@@ -56,7 +58,6 @@
   position: fixed; 
   background-color:#DDDDDD80; 
   padding-top: 5vmin;
-  
 }
 /* Format links in header*/
 .Header-link{
@@ -125,11 +126,11 @@ a:hover, a:active {
 }
 .button_popup:active,  .button_popup:hover, .button_popup:focus{
   background-color: #70707080; 
-   }
+}
 
 
    /***Formats the lists of studies ***/
-.button_text{
+.Text-button{
   color: white;
   font-family: "Esphimere Light";  
   cursor: pointer;
@@ -142,7 +143,7 @@ a:hover, a:active {
   outline: none;
 }
 
-.button_text:active, .button_text:hover, .button_text:focus{
+.Text-button:active, .Text-button:hover, .Text-button:focus{
   text-decoration-line: underline;
 }
 
@@ -219,7 +220,7 @@ font-family: "Esphimere Bold";
 
 
 /*Changes color in modal-popups*/
-.Delete-all {
+.Popup-color {
   color: #000000;
 }
 
@@ -242,17 +243,17 @@ font-family: "Esphimere Bold";
 } 
 
 
-
-.App-logo{
+/*** Warning Message ***/
+.Warning-logo{
   max-width: 100px;
 }
-.text_color-div{
+.Warning-div{
   max-height: 100px;
   background-color: #fa282880;
   display: flex;
   min-width: 250px;
 }
-.text_color{
+.Warning-text{
   font-size: 20px;
   font-weight: bold;
   color:white;
@@ -269,6 +270,19 @@ font-family: "Esphimere Bold";
   color: rgb(255, 155, 0);
   font-family: "Esphimere Light";
   position: center;
+}
+
+
+
+/*Styles  Upload-window*/
+
+.inputfile_hidden {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
 }
 
 
@@ -299,12 +313,12 @@ font-family: "Esphimere Bold";
     padding-top: 100px;
   }
   /*The spinning muffin */
-  .App-logo-header{
+  .Cupcake-spinner{
     width: 50px;
   }
   
   /*Fixes pos of tables*/
-  .App-header{
+  .Table-fix{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -351,7 +365,7 @@ font-family: "Esphimere Bold";
     padding-top: 120px;
   }
   /*The spinning muffin */
-  .App-logo-header{
+  .Cupcake-spinner{
     display: none;
   }
   
@@ -381,14 +395,3 @@ font-family: "Esphimere Bold";
     }
 }
 
-
-
-
-.inputfile_hidden {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
-}

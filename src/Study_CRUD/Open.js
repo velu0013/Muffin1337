@@ -71,7 +71,7 @@ function ConfirmText({label, f=null, arg, close=null}){
 		<input
 		type="button"
 		value={label}
-		className="button_text"
+		className="Text-button"
 		onClick={event => 
 			{	
 				if(f !== null){f(arg)};
@@ -87,7 +87,7 @@ function ClearButton(props){
 		
 		<Popup trigger={<button className="button_pop">Delete All</button>} position="right center">
 		{close => (
-		<div className="Delete-all">
+		<div className="Popup-color">
 			{'Delete All Entries?'}
 			<br></br>
 				<utils.ConfirmButton label={'Yes'} f={_ => 

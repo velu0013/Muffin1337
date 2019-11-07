@@ -192,7 +192,7 @@ function SetSize(props){
     {close => (
         <>
         <div>
-        <span className="Delete-all">Set dimensions</span>
+        <span className="Popup-color">Set dimensions</span>
         </div>
         <div>
         <DimInput dim={dims[0]} setDims = {x => setDims([x, dims[1]])}/>
@@ -265,9 +265,9 @@ function DuplicateFinder (props) {
   const dupsexists = rowdup.length > 0 || coldup.length > 0
   return (
     dupsexists ? 
-    <div className="text_color-div">
-      <img src={Warning} className="App-logo"  />
-      <p className = "text_color">
+    <div className="Warning-div">
+      <img src={Warning} className="Warning-logo"  />
+      <p className = "Warning-text">
       Title duplicates!
       <br></br>
       Row: {rowdup}

@@ -29,7 +29,7 @@ function Editpage({study, setStudy}){
     {'Now editing: '+study.name}
     <br></br>
     {'Last change: '+study.getEditDate()+', '+study.getEditTime()}
-   <header className="App-header">
+   <header className="Table-fix">
    
         <br></br>
         Recipe
@@ -110,7 +110,7 @@ function SaveAsButton(props){
 	return(
         <Popup trigger={<div className="dropdown-item">Save as...</div>} modal>
         {close => (   
-            <div className="Delete-all">
+            <div className="Popup-color">
             {nameAvailable ? 'Choose new study name' : 'Name exists'}
             <br></br>
             <input
@@ -146,7 +146,7 @@ function DeleteButton(props){
 	return(
 		<Popup trigger={<div className="dropdown-item">Delete</div>} modal>
 		{close => (
-            <div className="Delete-all">
+            <div className="Popup-color">
             {'Delete '}{props.study.name}{'?'}
             <br></br>
             <utils.ConfirmButton label={'Delete'}
