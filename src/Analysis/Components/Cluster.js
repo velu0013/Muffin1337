@@ -1,10 +1,7 @@
 import React, { useState , useEffect} from 'react'
 import {kmeans} from '../Methods/kmeans.js'
 import Popup from "reactjs-popup";
-import Chart, {ReactApexChart} from "react-apexcharts";
-import ApexCharts from 'apexcharts'
-
-import ScatterChart from './ScatChart.js'
+import Chart from "react-apexcharts";
 
 function ClusterAnalysis({study, close}){
     const k = 2;
