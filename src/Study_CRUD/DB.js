@@ -198,20 +198,28 @@ const DownloadStudy = {
 const UploadStudy = {
     dbt: (file, setStudy) => {
         let fileReader = new FileReader();
-        fileReader.onload = () =>{
-            const uploadedStudy = LoadStudy(fileReader.result)
+        fileReader.onload = (e) =>{
+            const uploadedStudy = LoadStudy(e.target.result)
             setStudy(uploadedStudy)
         }
         fileReader.readAsText(file)
     },
     xlsx: (file, setStudy) => {
+        const fromCSV = (Sheet, SheetName) =>{
+            const header = Object.keys(Sheet[0]).map(x => ({value: x}))
+            const tabular = Sheet.map(rowObj => Object.values(rowObj).map(x => ({value: x})))
+            return [header, ...tabular];
+        }
         let fileReader = new FileReader();
-        fileReader.onload = () =>{
-            const studyData = XLSX.read(new Uint8Array(fileReader.result), {type: 'array'});
-            const recipe = XLSX.utils.sheet_to_json(studyData.Sheets['Recipe'])
-            const consum = XLSX.utils.sheet_to_json(studyData.Sheets['Consumer Description'])
-            const prefer = XLSX.utils.sheet_to_json(studyData.Sheets['Consumer Preference'])
+        fileReader.onload = (e) =>{
+            const studyName = file.name.substr(0, file.name.lastIndexOf('.'))
+
+            const studyData = XLSX.read(new Uint8Array(e.target.result), {type: 'array'});
+            const recipe = fromCSV(XLSX.utils.sheet_to_json(studyData.Sheets['Recipe']))
+            const consum = fromCSV(XLSX.utils.sheet_to_json(studyData.Sheets['Consumer Description']))
+            const prefer = fromCSV(XLSX.utils.sheet_to_json(studyData.Sheets['Consumer Preference']))
             const uploadedStudy = new StudyDBT()
+                .changeName(studyName)
                 .changeRecipe(recipe)
                 .changeConsumer(consum)
                 .changePreference(prefer)
