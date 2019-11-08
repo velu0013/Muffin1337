@@ -13,9 +13,11 @@ function UploadButton({setStudy, trigger=<button className="button_pop">Upload</
 		modal
 		>
 		{close => (
-            <>
+            <div className="modal">
+            <div>
             <FileSelector type='.dbt'  label='DBT File' setStudy={setNewStudy}/>
             <FileSelector type='.xlsx' label='Excel File' setStudy={setNewStudy}/>
+            </div>
 			{newStudy !== null && 
                 <>
                     {nameAvailable?'Choose study name':'Name exists'}
@@ -42,7 +44,7 @@ function UploadButton({setStudy, trigger=<button className="button_pop">Upload</
                     />
                 </>
             }
-            </>
+            </div>
         )}
 		</Popup>
 	)

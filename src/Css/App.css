@@ -181,6 +181,11 @@ font-family: "Esphimere Bold";
 }
 
 
+.pop_div{
+  display: flex;
+  flex-direction: row;
+}
+
 /**Datasheet-Dimension-counters **/
 .Dimmer{
   align-items: center;
