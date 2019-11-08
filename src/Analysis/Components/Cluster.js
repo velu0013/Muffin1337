@@ -1,34 +1,88 @@
 import React, { useState , useEffect} from 'react'
 import {kmeans} from '../Methods/kmeans.js'
 import Popup from "reactjs-popup";
+import Chart, {ReactApexChart} from "react-apexcharts";
+import ApexCharts from 'apexcharts'
+
+import ScatterChart from './ScatChart.js'
 
 function ClusterAnalysis({study, close}){
-    const [param, setParam] = useState(null)
+    const k = 2;
+    const nrParams = 2;
+    const [param, setParam] = useState(Array(nrParams).fill(null))
     let recipe = study.getRecipeTabular();
     let consumer = study.getConsumerTabular();
     let preference = study.getPreferenceTabular();
-    const nrClusters = 2;
-    const data = setData(preference);
-
-
+    
+    let data = null;
+    if(param.indexOf(null) === -1){
+        let indices = [];
+        for (let i=0; i < param.length; i++){
+            indices.push(study.getHeader('preference').indexOf(param[i]))
+        }
+        data = setData(preference, indices);
+    }
+    
     return (
         <>
-        <ParameterSelector paramList={study.getHeader('preference')} param={param} setParam={setParam}/>
-        <ParameterSelector paramList={study.getHeader('recipe')} param={param} setParam={setParam}/>
+        {param.map((value, index) => {
+        return (<ul key={index} className="NEWCLASSHEREPLEASE">
+            {<ParameterSelector paramList={study.getHeader('preference')} param={param[index]} setParam={p => setParam(new Array(nrParams).fill(0).map((v, i) => param[i]).fill(p, index, index+1))}/>}
+            </ul>)
+        })}
         En annan analys på {study.name} som delar in data i kluster. 
-        {kmeans(data, nrClusters)}
-        {console.log(recipe)}
+        {data !== null && makeSeries(kmeans(data, k),data,param)}
         <br></br>
-        <input type="button" className="info_pop" value="Back" onClick={close}/>
+        <input type="button" className="button_pop" value="Back" onClick={close}/>
         </>
     ); 
 }
 
-function setData(input){
-    var i = 0;
+function makeSeries(clustersLabels, data, headers){
+    const options= {
+            chart: {
+                zoom: {
+                    enabled: true,
+                    type: 'xy'
+                }
+            },
+            xaxis: {
+                tickAmount: 10,
+                labels: {
+                    formatter: function(val) {
+                        return parseFloat(val).toFixed(1)
+                    }
+                }
+            },
+            yaxis: {
+                tickAmount: 7
+            }
+        };
+    let series = [];
+    const uniques = Object.keys(clustersLabels.reduce((a, c) => {return{...a,[c]:a[c]+1}}))
+    for(let s=0; s<uniques.length; s++){
+        series.push({name: headers[s],
+        data: []})
+    }
+    for (let r=0; r<clustersLabels.length; r++){
+        series[clustersLabels[r]].data.push(data[r])
+    }
+    return(
+        <Chart options={options} series={series} type="scatter" height="350" />
+    )
+}
+
+
+function setData(input, indices){
+    var i = 0, c = 0;
     var data = [];
-    for(i = 0; i <= input.length - 1; i++){
-        data[i] = [input[i][6], input[i][7]];
+    let row = [];
+    for(i = 0; i < input.length; i++){
+        row = [];
+        for (c = 0; c < indices.length; c++){
+            row.push(input[i][indices[c]])
+        }
+        data.push(row);
     }
     return data;
 }
@@ -69,3 +123,5 @@ export default ClusterAnalysis
     //recipe[0][0]
     //rows = recipe.length
     // cols = recipe[0].length
+
+
