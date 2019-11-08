@@ -33,6 +33,7 @@ function ParameterRelevance({study, close}){
     return(
         <>
         <ParameterSelector paramList={study.getHeader('consumer')} param={param} setParam={setParam}/>
+        <br></br>
          {predictions!==null && 'Correctly predicted: '+predictions}
         <br></br>
         {loadinger && utils.Loader()}
