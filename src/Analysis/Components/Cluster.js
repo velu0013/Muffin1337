@@ -4,7 +4,7 @@ import Popup from "reactjs-popup";
 import Chart from "react-apexcharts";
 
 function ClusterAnalysis({study, close}){
-    const k = 2;
+    const [k, setK] = useState(2);
     const nrParams = 2;
     const [param, setParam] = useState(Array(nrParams).fill(null))
     let recipe = study.getRecipeTabular();
@@ -22,6 +22,7 @@ function ClusterAnalysis({study, close}){
     
     return (
         <>
+        <KSelector k={k} setK={setK}/>
         {param.map((value, index) => {
         return (<ul key={index} className="NEWCLASSHEREPLEASE">
             {<ParameterSelector paramList={study.getHeader('preference')} param={param[index]} setParam={p => setParam(new Array(nrParams).fill(0).map((v, i) => param[i]).fill(p, index, index+1))}/>}
@@ -84,13 +85,42 @@ function setData(input, indices){
     return data;
 }
 
+function KSelector({k, setK}){
+    const ks = [2,3,4,5];
+    const label = 'Using k: '+k;
+	return(
+        <Popup trigger={<button className="button_pop">{label}</button>} 
+            position={'right top'}
+            closeOnDocumentClick
+            mouseLeaveDelay={30}
+            mouseEnterDelay={0}
+            on='hover'
+            contentStyle={{ padding: "0px", border: "none" }}
+            arrow={false}
+        >
+		{close => (
+            <>
+            {ks.map((value, index) => {
+                return <ul key={index} className="dropdown-item">
+                    {<div onClick={event => {setK(value); close();}}>
+                        {value}
+                    </div>}
+                </ul>
+            })}
+            </>
+        )}
+        </Popup>
+	)
+}
+
+
 function ParameterSelector({paramList, param, setParam}){
     const label = param===null?'Select Parameter':'Analyzing: '+param;
 	return(
         <Popup trigger={<button className="button_pop">{label}</button>} 
             position={'right top'}
             closeOnDocumentClick
-            mouseLeaveDelay={300}
+            mouseLeaveDelay={30}
             mouseEnterDelay={0}
             on='hover'
             contentStyle={{ padding: "0px", border: "none" }}
