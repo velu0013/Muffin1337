@@ -33,7 +33,7 @@
 .Cupcake-spinner{
   width: 100%;
   max-width: 70px;
-  animation: App-logo-spin infinite 5s Linear ;
+  animation: App-logo-spin infinite 15s Linear ;
 
 }
 
