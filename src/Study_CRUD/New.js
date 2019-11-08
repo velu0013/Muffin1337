@@ -52,7 +52,7 @@ function NewButton(props){
 			<DimInput dim={[2,1]} dims={dims} setDims={setDims}/>
 			</div>
 			{/* CONFIRMATION BUTTONS */}
-			<div className="pop_div">
+			<div >
 			<utils.ConfirmButton label={'Confirm'} 
 			f = {arg => {
 				if(DB.NameFree(arg))
