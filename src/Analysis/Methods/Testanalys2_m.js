@@ -20,9 +20,11 @@ function method2(data, nrClusters){;
         var c = clusterAssignment(data, clusterCenters);
         oldClusterCenter = clusterCenters
         clusterCenters = setClusterCenters(c, data);
+
     }
 
-    return c;
+
+    //return c;
     return nameClustercenter(c); 
 }
 
@@ -116,7 +118,6 @@ function clusterAssignment(data, clusterCenters){
             c[i] = distFromPoint;
         }
 
-
         var i = 0;
         for(i = 0; i <= data.length - 1; i++){
             var observationToCenter = [];
@@ -124,7 +125,6 @@ function clusterAssignment(data, clusterCenters){
             for(j = 0; j <= clusterCenters.length - 1; j++){
                 observationToCenter[j] = c[j][i];
             }
-
  
             var j = 0;
             for(j = 0; j <= clusterCenters.length - 1; j++){
@@ -133,17 +133,6 @@ function clusterAssignment(data, clusterCenters){
             }
         
         }
-
-        /*
-        var i = 0;
-        for(i = 0; i<= clusterCenters.length - 1; i++){
-            var j = 0;
-            for(j = 0; j<= data.length - 1; j++){
-                if(Math.min.apply(null, c[i]) != c[i][j])  c[i][j] = c[i][j];
-                else c[i][j] = 0;
-            }
-        }
-        */
 
         return c;
 }
@@ -160,6 +149,7 @@ function findDistance(A, B){
         var diff = A[i] - B[i];
         distance = distance + Math.pow(diff,2);
     }
+
     return Math.sqrt(distance);
 }
 
@@ -196,7 +186,7 @@ function setClusterCenters(c, data){
 
     var i = 0;
     for(i = 0; i < c.length; i++){
-        if(countNonzero(c[i]) === 0) M[i] = generateRandom(data, c.length);
+        if(countNonzero(c[i]) === 0) M[i] = generateRandom(data, c.length)[0];
     }
 
     return M;

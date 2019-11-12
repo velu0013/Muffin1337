@@ -29,7 +29,7 @@ function ClusterAnalysis({study, close}){
             {<ParameterSelector paramList={study.getHeader('preference')} param={param[index]} setParam={p => setParam(new Array(nrParams).fill(0).map((v, i) => param[i]).fill(p, index, index+1))}/>}
             </ul>)
         })}
-        En annan analys på {study.name} som delar in data i kluster {data !== null && method2(data, 5)}. 
+        En analys på {study.name} som delar in data i kluster. 
         {data !== null && makeSeries(kmeans(data, k),data,param)}
         <br></br>
         <input type="button" className="button_pop" value="Back" onClick={close}/>

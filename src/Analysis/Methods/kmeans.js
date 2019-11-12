@@ -23,12 +23,16 @@ function kmeans(data, nrClusters){
         var c = clusterAssignment(data, clusterCenters);
         oldClusterCenter = clusterCenters
         clusterCenters = setClusterCenters(c, data);
+
     }
 
- 
+
+    //return c;
     return nameClustercenter(c); 
     
 }
+
+
 
 
 
@@ -116,7 +120,6 @@ function clusterAssignment(data, clusterCenters){
             c[i] = distFromPoint;
         }
 
-
         var i = 0;
         for(i = 0; i <= data.length - 1; i++){
             var observationToCenter = [];
@@ -124,26 +127,14 @@ function clusterAssignment(data, clusterCenters){
             for(j = 0; j <= clusterCenters.length - 1; j++){
                 observationToCenter[j] = c[j][i];
             }
-
  
             var j = 0;
             for(j = 0; j <= clusterCenters.length - 1; j++){
-                if(Math.min.apply(null, observationToCenter) === c[j][i]) c[j][i] = c[j][i];
+                if(Math.min.apply(null, observationToCenter) == c[j][i]) c[j][i] = c[j][i];
                 else c[j][i] = 0;
             }
         
         }
-
-        /*
-        var i = 0;
-        for(i = 0; i<= clusterCenters.length - 1; i++){
-            var j = 0;
-            for(j = 0; j<= data.length - 1; j++){
-                if(Math.min.apply(null, c[i]) != c[i][j])  c[i][j] = c[i][j];
-                else c[i][j] = 0;
-            }
-        }
-        */
 
         return c;
 }
@@ -160,6 +151,7 @@ function findDistance(A, B){
         var diff = A[i] - B[i];
         distance = distance + Math.pow(diff,2);
     }
+
     return Math.sqrt(distance);
 }
 
@@ -188,16 +180,17 @@ function setClusterCenters(c, data){
             for(k = 0; k <= data.length - 1; k++){ //gå igenom varje datapunkt
                 if(c[i][k] !== 0)    clusterCoordinates[j] = clusterCoordinates[j] + data[k][j];
             }
-            if(countNonzero(c[i]) !== 0) clusterCoordinates[j] = clusterCoordinates[j]/countNonzero(c[i]);
+            if(countNonzero(c[i]) != 0) clusterCoordinates[j] = clusterCoordinates[j]/countNonzero(c[i]);
             else clusterCoordinates[j] = 0;
         }
         M[i] = clusterCoordinates;
     }
-/////////////////////////////////////////////////////////////////////////////////////////////// CHANGE
+
     var i = 0;
     for(i = 0; i < c.length; i++){
-        if(countNonzero(c[i]) === 0) M[i] = generateRandom(data, c.length);
+        if(countNonzero(c[i]) === 0) M[i] = generateRandom(data, c.length)[0];
     }
+
     return M;
 }
 /*
@@ -225,7 +218,7 @@ function setClusterCenters(c, data){
 function countNonzero(vector){
     var count = 0;
     var i = 0;
-    for (i=0; i<=vector.length-1; i++){
+    for (i = 0; i<=vector.length-1; i++){
         if(Math.abs(vector[i])>0) count = count + 1;
     }
     return count;
@@ -247,11 +240,6 @@ function nameClustercenter(c){
 
     return clusterName;
 }
-
-// Gå igenom varje observation i
-// för varje observation, gå igenom varje kluster j
-//om c[j][i] inte = 0, clusterName[i] = j
-
 
 export {kmeans} 
 
