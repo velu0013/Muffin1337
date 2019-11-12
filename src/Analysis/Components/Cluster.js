@@ -1,5 +1,6 @@
 import React, { useState , useEffect} from 'react'
 import {kmeans} from '../Methods/kmeans.js'
+import {method2} from '../Methods/Testanalys2_m'
 import Popup from "reactjs-popup";
 import Chart from "react-apexcharts";
 
@@ -28,7 +29,7 @@ function ClusterAnalysis({study, close}){
             {<ParameterSelector paramList={study.getHeader('preference')} param={param[index]} setParam={p => setParam(new Array(nrParams).fill(0).map((v, i) => param[i]).fill(p, index, index+1))}/>}
             </ul>)
         })}
-        En annan analys på {study.name} som delar in data i kluster. 
+        En annan analys på {study.name} som delar in data i kluster {data !== null && method2(data, 5)}. 
         {data !== null && makeSeries(kmeans(data, k),data,param)}
         <br></br>
         <input type="button" className="button_pop" value="Back" onClick={close}/>

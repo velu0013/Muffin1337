@@ -18,7 +18,7 @@ function kmeans(data, nrClusters){
     var clusterCenters = generateRandom(data, nrClusters);
     var count = 0;
 
-    while(convergenceTest(clusterCenters, oldClusterCenter, count)==false){
+    while(convergenceTest(clusterCenters, oldClusterCenter, count, data)==false){
         count = count + 1;
         var c = clusterAssignment(data, clusterCenters);
         oldClusterCenter = clusterCenters
@@ -30,14 +30,31 @@ function kmeans(data, nrClusters){
     
 }
 
+
+
+
 function generateRandom(data, nrClusters){
+    var min = [];
+    var max = [];
+    var j = 0;
+    for(j = 0; j < data[0].length; j++){
+        min[j] = Math.min.apply(null, data[j]);
+        max[j] = Math.max.apply(null, data[j]);
+    }
+    const MIN = Math.min.apply(null, min);
+    const MAX = Math.max.apply(null, max);
+
+
     var clusterCenters = [];
     var i = 0;
     for(i = 0; i <= nrClusters - 1; i++){
         var clusterCoordinates = [];
         var j = 0;
         for(j = 0; j <= data[0].length - 1; j++){
-            clusterCoordinates[j] = Math.random();
+            clusterCoordinates[j] = Math.random()*MAX;
+            while(clusterCoordinates[j] < MIN){
+                clusterCoordinates[j] = Math.random()*MAX; 
+            }
         }
         clusterCenters[i] = clusterCoordinates;
     }
@@ -46,9 +63,9 @@ function generateRandom(data, nrClusters){
 
 
 
-function convergenceTest(clusterCenter, oldClusterCenter, iteration){
-    const tol = 0.1;
-    var maxIterations = 100;
+function convergenceTest(clusterCenter, oldClusterCenter, iteration, data){
+    const tol = setTol(data);
+    var maxIterations = 1000;
     var isConverged = true;
     var i = 0;
     for(i = 0; i<=clusterCenter.length - 1; i++){
@@ -57,6 +74,24 @@ function convergenceTest(clusterCenter, oldClusterCenter, iteration){
 
     if(iteration==maxIterations) isConverged = true;
     return isConverged;
+}
+
+function setTol(data){
+    // gå igenom varje punkt: loopa genom alla andra och kolla avstånd
+    // spara varje avstånd i en vek med dim nrobserv*nrobserv
+    // tol = min(distances)/100
+    var minDistance = findDistance(data[0], data[1]);
+    var i = 0;
+    for(i = 0; i < data.length; i++){
+        var j = 0;
+        for(j = 0; j < data.length; j++){
+            if(findDistance(data[i], data[j]) < minDistance && i != j && findDistance(data[i], data[j]) > 0){
+                minDistance = findDistance(data[i], data[j]);
+            }
+        }
+    }
+    var tol = minDistance/10;
+    return tol;
 }
 
 
@@ -93,7 +128,7 @@ function clusterAssignment(data, clusterCenters){
  
             var j = 0;
             for(j = 0; j <= clusterCenters.length - 1; j++){
-                if(Math.min.apply(null, observationToCenter) != c[j][i]) c[j][i] = c[j][i];
+                if(Math.min.apply(null, observationToCenter) === c[j][i]) c[j][i] = c[j][i];
                 else c[j][i] = 0;
             }
         
@@ -151,12 +186,17 @@ function setClusterCenters(c, data){
             clusterCoordinates[j] = 0;
             var k = 0;
             for(k = 0; k <= data.length - 1; k++){ //gå igenom varje datapunkt
-                if(c[i][k] != 0)    clusterCoordinates[j] = clusterCoordinates[j] + data[k][j];
+                if(c[i][k] !== 0)    clusterCoordinates[j] = clusterCoordinates[j] + data[k][j];
             }
-            if(countNonzero(c[i]) != 0) clusterCoordinates[j] = clusterCoordinates[j]/countNonzero(c[i]);
+            if(countNonzero(c[i]) !== 0) clusterCoordinates[j] = clusterCoordinates[j]/countNonzero(c[i]);
             else clusterCoordinates[j] = 0;
         }
         M[i] = clusterCoordinates;
+    }
+/////////////////////////////////////////////////////////////////////////////////////////////// CHANGE
+    var i = 0;
+    for(i = 0; i < c.length; i++){
+        if(countNonzero(c[i]) === 0) M[i] = generateRandom(data, c.length);
     }
     return M;
 }
