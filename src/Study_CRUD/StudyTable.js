@@ -192,7 +192,7 @@ function SetSize(props){
     {close => (
         <>
         <div>
-        <span className="Popup-color">Set dimensions</span>
+        <span className="Text-color-fix">Set dimensions</span>
         </div>
         <div>
         <DimInput dim={dims[0]} setDims = {x => setDims([x, dims[1]])}/>
@@ -266,7 +266,7 @@ function DuplicateFinder (props) {
   return (
     dupsexists ? 
     <div className="Warning-div">
-      <img src={Warning} className="Warning-logo"  />
+      <img src={Warning} alt={"Warning"} className="Warning-logo"  />
       <p className = "Warning-text">
       Title duplicates!
       <br></br>

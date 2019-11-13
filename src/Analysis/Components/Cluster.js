@@ -65,7 +65,8 @@ function makeSeries(clustersLabels, k, data, headers){
         series[clustersLabels[r]].data.push(data[r])
     }
     return(
-        <Chart options={options} series={series} type="scatter" height="350" />
+        <Chart options={options} series={series} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
+
     )
 }
 
