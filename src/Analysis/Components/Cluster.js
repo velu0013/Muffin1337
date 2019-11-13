@@ -61,8 +61,6 @@ function makeSeries(clustersLabels, k, data, headers){
         series.push({name: headers[s],
         data: []})
     }
-    console.log('clustersLabels')
-    console.log(clustersLabels)
     for (let r=0; r<clustersLabels.length; r++){
         series[clustersLabels[r]].data.push(data[r])
     }
