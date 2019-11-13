@@ -1,6 +1,5 @@
 import React, { useState , useEffect} from 'react'
 import {kmeans} from '../Methods/kmeans.js'
-import {method2} from '../Methods/Testanalys2_m'
 import Popup from "reactjs-popup";
 import Chart from "react-apexcharts";
 
@@ -30,14 +29,14 @@ function ClusterAnalysis({study, close}){
             </ul>)
         })}
         En analys på {study.name} som delar in data i kluster. 
-        {data !== null && makeSeries(kmeans(data, k),data,param)}
+        {data !== null && (console.log('EVALUATING') || makeSeries(kmeans(data, k),k,data,param))}
         <br></br>
         <input type="button" className="button_pop" value="Back" onClick={close}/>
         </>
     ); 
 }
 
-function makeSeries(clustersLabels, data, headers){
+function makeSeries(clustersLabels, k, data, headers){
     const options= {
             chart: {
                 zoom: {
@@ -58,8 +57,7 @@ function makeSeries(clustersLabels, data, headers){
             }
         };
     let series = [];
-    const uniques = Object.keys(clustersLabels.reduce((a, c) => {return{...a,[c]:a[c]+1}}))
-    for(let s=0; s<uniques.length; s++){
+    for(let s=0; s<k; s++){
         series.push({name: headers[s],
         data: []})
     }
