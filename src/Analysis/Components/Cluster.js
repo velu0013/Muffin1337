@@ -29,7 +29,7 @@ function ClusterAnalysis({study, close}){
             </ul>)
         })}
         En analys på {study.name} som delar in data i kluster. 
-        {data !== null && (console.log('EVALUATING') || makeSeries(kmeans(data, k),k,data,param))}
+        {data !== null && makeSeries(kmeans(data, k),k,data,param)}
         <br></br>
         <input type="button" className="button_pop" value="Back" onClick={close}/>
         </>
@@ -61,6 +61,8 @@ function makeSeries(clustersLabels, k, data, headers){
         series.push({name: headers[s],
         data: []})
     }
+    console.log('clustersLabels')
+    console.log(clustersLabels)
     for (let r=0; r<clustersLabels.length; r++){
         series[clustersLabels[r]].data.push(data[r])
     }
