@@ -87,7 +87,7 @@ function ClearButton(props){
 		
 		<Popup trigger={<button className="button_pop">Delete All</button>} position="right center">
 		{close => (
-		<div className="Popup-color">
+		<div className="Text-color-fix">
 			{'Delete All Entries?'}
 			<br></br>
 				<utils.ConfirmButton label={'Yes'} f={_ => 
