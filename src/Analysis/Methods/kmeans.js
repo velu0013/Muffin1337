@@ -1,5 +1,3 @@
-import { mixedTypeAnnotation } from "@babel/types";
-
 // naive k-means kluster analysis, kräver antal , klarar hur många dim som helst
 //Behöver all data från en observation, inte från en variabel :(
 /*To do:
@@ -109,10 +107,10 @@ function clusterAssignment(data, clusterCenters){
         //data[0].length = antal variabler
         //data.length = antal observationer
         var c = [];
-        var i = 0;
+        let i, j;
         for(i = 0; i<=clusterCenters.length - 1; i++){
             var distFromPoint = [];
-            var j = 0;
+            
             for(j = 0; j<=data.length - 1; j++){
                 //distFromPoint[j] = findDistance(clusterCenters[j], data[i]);
                 distFromPoint[j] = findDistance(clusterCenters[i], data[j]);
@@ -120,22 +118,19 @@ function clusterAssignment(data, clusterCenters){
             c[i] = distFromPoint;
         }
 
-        var i = 0;
         for(i = 0; i <= data.length - 1; i++){
             var observationToCenter = [];
-            var j = 0;
+            
             for(j = 0; j <= clusterCenters.length - 1; j++){
                 observationToCenter[j] = c[j][i];
             }
  
-            var j = 0;
             for(j = 0; j <= clusterCenters.length - 1; j++){
-                if(Math.min.apply(null, observationToCenter) == c[j][i]) c[j][i] = c[j][i];
-                else c[j][i] = 0;
+                if(Math.min.apply(null, observationToCenter) !== c[j][i]){
+                    c[j][i] = 0;
+                }
             }
-        
         }
-
         return c;
 }
 
@@ -227,14 +222,13 @@ function countNonzero(vector){
 
 
 function nameClustercenter(c){
-    var clusterName = [];
+    var clusterName = new Array(c[0].length).fill(99)
     // för varje kluster: gå igenom motsvarande c. om c inte = 0 sätt clustername[m(datapnkt)] = det klustret
     //c har en vek per kluster. Varje vek innehåller dist från viss observation
-    var i = 0;
+    let i, j;
     for(i = 0; i <= c[0].length - 1; i++){
-        var j = 0;
         for (j = 0; j <= c.length - 1; j++){
-            if(c[j][i] != 0) clusterName[i] = j;
+            if(c[j][i] !== 0) clusterName[i] = j;
         }
     }
 
