@@ -2,6 +2,7 @@ import React, { useState , useEffect} from 'react'
 import {kmeans} from '../Methods/kmeans.js'
 import Popup from "reactjs-popup";
 import Chart from "react-apexcharts";
+import { method2 } from '../Methods/Testanalys2_m.js';
 
 function ClusterAnalysis({study, close}){
     const [k, setK] = useState(2);
@@ -30,11 +31,29 @@ function ClusterAnalysis({study, close}){
         })}
         En analys på {study.name} som delar in data i kluster. 
         {data !== null && makeSeries(kmeans(data, k),k,data,param)}
+        {data !== null && makeConsumerTable(consumer, kmeans(data, k), 0)}
         <br></br>
         <input type="button" className="button_pop" value="Back" onClick={close}/>
         </>
     ); 
 }
+
+function makeConsumerTable(consumer, clusterID, clusterChoice){
+    //clusterID= output från k-means, consumer= consumertabellen, clusterChoice= vilket cluster man vill titta på.
+    let displayTable = [];
+    let i;
+        for(i = 0; i < clusterID.length; i++){
+            if(clusterID[i] === clusterChoice) displayTable.push(consumer[i]);
+        }
+    return displayTable;
+}
+
+
+function displayConsumerTable(clusteredConsumers){
+    
+}
+
+
 
 function makeSeries(clustersLabels, k, data, headers){
     const options= {
@@ -64,6 +83,8 @@ function makeSeries(clustersLabels, k, data, headers){
     for (let r=0; r<clustersLabels.length; r++){
         series[clustersLabels[r]].data.push(data[r])
     }
+    console.log('series:')
+    console.log(series)
     return(
         <Chart options={options} series={series} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
 
