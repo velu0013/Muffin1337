@@ -72,7 +72,7 @@ function Editpage({study, setStudy}){
 
 function FileButton(props){
 	return(
-        <Popup trigger={<button className="button_pop left">File</button>} 
+        <Popup trigger={<button className="button_pop">File</button>} 
             position={'bottom left'}
             closeOnDocumentClick
             mouseLeaveDelay={300}
@@ -110,7 +110,7 @@ function SaveAsButton(props){
 	return(
         <Popup trigger={<div className="dropdown-item">Save as...</div>} modal>
         {close => (   
-            <div className="Popup-color">
+            <div className="Text-color-fix">
             {nameAvailable ? 'Choose new study name' : 'Name exists'}
             <br></br>
             <input
@@ -146,7 +146,7 @@ function DeleteButton(props){
 	return(
 		<Popup trigger={<div className="dropdown-item">Delete</div>} modal>
 		{close => (
-            <div className="Popup-color">
+            <div className="Text-color-fix">
             {'Delete '}{props.study.name}{'?'}
             <br></br>
             <utils.ConfirmButton label={'Delete'}

@@ -4,14 +4,16 @@
  *
  */
 /* Set global formats*/
+
+
  .App{
   font-family: "Esphimere Thin";  
   text-align: center;
   background-image: 
   linear-gradient(
-    #000000CC,
-    #00000060
-  ),url("../img/Cupcake.jpg");
+   #000000CC,
+   #00000060
+  ),url("../img/Cupcake2.jpg");
   background-size: 100vw;
   background-repeat: repeat;
   min-height: 100vh;
@@ -103,15 +105,13 @@ a:hover, a:active {
   Transition: all 0.3s;
 }     
 .button_pop.left{
-  float:left;
+  float: left;
 }
 
-.button_pop:active, .button_pop:hover, .button_pop:focus{
+.button_pop:hover,.button_pop:active, .button_pop:focus{
  background-color: #70707080; 
  border-color: white;
  color: white;
-
- content: '\00bb';
 }
 
 /** Formats buttons on popups with white background**/
@@ -155,7 +155,7 @@ a:hover, a:active {
 
 /***Datasheet-cells ***/
 
-  /* Here we overwrites existing css file -> alot of !important */
+  /* Here we overwrites existing css file ---> alot of !important */
 .cell{
   color: black;
 min-width: 50px;
@@ -231,9 +231,16 @@ font-family: "Esphimere Bold";
 
 
 /*Changes color in modal-popups*/
-.Popup-color {
+.Text-color-fix {
   color: #000000;
 }
+
+.Cluster-chart{
+  z-index: 1;
+  color: #000000;
+  background-color: #80808080;
+  width:90%;
+ }
 
 /***Information popups***/
 .info_pop{

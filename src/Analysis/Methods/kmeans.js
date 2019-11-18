@@ -1,397 +1,171 @@
-import { mixedTypeAnnotation } from "@babel/types";
-
 // naive k-means kluster analysis, kräver antal , klarar hur många dim som helst
-//Behöver all data från en observation, inte från en variabel :(
-/*To do:
-    hur många kluster? vart definiera? gör så att clusterassignment kan ta godtyckligt antal (nu bara 2)
-    hur många max iterationer ska jag ta??
-    slumpa första klustercenter + i setclustercenter slumpa om ett kluster inte innehåller några datapunkter
-    motverka att klustercenter är samma?? (knas i clusterassignmentfunktion annars)
-    välj tol i convergencetest
-    gör 2d
+
+/*
+To do: 
+    - fix randomizer so all vals aren't the same..
+    - print "did not converge" if max iterations??
+    - if no point belongs to cluster, randomize its position
+    - print om den ger för få kluster?
+
+Algorithm:
+    1: randomize clustercenters
+    2: assign each observation to nearest center
+    3: recalculate center based on data in that cluster
+    Repeat until old clusters = new clusters 
+
+
+//Möjliga fel: 
+    - initierade "oldClusterCenters" slumpmässigt, kan de hamna för nära?
+    - ska den kunna returnera ett kluster utan tillhörande datapunkter?
 */
 
 
-
-function kmeans(data, nrClusters){
-    var oldClusterCenter = generateRandom(data, nrClusters); //vector with length number of clusters. Each entry contains vec length *dim*
-    var clusterCenters = generateRandom(data, nrClusters);
-    var count = 0;
-
-    while(convergenceTest(clusterCenters, oldClusterCenter, count, data)==false){
-        count = count + 1;
-        var c = clusterAssignment(data, clusterCenters);
-        oldClusterCenter = clusterCenters
-        clusterCenters = setClusterCenters(c, data);
-
-    }
-
-
-    //return c;
-    return nameClustercenter(c); 
+function kmeans(data, k){
+    //data dim = nrObservations*nrVariabler
+        const tol = Math.abs(getSpan(data)[0] - getSpan(data)[1])/100; //Choose what to divide the smallest distance by
+        const maxIterations = 1000; //How many iterations before it stops if it doesn't converge
+        let count = 0; //count iterations for convergence test
+        let clusterCenters = initializeCluster(data,k);
+        let oldClusterCenters = initializeCluster(data, k);
     
-}
-
-
-
-
-
-
-function generateRandom(data, nrClusters){
-    var min = [];
-    var max = [];
-    var j = 0;
-    for(j = 0; j < data[0].length; j++){
-        min[j] = Math.min.apply(null, data[j]);
-        max[j] = Math.max.apply(null, data[j]);
+        while(convergencetest(clusterCenters, oldClusterCenters, count, tol, maxIterations)===false){
+            let ID = assignToCluster(data, clusterCenters);
+            clusterCenters = findClusterCenter(data, ID, k); 
+            count = count + 1; 
+        }
+    
+        console.log('ClusterID:')
+        console.log(assignToCluster(data, clusterCenters))
+        return assignToCluster(data, clusterCenters);
     }
-    const MIN = Math.min.apply(null, min);
-    const MAX = Math.max.apply(null, max);
-
-
-    var clusterCenters = [];
-    var i = 0;
-    for(i = 0; i <= nrClusters - 1; i++){
-        var clusterCoordinates = [];
-        var j = 0;
-        for(j = 0; j <= data[0].length - 1; j++){
-            clusterCoordinates[j] = Math.random()*MAX;
-            while(clusterCoordinates[j] < MIN){
-                clusterCoordinates[j] = Math.random()*MAX; 
+    
+    
+    
+    function assignToCluster(data, clusterCenters){
+        let i, j;
+        let clusterID = [];
+        for(i = 0; i < data.length; i++){
+            let thisObservation = new Array(clusterCenters.length).fill(data[i])
+            let diffVec = vecDistances(clusterCenters, thisObservation);
+            for(j = 0; j < clusterCenters.length; j++){
+                if(Math.min.apply(null, diffVec) === diffVec[j]) clusterID[i] = j;
             }
         }
-        clusterCenters[i] = clusterCoordinates;
+        return clusterID;
     }
-    return clusterCenters;
-}
-
-
-
-function convergenceTest(clusterCenter, oldClusterCenter, iteration, data){
-    const tol = setTol(data);
-    var maxIterations = 1000;
-    var isConverged = true;
-    var i = 0;
-    for(i = 0; i<=clusterCenter.length - 1; i++){
-        if(findDistance(oldClusterCenter[i], clusterCenter[i])>tol) isConverged = false;
+    
+    
+    
+    
+    function convergencetest(clusterCenters, oldClusterCenters, count, tol, maxIterations){
+        let isConverged = false;
+        let diffVec = vecDistances(clusterCenters, oldClusterCenters);
+        if (count >= maxIterations) isConverged = true; //Break if too many iterations have gone by without convergence
+        if(Math.max.apply(null, diffVec) < tol) isConverged = true;
+        return isConverged;   
     }
-
-    if(iteration==maxIterations) isConverged = true;
-    return isConverged;
-}
-
-function setTol(data){
-    // gå igenom varje punkt: loopa genom alla andra och kolla avstånd
-    // spara varje avstånd i en vek med dim nrobserv*nrobserv
-    // tol = min(distances)/100
-    var minDistance = findDistance(data[0], data[1]);
-    var i = 0;
-    for(i = 0; i < data.length; i++){
-        var j = 0;
-        for(j = 0; j < data.length; j++){
-            if(findDistance(data[i], data[j]) < minDistance && i != j && findDistance(data[i], data[j]) > 0){
-                minDistance = findDistance(data[i], data[j]);
+    
+    
+    
+    
+    function findClusterCenter(data, clusterID, k){
+        let i, j;
+        let clusterCenters = [];
+        let divider = 0;
+    
+        for(i = 0; i < k; i++){
+            divider = 0;
+            clusterCenters[i] = new Array(data[0].length).fill(0);
+            for(j = 0; j < clusterID.length; j++){
+                if(clusterID[j] == i){                 //if observation[j] belongs to cluster[i]
+                    divider = divider + 1;
+                    clusterCenters[i] = vecAdd(clusterCenters[i], data[j]); //add observation[j] to center[i]
+                } 
             }
+            if(divider !== 0) clusterCenters[i] = vecDiv(clusterCenters[i], divider);
+            else clusterCenters[i] = initializeCluster(data, k)[0];
         }
+        return clusterCenters;
     }
-    var tol = minDistance/10;
-    return tol;
-}
-
-
-
-function clusterAssignment(data, clusterCenters){
-        // Returnera en matris c: 
-        //c har en vektor för varje klustercenter
-        //varje klusters vektor innehåller längden från varje datapkt till centret. 0 för de som inte tillhör det klustret 
-        //kom ihåg! Varje datapunkt kan ha flera dims
-        //behandla data som vektor med en vektor för varje datapunkt. 
-        //data[0].length = antal variabler
-        //data.length = antal observationer
-        var c = [];
-        var i = 0;
-        for(i = 0; i<=clusterCenters.length - 1; i++){
-            var distFromPoint = [];
-            var j = 0;
-            for(j = 0; j<=data.length - 1; j++){
-                //distFromPoint[j] = findDistance(clusterCenters[j], data[i]);
-                distFromPoint[j] = findDistance(clusterCenters[i], data[j]);
+    
+    
+    
+    
+    
+    //////////////////////Math functions: max/min of matrix, vecnorm, settol, randomize center////////////////////
+    
+    function initializeCluster(data, k){
+        let i, j;
+        let cluster = [];
+        let thisObservation = [];
+        const span = getSpan(data);
+        for(i = 0; i < k; i++){
+            thisObservation = [];
+            for(j = 0; j < data[0].length; j++){
+                thisObservation[j] = Math.random()*(span[1] - span[0]) + span[0];
             }
-            c[i] = distFromPoint;
+            cluster[i] = thisObservation;
         }
-
-        var i = 0;
-        for(i = 0; i <= data.length - 1; i++){
-            var observationToCenter = [];
-            var j = 0;
-            for(j = 0; j <= clusterCenters.length - 1; j++){
-                observationToCenter[j] = c[j][i];
-            }
- 
-            var j = 0;
-            for(j = 0; j <= clusterCenters.length - 1; j++){
-                if(Math.min.apply(null, observationToCenter) == c[j][i]) c[j][i] = c[j][i];
-                else c[j][i] = 0;
-            }
-        
+        return cluster;
+    }
+    
+    
+    function getSpan(data){
+        //takes a vector of vectors
+        //returns the smalles and largest value in the entire matrix
+        const maxVec = data.map(x => Math.max.apply(null, x));
+        const minVec = data.map(x => Math.min.apply(null, x));
+        const span= [Math.min.apply(null, minVec), Math.max.apply(null, maxVec)];
+        return span;
+    }
+    
+    function vecDistances(matrixA, matrixB){
+        //takes two vectors of vectors
+        //returns a vector of the distance between each matching vector, i.e norm(matrixA[1]- mattrixB[1]) and so on
+        let i; 
+        let diffVec = [];
+        for(i = 0; i < matrixA.length; i++){
+            diffVec[i] = (vecNorm(vecSubtraction(matrixA[i], matrixB[i])));
         }
-
-        return c;
-}
-
-
-
-
-function findDistance(A, B){
-    //A is an arrays corresponding to one datapoint. length is length of analysisdimension. Usually 2.
-    //B is array corresponding to one cluster.  -||-
-    var i = 0;
-    var distance = 0;
-    for (i = 0; i <=A.length-1; i++){ //loop over every dimension. Usually 2.
-        var diff = A[i] - B[i];
-        distance = distance + Math.pow(diff,2);
+        return diffVec;
     }
-
-    return Math.sqrt(distance);
-}
-
-
-
-//gå igenom varje kluster, c har en vek för varje kluster
-//för visst kluster, gå igenom varje variabel och summera för den variabeln
-//dela varje summa med antal non zero
-// M = en vek/kluster, varje vek har ett värde per variabel
-
-
-
-//c = (antalkluster, antalobservationer)
-//c = [[längd varje obs till det klustret],     [-||-],...]
-//M = (antal kluster, antal variabler)
-//M = [[kluster1 koordinater],      [kluster2koordinater],...]
-function setClusterCenters(c, data){
-    var M = [];
-    var i = 0;
-    for(i = 0; i <= c.length - 1; i++){ //gå igenom varje kluster
-        var clusterCoordinates = [];
-        var j = 0;
-        for(j = 0; j <= data[0].length - 1; j++){ //gå igenom varje variabel
-            clusterCoordinates[j] = 0;
-            var k = 0;
-            for(k = 0; k <= data.length - 1; k++){ //gå igenom varje datapunkt
-                if(c[i][k] !== 0)    clusterCoordinates[j] = clusterCoordinates[j] + data[k][j];
-            }
-            if(countNonzero(c[i]) != 0) clusterCoordinates[j] = clusterCoordinates[j]/countNonzero(c[i]);
-            else clusterCoordinates[j] = 0;
+    
+    function vecNorm(vec){
+        //takes a vector of scalars and returns the norm of that vector
+        let vecSquared = vec.map(x => Math.pow(x, 2)); //square all elements in vector
+        const arrSum = arr => arr.reduce((a,b) => a + b, 0); //function that sums elements in array
+        let sum = arrSum(vecSquared); //sum the vector of squared values
+        let norm = Math.sqrt(sum); //take the square root of the sum
+        return norm;
+    }
+    
+    function vecSubtraction(vecA, vecB){
+        //takes 2 vectors of same size and subtracts them element by element
+        //returns a vector of same size
+        var x = vecA.map(function(n, i) {return n - vecB[i];})
+        return x;
+    }
+    
+    function vecAdd(vecA, vecB){
+        //takes 2 vectors of same size and adds them element by element
+        //returns a vector of same size
+        var x = vecA.map(function(n, i) {return n + vecB[i];})
+        return x;
+    }
+    
+    function vecDiv(vec, divider){
+        //takes a vector and a value to divide each element by
+        //returns a vector of same size:  vec/divider
+        let i;
+        let x = [];
+        for(i = 0; i < vec.length; i++){
+            x[i] = vec[i] / divider;
         }
-        M[i] = clusterCoordinates;
+        return x;
     }
-
-    var i = 0;
-    for(i = 0; i < c.length; i++){
-        if(countNonzero(c[i]) === 0) M[i] = generateRandom(data, c.length)[0];
-    }
-
-    return M;
-}
-/*
-function setClusterCenters(c, data){
-    //c = [avst variabel1 för varje observation]    [avst variabel1 för varje observation] ...
-    var M = [];
-    var temp = [];
-    var i = 0;
-    for(i = 0; i <= c.length - 1; i++){ //gå igenom varje kluster
-        var j = 0;
-        for(j = 0; j <= data.length - 1; j++){ // gå igenom varje observation
-            var k = 0;
-            for(k = 0; k <= data[0].length - 1; k++){ //gå igenom varje variabel i den observationen
-                M[i][k] = M[i][k] + data[j][k]; 
-            }
-        }
-        M[i] = M[i]/countNonzero(c[i]);
-
-    }
-    return M;
-}
-*/
-
-
-function countNonzero(vector){
-    var count = 0;
-    var i = 0;
-    for (i = 0; i<=vector.length-1; i++){
-        if(Math.abs(vector[i])>0) count = count + 1;
-    }
-    return count;
-}
-
-
-
-function nameClustercenter(c){
-    var clusterName = [];
-    // för varje kluster: gå igenom motsvarande c. om c inte = 0 sätt clustername[m(datapnkt)] = det klustret
-    //c har en vek per kluster. Varje vek innehåller dist från viss observation
-    var i = 0;
-    for(i = 0; i <= c[0].length - 1; i++){
-        var j = 0;
-        for (j = 0; j <= c.length - 1; j++){
-            if(c[j][i] != 0) clusterName[i] = j;
-        }
-    }
-
-    return clusterName;
-}
 
 export {kmeans} 
 
 
 
 
-/*
-// naive k-means kluster analysis, kräver antal , klarar hur många dim som helst
-
-//To do:
-//    hur många kluster? vart definiera? gör så att clusterassignment kan ta godtyckligt antal (nu bara 2)
-//    hur många max iterationer ska jag ta??
-//    slumpa första klustercenter + i setclustercenter slumpa om ett kluster inte innehåller några datapunkter
-//    motverka att klustercenter är samma?? (knas i clusterassignmentfunktion annars)
-//    välj tol i convergencetest
-//    gör 2d
-
-
-
-
-function kmeans(num){
-    const num2 = [1, 2, 3, 1, 2, 3, 7, 8, 9, 7, 8, 9, 7, 8, 9, 1, 2, 3, 1, 2, 3, 7, 8, 9]; //godtyckligt data
-    const data = [num, num2]
-
-    var oldClusterCenter = [[4, 6], [4, 6]]; //vector with length number of clusters. Each entry contains vec length *dim*
-    var clusterCenter = [[5, 6], [5, 6]];
-
-    var count = 0;
-    while(convergenceTest(clusterCenter[0], oldClusterCenter, count)==false){
-        count = count + 1;
-        var c = clusterAssignment(data, clusterCenter[0]);
-        oldClusterCenter = clusterCenter[0]
-        clusterCenter = setClusterCenters(c);
-    }
-    return nameClustercenter(c);
-}
-
-
-
-function convergenceTest(clusterCenter, oldClusterCenter, iteration){
-    var i = 0;
-    const tol = 0.1;
-    var maxIterations = 1;
-    var isConverged = false;
-    if(Math.abs(oldClusterCenter-clusterCenter)<tol) isConverged = true;
-    if(iteration==maxIterations) isConverged = true;
-    return isConverged;
-}
-
-
-
-function clusterAssignment(data, clusterCenters){    
-   data = data[0]
-   const k = clusterCenters.length; //number of clusters
-   var vectorOfLengths = [];
-   var c = []; // vektor med vektorer av avstånd till klustercenter. Varje center har egen vec. data till andra center = 0
-   var i = 0;
-    for (i = 0; i<=k-1; i++){
-        var temp = [];
-        var j = 0;
-        for (j = 0; j<=data.length-1; j++){ //loopa över varje datapunkt
-            var l = 0
-            for (l = 0; l<=k-1; l++){
-                vectorOfLengths[l] = getDistance([data[j]], [clusterCenters[l]])
-            }
-            var nearest = Math.min.apply(null, vectorOfLengths)
-            if(nearest == getDistance([data[j]], [clusterCenters[i]])){
-                temp[j] = getDistance([data[j]], [clusterCenters[i]]); //Temp ska va ci[j]. är den det? ja :(
-            } else {
-                temp[j] = 0;
-            }
-        }
-        c[i] = temp;
-    }
-    return c;
-}
-
-
-
-
-
-function findDistance(A, B){
-    //A is an arrays corresponding to one datapoint. length is length of analysisdimension. Usually 2.
-    //B is array corresponding to one cluster.  -||-
-    var i = 0;
-    var distance = 0;
-    for (i = 0; i <=A.length-1; i++){ //loop over every dimension. Usually 2.
-        var diff = A[i] - B[i];
-        distance = distance + Math.pow(diff,2);
-    }
-    return Math.sqrt(distance);
-}
-
-function getDistance(dataPoint, clusterCenter){
-    //dataPoint är en vektor med ett värde för varje dimension
-    //clustercenter är en vektor med ett värde för varje dimension
-    var i = 0;
-    var distance = 0;
-    var difference = 0;
-    for(i = 0; i <= dataPoint.length - 1; i++){
-        difference = dataPoint[i] - clusterCenter[i];
-        distance = distance + Math.pow(difference,2)
-    }
-    distance = Math.pow(distance, 0.5)
-    return distance
-}
-
-
-
-
-function setClusterCenters(c){
-    var M = [];
-    var i = 0;
-    for(i = 0; i<= c.length-1; i++){
-        M[i] = eval(c[i].join('+'))/countNonzero(c[i]);
-    }
-    return M;
-}
-
-
-
-
-function countNonzero(vector){
-    var count = 0;
-    var i = 0;
-    for (i=0; i<=vector.length-1; i++){
-        if(Math.abs(vector[i])>0) count = count + 1;
-    }
-    return count;
-}
-
-
-
-
-function nameClustercenter(c){
-    var clusterName = [];
-    // för varje kluster: gå igenom motsvarande c. om c inte = 0 sätt clustername[m(datapnkt)] = det klustret
-    var i = 0;
-    for(i = 0; i<= c.length-1; i++){
-        var j = 0;
-        var temp = c[i];
-        for(j = 0; j<= c[0].length; j++){
-            if(temp[j]!=0){
-                clusterName[j] = i;
-            }
-        }
-    }
-    return clusterName;
-}
-
-
-
-
-export {kmeans} 
-*/

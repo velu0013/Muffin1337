@@ -24,7 +24,7 @@ function RoutePage() {
         <div className="App">
             <div className="Header-bar">   
                 <ul >
-                    <Link to={Muff} ><img src={logo} className="Cupcake-spinner" alt="logo" /> </Link>
+                    <Link to={Muff} ><img src={logo} alt={"Cupcake"} className="Cupcake-spinner" alt="logo" /> </Link>
                     <Link to={Home} className={Home===web?"Header-link-active":"Header-link"}>
                         Home
                     </Link>
