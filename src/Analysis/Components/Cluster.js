@@ -2,7 +2,7 @@ import React, { useState , useEffect} from 'react'
 import {kmeans} from '../Methods/kmeans.js'
 import Popup from "reactjs-popup";
 import Chart from "react-apexcharts";
-import { method2 } from '../Methods/Testanalys2_m.js';
+//import { method2 } from '../Methods/Testanalys2_m.js';
 
 function ClusterAnalysis({study, close}){
     const [k, setK] = useState(2);
@@ -31,12 +31,12 @@ function ClusterAnalysis({study, close}){
         })}
         En analys på {study.name} som delar in data i kluster. 
         {data !== null && makeSeries(kmeans(data, k),k,data,param)}
-        {data !== null && makeConsumerTable(consumer, kmeans(data, k), 0)}
         <br></br>
         <input type="button" className="button_pop" value="Back" onClick={close}/>
         </>
     ); 
 }
+//{data !== null && makeConsumerTable(consumer, kmeans(data, k), 0)}
 
 function makeConsumerTable(consumer, clusterID, clusterChoice){
     //clusterID= output från k-means, consumer= consumertabellen, clusterChoice= vilket cluster man vill titta på.
