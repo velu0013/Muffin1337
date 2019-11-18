@@ -1,6 +1,7 @@
 import ClusterAnalysis from './Components/Cluster.js'
 import ParameterRelevance from './Components/ParameterRelevance.js'
 import LinearDep from './Components/LinearDep.js'
+import PCA1 from './Components/PCA-component'
 
 const Analyzers = [
   {name: 'Cluster Analysis', 
@@ -16,6 +17,11 @@ const Analyzers = [
   {name: 'Linear Relation', 
   component: LinearDep,
   description: 'Assumes a linear relationship between recipe parameter and preference response and plots each participant as a point according to their preference. Colors points depending on which parameter is selected.'
+  }
+ ,
+  {name: 'PCA', 
+  component: PCA1,
+  description: 'Calculates eigenvectors.'
   }
 ];
 
