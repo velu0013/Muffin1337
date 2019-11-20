@@ -2,9 +2,7 @@
 
 /*
 To do: 
-    - fix randomizer so all vals aren't the same..
     - print "did not converge" if max iterations??
-    - if no point belongs to cluster, randomize its position
     - print om den ger för få kluster?
 
 Algorithm:
@@ -20,8 +18,9 @@ Algorithm:
 */
 
 
-function kmeans(data, k){
+function kmeans(dataTemp, k){
     //data dim = nrObservations*nrVariabler
+        let data = standardize(dataTemp);
         const tol = Math.abs(getSpan(data)[0] - getSpan(data)[1])/100; //Choose what to divide the smallest distance by
         const maxIterations = 1000; //How many iterations before it stops if it doesn't converge
         let count = 0; //count iterations for convergence test
@@ -33,12 +32,48 @@ function kmeans(data, k){
             clusterCenters = findClusterCenter(data, ID, k); 
             count = count + 1; 
         }
-    
-        console.log('ClusterID:')
+        
+        console.log('standardized')
+        console.log(standardize(data))
+        console.log('ID')
         console.log(assignToCluster(data, clusterCenters))
         return assignToCluster(data, clusterCenters);
     }
     
+    
+    function standardize(data){
+        let i,j;
+        //standardisera varje variabel var för sig
+        let stdev = []; //sqrt( sum( (x - mean)^2 ) / count(x))
+        let mean = [];
+        for(i = 0; i < data[0].length; i++){
+            mean[i] = 0;
+            for(j = 0; j < data.length; j++){
+                mean[i] = mean[i] + data[j][i];
+            }
+            mean[i] = mean[i]/data.length;
+        }
+
+
+        for(i = 0; i < data[0].length; i++){
+            stdev[i] = 0;
+            for(j = 0; j < data.length; j++){
+                stdev[i] = stdev[i] + Math.pow(data[j][i]-mean[i], 2);
+            }
+            stdev[i] = Math.sqrt(stdev[i])/data.length;
+        }
+        console.log('stdev')
+        console.log(stdev)
+
+
+        for(i = 0; i < data.length; i++){
+            for( j = 0; j < data[0].length; j++){
+                data[i][j] = (data[i][j] - mean[j])/stdev[j];
+            }
+        }
+        //data = (data - mean)/stdev;
+        return data;
+    }
     
     
     function assignToCluster(data, clusterCenters){
