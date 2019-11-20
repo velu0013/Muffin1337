@@ -1,5 +1,6 @@
 import PCA from 'pca-js'
 
+//PCA1 använder en egen matris för test
 
 function PCA1() {
     const vec = [[{value: 2}, {value: 5}, {value: 4},{value: 4}],
@@ -26,6 +27,7 @@ function PCA1() {
     return topTwo
 }
 
+//PCA2 förutsätter att man skickar in tabelldata
 
 function PCA2(vec) {
 
