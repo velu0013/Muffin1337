@@ -2,6 +2,7 @@ import React, { useState , useEffect} from 'react'
 import {kmeans} from '../Methods/kmeans.js'
 import Popup from "reactjs-popup";
 import Chart from "react-apexcharts";
+import StudyTable from '../../Study_CRUD/StudyTable.js';
 //import { method2 } from '../Methods/Testanalys2_m.js';
 
 function ClusterAnalysis({study, close}){
@@ -11,6 +12,8 @@ function ClusterAnalysis({study, close}){
     let recipe = study.getRecipeTabular();
     let consumer = study.getConsumerTabular();
     let preference = study.getPreferenceTabular();
+    console.log('headers')
+    console.log(study.getConsumerHeader())
     
     let data = null;
     if(param.indexOf(null) === -1){
@@ -31,28 +34,54 @@ function ClusterAnalysis({study, close}){
         })}
         En analys på {study.name} som delar in data i kluster. 
         {data !== null && makeSeries(kmeans(data, k),k,data,param)}
+        {data !== null && makeConsumerTable(consumer, kmeans(data, k), 0, study)}
+        {data !== null && displayConsumerTable(makeConsumerTable(consumer, kmeans(data, k), 0, study))}
         <br></br>
         <input type="button" className="button_pop" value="Back" onClick={close}/>
         </>
     ); 
 }
-//{data !== null && makeConsumerTable(consumer, kmeans(data, k), 0)}
 
-function makeConsumerTable(consumer, clusterID, clusterChoice){
+
+function makeConsumerTable(consumer, clusterID, clusterChoice, study){
     //clusterID= output från k-means, consumer= consumertabellen, clusterChoice= vilket cluster man vill titta på.
     let displayTable = [];
+    displayTable[0] = study.getConsumerHeader();
     let i;
-        for(i = 0; i < clusterID.length; i++){
+        for(i = 1; i < clusterID.length + 1; i++){
             if(clusterID[i] === clusterChoice) displayTable.push(consumer[i]);
         }
+    console.log('displaytable')
+    console.log(displayTable)
     return displayTable;
 }
 
-
-function displayConsumerTable(clusteredConsumers){
-    
+//clusteredConsumers
+function displayConsumerTable(clusteredConsumers){   
+        console.log('clusteredTable')
+        console.log(clusteredConsumers)
+        return(
+        <>
+        <br></br>
+       <header className="Table-fix">
+            <br></br>
+            Consumerdata cluster A
+            <StudyTable 
+                tableKey = {'_cons'}
+                tableData={clusteredConsumers} 
+            />
+            <br></br>
+        </header>
+        </>
+        )   
 }
-
+/*
+                setData={x =>{
+                    const newStudy = study.changeConsumer(x)
+                    DB.setCurrentStudy(newStudy)
+                    setStudy(newStudy)
+                }}
+*/
 
 
 function makeSeries(clustersLabels, k, data, headers){
