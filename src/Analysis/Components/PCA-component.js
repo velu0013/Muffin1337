@@ -1,15 +1,17 @@
 import React from 'react';
 import {PCA1,PCA2} from '../Methods/PCA-test'
 
-
-//{res.map(({eigenvalue,vector})=><div>{eigenvalue}</div>)}
-const res = PCA1()
-function PCAcomp() {
+function PCAcomp(study) {
+    const data = study.study.getTabular('preference')
+    const data2 = PCA2(data)
     
-    const res = PCA1()
-    return res
+    const res1= 
+        data2.map(({eigenvalue},index)=>
+        <div key = {index}>{eigenvalue}</div>);
+
+    return res1
 
 
 }
 
-export default PCA1
+export default PCAcomp

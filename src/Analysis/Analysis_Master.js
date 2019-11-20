@@ -1,7 +1,7 @@
 import ClusterAnalysis from './Components/Cluster.js'
 import ParameterRelevance from './Components/ParameterRelevance.js'
 import LinearDep from './Components/LinearDep.js'
-import PCA1 from './Components/PCA-component'
+import PCAcomp from './Components/PCA-component'
 
 const Analyzers = [
   {name: 'Cluster Analysis', 
@@ -20,7 +20,7 @@ const Analyzers = [
   }
  ,
   {name: 'PCA', 
-  component: PCA1,
+  component: PCAcomp,
   description: 'Calculates eigenvectors.'
   }
 ];
