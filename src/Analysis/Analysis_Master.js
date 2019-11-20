@@ -2,6 +2,7 @@ import ClusterAnalysis from './Components/Cluster.js'
 import ParameterRelevance from './Components/ParameterRelevance.js'
 import LinearDep from './Components/LinearDep.js'
 import PCA1 from './Components/PCA-component'
+import consumerGroups from './Components/consumerGrouping.js'
 
 const Analyzers = [
   {name: 'Cluster Analysis', 
@@ -22,6 +23,11 @@ const Analyzers = [
   {name: 'PCA', 
   component: PCA1,
   description: 'Calculates eigenvectors.'
+  }
+  ,
+  {name: 'Consumer clustering', 
+  component: consumerGroups,
+  description: 'Groups consumers by k-mode clustering'
   }
 ];
 
