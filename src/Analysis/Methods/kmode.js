@@ -1,37 +1,67 @@
 // Mixed algorithm i PDF s.9
+import {kmeans} from '../Methods/kmeans.js'
 function consumerClusters(dataIn, k){
     let sorted = sortByType(dataIn); //returns [[sortedData],   [nrNumeric]]
-    let data = sorted[0];
-    let nrNum = sorted[1]
-    //data = standardizeData(data, nrNum);
+    let dataNum = sorted[0];
+    dataNum = clusterNumerical(dataNum);
+    let dataCat = sorted[1];
     //standardize data here
-    let clusterCenters = randomizeCenter(data, nrNum, k);
-    let oldClusterCenters = randomizeCenter(data, nrNum, k);
-    console.log('randomized centers')
-    console.log(oldClusterCenters)
+    let clusterCenters = randomizeCenter(dataCat, dataNum, k);
+    let oldClusterCenters = randomizeCenter(dataCat, dataNum, k);
 
-    return 5  
+    return 5
 }
 
 
-function randomizeCenter(data, nrNum, k){
+function clusterNumerical(data){
+    //nrUnique = tempData[i].filter( onlyUnique ).length
+    //fel: kmeans tar datat som en samling vectorer där varje vec är för en person, vi skickar vec per variabel
+    let i; 
+    let clusteredData = [];
+    let tempData = data;
+    for(i = 0; i < data.length; i++){
+        if(tempData[i].filter( onlyUnique ).length > 10) clusteredData.push(kmeans([data[i]], 10));
+        else clusteredData.push(data[i]);
+    }
+    return clusteredData;
+}
+
+
+
+
+
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+function randomizeCenter(dataCat, dataNum, k){
     //takes a dataset, it can contain both numeric and catagorical data as long as all numeric are in the beginning
     //nrNum = number of numerical variables
     //k = desired number of clusters
     //returns k randomized centers with nrNum dimensions. Each dimension is uniformly distributed over min-max of data
-    let clusterCenters = [];
+    let centerNum = [];
+    let centerCat = [];
     let thisVariable = [];
     let i, j, max, min;
-    for(i = 0; i < nrNum; i++){
+    for(i = 0; i < dataNum.length; i++){
         thisVariable = []
         for(j = 0; j < k; j++){
-            min = Math.min.apply(null, data[i]);
-            max = Math.max.apply(null, data[i]);
+            min = Math.min.apply(null, dataNum[i]);
+            max = Math.max.apply(null, dataNum[i]);
             thisVariable.push(Math.random()*(max - min) + min);
         }
-        clusterCenters.push(thisVariable);
+        centerNum.push(thisVariable);
     }
-    return clusterCenters
+
+    for(i = 0; i < dataCat.length; i++){
+        thisVariable = []
+        for(j = 0; j < k; j++){
+            thisVariable.push(1);        
+        }
+        centerCat.push(thisVariable);
+    }
+
+    return [centerNum, centerCat];
 }
 
 
@@ -43,23 +73,17 @@ function randomizeCenter(data, nrNum, k){
 
 function sortByType(data){
     let i;
-    let categData = [];
-    let nrNum = 0;
-    let sortedData = [];
+    let dataNum = [];
+    let dataCat = [];
     for(i = 0; i < data[0].length; i++){
         if(data[0][i] - data[0][i] === 0){
-            sortedData.push(getColumn(data, i));
-            nrNum = nrNum + 1;
+            dataNum.push(getColumn(data, i));
         }else{
-            categData.push(getColumn(data, i));
+            dataCat.push(getColumn(data, i));
         }
     }
 
-    for(i = 0; i < categData.length; i++){
-        sortedData.push(categData[i])
-    }
-
-    return [sortedData, nrNum];
+    return [dataNum, dataCat];
 }
 
 
@@ -75,22 +99,19 @@ function getColumn(matrix, column){
 }
 
 
-function standardizeData(data, nrNum){
-    //såhär skriver man ej sum! läs hur här https://codeburst.io/javascript-arrays-finding-the-minimum-maximum-sum-average-values-f02f1b0ce332
-    let i, mean, stdev;
-    let standardData = [];
-    for(i = 0; i < nrNum; i++){
-        mean = Math.sum(data[i])/data[i].length;
-        stdev = Math.sqrt(Math.sum(data[i].map(x => Math.pow((x - 1), 2))))/data[i].length;
-        standardData.push(data[i].map(x => (x - mean)/stdev));
+
+function sum(vector){
+    let i;
+    let sum = 0;
+    for(i = 0; i < vector.length; i++){
+        sum = sum + vector[i];
     }
-    return standardData
-    //stdev =sqrt( sum( (x - mean)^2 ) / count(x))
-    //let newVec = data[0].map(x => Math.pow((x - 1), 2));
-    //data = (data - mean)/stdev;
+    return sum;
 }
 
-
+function test(){
+    return 5;
+}
 
 
 export {consumerClusters}

@@ -19,6 +19,7 @@ Algorithm:
 
 
 function kmeans(dataTemp, k){
+
     //data dim = nrObservations*nrVariabler
         let data = standardize(dataTemp);
         const tol = Math.abs(getSpan(data)[0] - getSpan(data)[1])/100; //Choose what to divide the smallest distance by
@@ -33,10 +34,7 @@ function kmeans(dataTemp, k){
             count = count + 1; 
         }
         
-        console.log('standardized')
-        console.log(standardize(data))
-        console.log('ID')
-        console.log(assignToCluster(data, clusterCenters))
+
         return assignToCluster(data, clusterCenters);
     }
     
@@ -62,8 +60,7 @@ function kmeans(dataTemp, k){
             }
             stdev[i] = Math.sqrt(stdev[i])/data.length;
         }
-        console.log('stdev')
-        console.log(stdev)
+
 
 
         for(i = 0; i < data.length; i++){
