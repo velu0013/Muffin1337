@@ -23,8 +23,8 @@ function PCA1() {
     }
     const vectors = PCA.getEigenVectors(data2);
     const topTwo = PCA.computePercentageExplained(vectors,vectors[0])
-    console.log(vectors)
-    return topTwo
+   
+    return vectors
 }
 
 //PCA2 förutsätter att man skickar in tabelldata
@@ -44,7 +44,9 @@ function PCA2(vec) {
         }   
     data2.push(dat)
     }
-    const vectors = PCA.getEigenVectors(data2);
+    
+    const MeanMatrix = PCA.computeDeviationMatrix(data2)
+    const vectors = PCA.getEigenVectors(MeanMatrix);
     const topTwo = PCA.computePercentageExplained(vectors,vectors[0])
     return vectors
 }
