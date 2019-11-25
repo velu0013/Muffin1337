@@ -16,13 +16,9 @@ function PCAcomp(study) {
     const xaxis = res1[0]
     const yaxis = res1[1]
     const score = Dot(data,xaxis,yaxis)
-    console.log(score)
-    return 'hej'
 
-
+    return score
 }
-
-export default PCAcomp
 
 function Dot(data, xaxis, yaxis) {
     const scores= []
@@ -52,3 +48,39 @@ function Dot(data, xaxis, yaxis) {
     }
     return scores
 }
+/*
+function PCAchart(score){
+    const options= {
+            chart: {
+                zoom: {
+                    enabled: true,
+                    type: 'xy'
+                }
+            },
+            xaxis: {
+                tickAmount: 10,
+                
+            },
+            yaxis: {
+                tickAmount: 7
+            }
+        };
+    const series = []
+    for(let s=0; s<score.length; s++){
+        var serie1 = []
+        for(let i=1; i<3; i++) {
+            serie1.push(score[s][i])
+        }
+    series.push(serie1)
+    }
+
+    console.log('series:')
+    console.log(series)
+    return(
+        <Chart options={options} series={series} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
+
+    )
+}
+*/
+export default PCAcomp
+
