@@ -17,7 +17,7 @@ function PCAcomp(study) {
     const yaxis = res1[1]
     const score = Dot(data,xaxis,yaxis)
 
-    return score
+    return PCAchart(score)
 }
 
 function Dot(data, xaxis, yaxis) {
@@ -48,7 +48,7 @@ function Dot(data, xaxis, yaxis) {
     }
     return scores
 }
-/*
+
 function PCAchart(score){
     const options= {
             chart: {
@@ -58,29 +58,38 @@ function PCAchart(score){
                 }
             },
             xaxis: {
-                tickAmount: 10,
+                tickAmount: 5,
                 
             },
             yaxis: {
-                tickAmount: 7
+                tickAmount: 5
             }
+         
         };
-    const series = []
+    let series = []
+    const seriescol = []
     for(let s=0; s<score.length; s++){
         var serie1 = []
         for(let i=1; i<3; i++) {
             serie1.push(score[s][i])
         }
-    series.push(serie1)
+    //seriescol.push({name:score[s][0],data:serie1})
+    seriescol.push(serie1)
+    
     }
-
-    console.log('series:')
-    console.log(series)
+    
+    series.push({name:'John',data:seriescol})
+    
+    
+    
+    
+    console.log('series')
+    console.log(seriescol)
     return(
         <Chart options={options} series={series} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
 
     )
 }
-*/
+
 export default PCAcomp
 
