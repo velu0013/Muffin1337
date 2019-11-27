@@ -1,117 +1,224 @@
 // Mixed algorithm i PDF s.9
+//hur ska nrclusters defineras?
+//hur många unika värden före klustra?
+//k får ej vara större än maxUnique!!!
+//Tänk om man slumpar gamla centers= centers på en gång??
 import {kmeans} from '../Methods/kmeans.js'
 function consumerClusters(dataIn, k){
-    let sorted = sortByType(dataIn); //returns [[sortedData],   [nrNumeric]]
-    let dataNum = sorted[0];
-    dataNum = clusterNumerical(dataNum);
-    let dataCat = sorted[1];
-    //standardize data here
-    let clusterCenters = randomizeCenter(dataCat, dataNum, k);
-    let oldClusterCenters = randomizeCenter(dataCat, dataNum, k);
-
-    return 5
-}
-
-
-function clusterNumerical(data){
-    //nrUnique = tempData[i].filter( onlyUnique ).length
-    //fel: kmeans tar datat som en samling vectorer där varje vec är för en person, vi skickar vec per variabel
-    let i; 
-    let clusteredData = [];
-    let tempData = data;
-    for(i = 0; i < data.length; i++){
-        if(tempData[i].filter( onlyUnique ).length > 10) clusteredData.push(kmeans([data[i]], 10));
-        else clusteredData.push(data[i]);
+    let kNum = 10;
+    let data = convertData(dataIn, kNum);             //convert num data to cat data and letters to integers
+    let i;
+    let centers = [];
+    let IDvec = [];
+    let oldCenters = [];
+    let clusterMatrix;
+    for(i = 0; i < k; i++){
+        centers.push(randomize(data))           //initiate centers
+        oldCenters.push(randomize(data))        //initiate old centers
     }
-    return clusteredData;
+
+
+    for(i = 0; i < data.length; i++){
+        IDvec.push(clusterID(centers, i));
+    }
+
+    let iteration = 0;
+    while(convergenceTest(oldCenters, centers, iteration) === false){
+        iteration = iteration + 1;
+
+        for(i = 0; i < centers.length; i++){
+            oldCenters[i] = centers[i];
+            clusterMatrix = clusterData(i, IDvec, data);
+            centers[i] = findMode(clusterMatrix);
+        }
+
+        for(i = 0; i < data.length; i++){
+            IDvec.push(clusterID(centers, i));
+        }
+    }
+    
+
+    console.log(centers)   
+    return IDvec
+}
+
+/////////////////////////////Functions for the algorithm
+function convergenceTest(oldCenters, centers, iteration){
+    let maxIteration = 100;
+    let i;
+    let d = 0;
+    let converged = false;
+    for(i = 0; i < centers.length; i++){
+        d = d + distance(oldCenters[i], centers[i]);
+    }
+    if(d === 0) converged = true;
+    if(iteration >= maxIteration) converged = true;
+    return converged;
+}
+
+
+function findMode(clusterMatrix){
+    //takes an observation matrix corresponding to ONE cluster
+    let mode = [];
+    let i, j, uniqueVals, col, value, thisMode;
+    let freq = -1;
+    for(i = 0; i < clusterMatrix[0].length; i++){
+        uniqueVals = getColumn(clusterMatrix, i).filter( onlyUnique );
+        freq = -1;
+        col = getColumn(clusterMatrix, i);
+        for(j = 0; j < uniqueVals.length; j++){
+            value = uniqueVals[j];
+            if(relFreq(col, value) > freq){
+                freq = relFreq(col, value);
+                thisMode = value;
+            }
+        }
+        mode.push(thisMode);
+    }
+    return mode
+}
+
+
+function clusterData(clusterNr, IDvec, data){
+    //Gets all datapoints coresponding to ONE cluster
+    let i;
+    let clusterMatrix = [];
+    for(i = 0; i < data.length; i++){
+        if(IDvec[i] === clusterNr){
+            clusterMatrix.push(data[i]);
+        }
+    }
+    return clusterMatrix
+}
+
+
+function clusterID(clusters, observation){
+    //Finds the clusterID of ONE observation
+    let i, ID, coin;
+    let count = 100;
+    for(i = 0; i < clusters.length; i++){
+        if(distance(clusters[i], observation) < count){
+            count = distance(clusters[i], observation);
+            ID = i;
+        }
+        else if(distance(clusters[i], observation) === count){
+            coin = coinFlip();
+            ID = (ID + coin*ID)/2 + (Math.pow(coin, 2) - coin)*i/2;
+        }
+    }
+    return ID;
 }
 
 
 
+function randomize(data){
+    let center = [];
+    let i, max, randomized;
+    let min = 0;
+    for(i = 0; i < data[0].length; i++){
+        max = getColumn(data, i).filter( onlyUnique ).length;
+        randomized = Math.floor(Math.random()*(max - min) + min);
+        center.push(randomized);
+    }
+    return center;
+}
 
+
+///////////////////Data handling functions/////////////////////
+
+function convertData(data, k){
+    let i, column;
+    for(i = 0; i < data[0].length; i++){
+        if(data[0][i] - data[0][i] === 0){
+            data = transNum(data, i, k);
+        } 
+        else data = transCat(data, i);
+    }
+    return data;
+}
+
+function transNum(data, index, k){
+    let i;
+    let newCol = kmeans(kmeansColumn(data, index), k);
+    for(i = 0; i < data.length; i++){
+        data[i][index] = newCol[i];
+    }
+    return data;
+}
+
+
+function transCat(data, index){
+    let column = getColumn(data, index);
+    let uniqueEntries = column.filter( onlyUnique );
+    let i, j;
+    for(i = 0; i < uniqueEntries.length; i++){
+        for(j = 0; j < column.length; j++){
+            if(column[j] === uniqueEntries[i]) data[j][index] = i;
+        }
+    }
+    return data;
+}
+
+
+
+///////////////////////////////Math and help functions//////////////////////////////
+function getColumn(data, index){
+    let i;
+    let column = []
+    for(i = 0; i < data.length; i++){
+        column.push(data[i][index]);
+    }
+    return column;
+}
+
+function kmeansColumn(data, index){
+    let i;
+    let column = []
+    for(i = 0; i < data.length; i++){
+        column.push([data[i][index]]);
+    }
+    return column;
+}
 
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
 }
 
-function randomizeCenter(dataCat, dataNum, k){
-    //takes a dataset, it can contain both numeric and catagorical data as long as all numeric are in the beginning
-    //nrNum = number of numerical variables
-    //k = desired number of clusters
-    //returns k randomized centers with nrNum dimensions. Each dimension is uniformly distributed over min-max of data
-    let centerNum = [];
-    let centerCat = [];
-    let thisVariable = [];
-    let i, j, max, min;
-    for(i = 0; i < dataNum.length; i++){
-        thisVariable = []
-        for(j = 0; j < k; j++){
-            min = Math.min.apply(null, dataNum[i]);
-            max = Math.max.apply(null, dataNum[i]);
-            thisVariable.push(Math.random()*(max - min) + min);
-        }
-        centerNum.push(thisVariable);
-    }
-
-    for(i = 0; i < dataCat.length; i++){
-        thisVariable = []
-        for(j = 0; j < k; j++){
-            thisVariable.push(1);        
-        }
-        centerCat.push(thisVariable);
-    }
-
-    return [centerNum, centerCat];
+function coinFlip(){
+    let coin = Math.random()
+    if(coin < 0.5) coin = -1;
+    else coin = 1;
+    return coin;
 }
 
-
-
-
-//////////////Convert data of form [[consumer 1], [consumer2],...] to the form [[age], [gender]] and so on
-/////////////Also all numeric vectors will be in the beginning of matrix
-/////////////Also standardizes it (i.e mean 0 and stdev 1)
-
-function sortByType(data){
+function distance(center, observation){
+    let d = 0;
     let i;
-    let dataNum = [];
-    let dataCat = [];
-    for(i = 0; i < data[0].length; i++){
-        if(data[0][i] - data[0][i] === 0){
-            dataNum.push(getColumn(data, i));
-        }else{
-            dataCat.push(getColumn(data, i));
-        }
+    for(i = 0; i < center.length; i++){
+        if(center[i] !== observation[i]) d = d + 1;
     }
-
-    return [dataNum, dataCat];
+    return d;
 }
 
-
-
-
-function getColumn(matrix, column){
+function relFreq(clusterCol, value){
+    //takes a column with values of one variable corresponding to one cluster
+    //value= the value to find the frequency of
     let i;
-    let columnVec = [];
-    for(i = 0; i < matrix.length; i++){
-        columnVec[i] = matrix[i][column];
+    let count = 0;
+    for(i = 0; i < clusterCol.length; i++){
+        if(clusterCol[i] === value) count = count+1;
     }
-    return columnVec
+    return count;
 }
 
+//Bättre att ha sorterat efter variabel://///////////
+//om siffror och < maxUnique unika, gör inget
+//om siffror och > maxUnique unika, kmeans
+//om bokstäver, omvandla
 
-
-function sum(vector){
-    let i;
-    let sum = 0;
-    for(i = 0; i < vector.length; i++){
-        sum = sum + vector[i];
-    }
-    return sum;
-}
-
-function test(){
-    return 5;
-}
+//Bättre att ha sorterat efter observation: /////////////
+//dist mellan center och cluster
+//
 
 
 export {consumerClusters}

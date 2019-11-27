@@ -6,7 +6,17 @@ import StudyTable from '../../Study_CRUD/StudyTable.js';
 
 function consumerGroups({study, close}){
     let consumerData = study.getConsumerTabular();
+
+
+    ///////////////////////////Variables to define in advanced settings////////////////////////////
+    let categIndices = consumerData[0].length + 1; //this can be changed in advanced settings
+    let onlyCateg = 1; //this can be changed in advanced settings
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    
+
     let k = 2;
+    // manually define categs, ex. categIndices = [1, 3]
     
     return (
         <>
