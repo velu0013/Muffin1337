@@ -2,6 +2,21 @@ import React from 'react';
 import {PCA1,PCA2,Loading} from '../Methods/PCA-test'
 import Chart from "react-apexcharts";
 
+/*
+Problemen just nu:
+Mina "scores" är inte beräknade med eigenvektorerna som axlar
+utan det är det "gamla" axlarna som ger koordinaterna. Ett sätt att 
+lösa detta hade kunnat vara att beräkna sträckan mellan punkten på eigenvektorn
+och origo. Vet dock inte hur man ska skilja på positiva och negativa datapunkter 
+relativt till eigenvektorerna
+
+apexcharts gör det svårt att ha en serie med endast datapunkt i. Den tolkar detta som
+två y-koordinater istället för att se det som ett x och ett y. Jag kan skapa scatter-plots
+, men där har datapunkterna ingen form av identifikation. ""FIXAT""
+
+Är osäker ifall mitt sätt att beräkna loadings är korrekt.
+*/
+
 //Tar in preference-tabellen och räknar ut egenvärdet/egenvektorerna
 
 function PCAcomp(study) {
@@ -83,8 +98,8 @@ function PCAchart(score){
         for(let i=1; i<3; i++) {
             serie1.push(score[s][i])
         }
-    //seriescol.push({name:score[s][0],data:serie1})
-    seriescol.push(serie1)
+    seriescol.push({name:score[s][0],data:[serie1]})
+    //seriescol.push(serie1)
     
     }
     
@@ -93,10 +108,10 @@ function PCAchart(score){
     
     
     
-    //console.log('series')
-    //console.log(seriescol)
+    console.log('series')
+    console.log(series)
     return(
-        <Chart options={options} series={series} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
+        <Chart options={options} series={seriescol} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
 
     )
 }
@@ -134,13 +149,14 @@ function LoadingCalc(eig, load) {
         }
         loadinglist1.push(loading)
     }
-    const testlist = []
+    //const testlist = []
     for(i=0; i<loadinglist1[0].length; i++) {
-         testlist.push([loadinglist1[0][i],loadinglist1[1][i]])
-        //loadinglist2.push({name:name[i], data: cor})
+        //testlist.push([loadinglist1[0][i],loadinglist1[1][i]])
+        var cor = [loadinglist1[0][i],loadinglist1[1][i]]
+        loadinglist2.push({name:name[i], data: [cor]})
 
     }
-    loadinglist2.push({name: 'John',data:testlist })
+    //loadinglist2.push({name: 'John',data:testlist })
     return loadinglist2
 }
 
@@ -153,15 +169,16 @@ function Loadingchart(loading) {
             }
         },
         xaxis: {
-            tickAmount: 5,
+            tickAmount: 5
             
             
         },
         yaxis: {
             tickAmount: 5
-        }
-     
-    };
+            
+        },
+    }
+    
     return(
     <Chart options={options} series={loading} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
     )
