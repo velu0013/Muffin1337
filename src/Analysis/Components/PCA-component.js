@@ -1,30 +1,32 @@
-import React from 'react';
+import React, {useState , useEffect} from 'react';
 import {PCA1,PCA2,Loading} from '../Methods/PCA-test'
 import Chart from "react-apexcharts";
+import Popup from "reactjs-popup";
 
 /*
 Problemen just nu:
 Mina "scores" är inte beräknade med eigenvektorerna som axlar
-utan det är det "gamla" axlarna som ger koordinaterna. Ett sätt att 
+utan det är det "gamla" vektorerna som ger koordinaterna. Ett sätt att 
 lösa detta hade kunnat vara att beräkna sträckan mellan punkten på eigenvektorn
 och origo. Vet dock inte hur man ska skilja på positiva och negativa datapunkter 
 relativt till eigenvektorerna
 
 apexcharts gör det svårt att ha en serie med endast datapunkt i. Den tolkar detta som
 två y-koordinater istället för att se det som ett x och ett y. Jag kan skapa scatter-plots
-, men där har datapunkterna ingen form av identifikation. ""FIXAT""
+, men där har datapunkterna ingen form av identifikation. 
 
 Är osäker ifall mitt sätt att beräkna loadings är korrekt.
 */
 
 //Tar in preference-tabellen och räknar ut egenvärdet/egenvektorerna
 
-function PCAcomp(study) {
+function PCAcomp(study,close) {
+    const [param, setParam] = useState(null)
     const data = study.study.getTabular('preference')
     const data5 = study.study.getPreferenceHeader()
     const data2 = PCA2(data)
     const test = Loading(data5)
-    
+    console.log(data2)
     const test2 = LoadingCalc(data2,test)
     const res1= 
         data2.map(({vector})=>(vector))
@@ -34,8 +36,8 @@ function PCAcomp(study) {
     const score = Dot(data,xaxis,yaxis)
     return(
     <>
-    Scoreplot
-    {PCAchart(score)}
+    Scoreplot <ParameterSelector paramList={study.study.getHeader('consumer')} param={param} setParam={setParam} />
+    {PCAchart(score,study,param)}
     <br></br>
     Loadingplot
     {Loadingchart(test2)}
@@ -74,7 +76,7 @@ function Dot(data, xaxis, yaxis) {
     return scores
 }
 
-function PCAchart(score){
+function PCAchart(score, study,param,){
     const options= {
             chart: {
                 zoom: {
@@ -84,34 +86,46 @@ function PCAchart(score){
             },
             xaxis: {
                 tickAmount: 5,
-                
+                //min: -10 || Function,
+                //max: 10 || Function,
             },
             yaxis: {
-                tickAmount: 5
+                tickAmount: 5,
+                //min: -10 || Function,
+                //max: 10 || Function,
+                decimalsInFloat: 1
             }
          
         };
-    let series = []
     const seriescol = []
     for(let s=0; s<score.length; s++){
         var serie1 = []
         for(let i=1; i<3; i++) {
             serie1.push(score[s][i])
         }
-    seriescol.push({name:score[s][0],data:[serie1]})
-    //seriescol.push(serie1)
+    
+    seriescol.push(serie1)
     
     }
+    let series = {}
+    if(param === null) var clustersLabels = GetColumn(study.study.getTabular('consumer'))
     
-    series.push({name:'John',data:seriescol})
-    
-    
-    
-    
+    else var clustersLabels = study.study.getTabular('consumer').map((v, i) => v[study.study.getHeader('consumer').indexOf(param)])
+    console.log(clustersLabels)
+    for(let s=0; s<clustersLabels.length;s++) {
+        let label = clustersLabels[s]
+
+        if(series[label]){ 
+            series[label].data.push([seriescol[s][0], seriescol[s][1]])
+        }else{
+            series[label] = {name: String(label), data: [[seriescol[s][0], seriescol[s][1]]]};
+        }
+    }
+    series = Object.values(series);
     console.log('series')
     console.log(series)
     return(
-        <Chart options={options} series={seriescol} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
+        <Chart options={options} series={series} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
 
     )
 }
@@ -160,6 +174,7 @@ function LoadingCalc(eig, load) {
     return loadinglist2
 }
 
+
 function Loadingchart(loading) {
     const options= {
         chart: {
@@ -169,20 +184,92 @@ function Loadingchart(loading) {
             }
         },
         xaxis: {
-            tickAmount: 5
-            
-            
+            tickAmount: 2,
+            min: -1 || Function,
+            max: 1 || Function,
+            decimalsInFloat: 1
         },
         yaxis: {
-            tickAmount: 5
+            tickAmount: 2,
+            min: -1 || Function,
+            max: 1 || Function,
+            decimalsInFloat: 1
             
         },
+        grid: {
+            show: true,
+            borderColor: '#90A4AE',
+            strokeDashArray: 0,
+            position: 'back',
+            xaxis: {
+                lines: {
+                    show: true
+                }
+            },   
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            },  
+            row: {
+                colors: undefined,
+                opacity: 0.7
+            },  
+            column: {
+                colors: undefined,
+                opacity: 0.7
+            },  
+            padding: {
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0
+            },  
+        }
     }
     
     return(
-    <Chart options={options} series={loading} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
+    <Chart options={options} series={loading} type="scatter" className="Cluster-chart"  width="100%" height="350"/>
     )
 }
+
+function GetColumn(data){
+    const col = []
+    for(let i=0; i<data.length; i++){
+        col.push(data[i][0])
+        
+    }
+    return col
+}
+
+function ParameterSelector({paramList, param, setParam}){
+    const label = param===null?"Showing consumer":'Showing: '+param;
+    
+	return(
+        <Popup trigger={<button className="button_pop">{label}</button>} 
+            position={'top top'}
+            closeOnDocumentClick
+            mouseLeaveDelay={300}
+            mouseEnterDelay={0}
+            on='hover'
+            contentStyle={{ padding: "0px", border: "none" }}
+            arrow={false}
+        >
+		{close => (
+            <>
+            {paramList.map((value, index) => {
+                return <ul key={index} className="dropdown-item">
+                    {<div onClick={event => {setParam(value); close();}}>
+                        {value}
+                    </div>}
+                </ul>
+            })}
+            </>
+        )}
+        </Popup>
+	)
+}
+
 
 export default PCAcomp
 
