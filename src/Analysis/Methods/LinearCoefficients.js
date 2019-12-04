@@ -1,65 +1,92 @@
-function LinearCoefficients(preferences, recipes, pow){
-    let r_max = [], r_min = [];
-    for(let i=1; i<recipes[0].length; i++){
-        r_max.push(recipes[0][i]);
-        r_min.push(recipes[0][i]);
-    }
-    for(let r=1; r<recipes.length; r++){
-        for(let i=1; i<recipes[0].length; i++){
-            if(recipes[r][i] > r_max[i-1]){
-                r_max[i-1] = recipes[r][i]
-            }
-            if(recipes[r][i] < r_min[i-1]){
-                r_min[i-1] = recipes[r][i]
-            }
-        }
-    }
-    let a,b,c;
-    for(let r=0; r<recipes.length; r++){
-        if(recipes[r][1] === r_min[0] && recipes[r][2] === r_min[1]){
-            a = r;
-        }
-        if(recipes[r][1] === r_min[0] && recipes[r][2] === r_max[1]){
-            b = r;
-        }
-        if(recipes[r][1] === r_max[0] && recipes[r][2] === r_min[1]){
-            c = r;
-        }
-    }
-    const A = [[1, recipes[a][1], recipes[a][2]],
-                    [1, recipes[b][1], recipes[b][2]],
-                    [1, recipes[c][1], recipes[c][2]]];
-    let Ks = [], v;
+import {det, multiply, inv} from 'mathjs'
+
+function LinearCoefficients(preferences, recipes, pow, bases){
+    const inits = MakeInits(recipes, bases);   
+    let Ks = [], optimal;
     for(let cons=0; cons<preferences.length;cons++){
-        v = [preferences[cons][a+1], preferences[cons][b+1], preferences[cons][c+1]];
-        let k = [0, (v[2]-v[0])/(A[1][2]-A[0][2]), (v[1]-v[0])/(A[2][1]-A[0][1])]
-        k[0] = v[0] - k[1]*A[0][1] - k[2]*A[0][2]
-        let optimal = false;
-        let newK;
-        let lr = 0.01;
-        while(!optimal){
-            optimal = true;
-            for(let i=0; i<k.length; i++){
-                newK = [...k]
-                newK[i] = k[i]*(1+lr) + (!k[i])*0.0001
-                if(kError(k, recipes, preferences[cons], pow)>kError(newK, recipes, preferences[cons], pow)){
-                    k = [...newK]
+        let k_opt = [0,0,0];
+        for(let i=0; i<inits.length; i++){
+            let k = initModel(preferences[cons], recipes, inits[i])
+            let lr = 0.05;
+            do{
+                [k, optimal] = trainModel(k, recipes, preferences[cons], lr, pow)
+                if(optimal && lr > 0.001){
                     optimal = false;
+                    lr /= 10;
                 }
-                newK[i] = k[i]*(1-lr) - (!k[i])*0.0001
-                if(kError(k, recipes, preferences[cons], pow)>kError(newK, recipes, preferences[cons], pow)){
-                    k = [...newK]
-                    optimal = false;
-                }
+            }while(!optimal);
+            if(kError(k, recipes, preferences[cons], pow)<kError(k_opt, recipes, preferences[cons], pow)){
+                k_opt = [...k]
             }
         }
-        Ks.push(k);
+        Ks.push(k_opt);
     }
     return Ks;
 }
 
+function initModel(preference, recipes, [a,b,c]){
+    const A = [[1, recipes[a][1], recipes[a][2]],
+                    [1, recipes[b][1], recipes[b][2]],
+                    [1, recipes[c][1], recipes[c][2]]];
+    let v = [preference[a+1], preference[b+1], preference[c+1]];
 
-function kError(k, recipes, preferences, pow){
+    if(det(A)){
+        return multiply(inv(A),v);
+    }else{
+        return[0,0,0]
+    }
+}
+
+
+function MakeInits(recipes, bases){
+    let basis = []
+    for(let a=0; a< recipes.length; a++){
+        for(let b=0; b< recipes.length; b++){
+            for(let c=0; c< recipes.length; c++){
+                if(a!==b && a!==c && b!==c){
+                    basis.push([a,b,c])
+                }
+            }
+        }
+    }
+    let indices = basis.map((v,i) => i);
+    let inits = []
+    if(bases >= basis.length){
+        inits = basis
+    }
+    else{
+        for(let i=0; i<bases; i++){
+            let index
+            do{
+                index = Math.floor(Math.random()*basis.length)
+            }while(indices[index]<0);
+            indices[index] = -1
+            inits.push(basis[index])
+        }
+    }
+    return inits;
+}
+
+
+function trainModel(k, recipes, preference, lr, pow){
+    let changed = false;
+    for(let i=0; i<k.length; i++){
+        let dir = -1;
+        let newK = [...k]
+        do{
+            newK[i] = k[i]*(1+dir*lr) + dir*(!k[i])*0.001
+            if(kError(k, recipes, preference, pow)>kError(newK, recipes, preference, pow)){
+                k = [...newK]
+                changed = true;
+            }
+            dir = -dir
+        }while(dir > 0)
+    }
+    return [k, !changed];
+}
+
+
+function kError(k, recipes, preference, pow){
     let recipe, prefEstimate, err=0
     for(let r=0; r<recipes.length; r++){
         recipe = recipes[r]
@@ -67,9 +94,7 @@ function kError(k, recipes, preferences, pow){
         for(let i=1; i<recipe.length; i++){
             prefEstimate+=k[i]*recipe[i]
         }
-        // console.log(prefEstimate)
-        err+=Math.pow(Math.abs(prefEstimate-preferences[r+1]), pow)
-
+        err+=Math.pow(Math.abs(prefEstimate-preference[r+1]), pow)
     }
     return err
 }
