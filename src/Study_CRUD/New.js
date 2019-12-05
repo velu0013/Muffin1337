@@ -25,56 +25,55 @@ function NewButton(props) {
 				trigger={<button className="button_pop">Create</button>}
 				modal
 				contentStyle={contentStyle}
-			>
-				{close => (
-					<div className="modal">
-						{nameAvailable ? 'Choose study name' : 'Name exists'}
-						<input
-							type="text"
-							className="Text-input"
-							value={props.study.name}
-							onChange={event => props.setStudy(props.study.changeName(event.target.value))}
-						/>
+			>{close => (
+				<div className="modal">
+					{nameAvailable ? 'Choose study name' : 'Name exists'}
+					<input
+						type="text"
+						className="Text-input"
+						value={props.study.name}
+						onChange={event => props.setStudy(props.study.changeName(event.target.value))}
+					/>
 
-						Recipe dimensions
-			<div className="pop_div">
-							<DimInput dim={[0, 0]} dims={dims} setDims={setDims} />
-							<DimInput dim={[0, 1]} dims={dims} setDims={setDims} />
-						</div>
-						Consumer description
-			<div className="pop_div">
-							<DimInput dim={[1, 0]} dims={dims} setDims={setDims} />
-							<DimInput dim={[1, 1]} dims={dims} setDims={setDims} />
-						</div>
-						Consumer preference
-			<div className="pop_div">
-							<DimInput dim={[2, 0]} dims={dims} setDims={setDims} />
-							<DimInput dim={[2, 1]} dims={dims} setDims={setDims} />
-						</div>
-						{/* CONFIRMATION BUTTONS */}
-						<div >
-							<utils.ConfirmButton label={'Confirm'}
-								f={arg => {
-									if (DB.NameFree(arg)) {
-										DB.SaveStudy(props.study
-											.changeRecipe(CreateGrid(dims[0][0], dims[0][1]))
-											.changeConsumer(CreateGrid(dims[1][0], dims[1][1]))
-											.changePreference(CreateGrid(dims[2][0], dims[2][1])));
-										props.setStudy(DB.OpenStudy(arg))
-										setAvailable(true)
-										setSelect(true)
-										close()
-									} else {
-										setAvailable(false)
-									}
-								}} arg={props.study.name}
-							/>
-							<utils.ConfirmButton label={'Close'} close={close} />
-							<br></br>
-							{'9,3 | 26,7 | 26,9'}
-						</div>
+					Recipe dimensions
+					<div className="pop_div">
+						<DimInput dim={[0, 0]} dims={dims} setDims={setDims} />
+						<DimInput dim={[0, 1]} dims={dims} setDims={setDims} />
 					</div>
-				)}
+					Consumer description
+					<div className="pop_div">
+						<DimInput dim={[1, 0]} dims={dims} setDims={setDims} />
+						<DimInput dim={[1, 1]} dims={dims} setDims={setDims} />
+					</div>
+					Consumer preference
+					<div className="pop_div">
+						<DimInput dim={[2, 0]} dims={dims} setDims={setDims} />
+						<DimInput dim={[2, 1]} dims={dims} setDims={setDims} />
+					</div>
+					{/* CONFIRMATION BUTTONS */}
+					<div >
+						<utils.ConfirmButton label={'Confirm'}
+							f={arg => {
+								if (DB.NameFree(arg)) {
+									DB.SaveStudy(props.study
+										.changeRecipe(CreateGrid(dims[0][0], dims[0][1]))
+										.changeConsumer(CreateGrid(dims[1][0], dims[1][1]))
+										.changePreference(CreateGrid(dims[2][0], dims[2][1])));
+									props.setStudy(DB.OpenStudy(arg))
+									setAvailable(true)
+									setSelect(true)
+									close()
+								} else {
+									setAvailable(false)
+								}
+							}} arg={props.study.name}
+						/>
+						<utils.ConfirmButton label={'Close'} close={close} />
+						<br></br>
+						{'9,3 | 26,7 | 26,9'}
+					</div>
+				</div>
+			)}
 			</Popup>
 		</>
 	)
