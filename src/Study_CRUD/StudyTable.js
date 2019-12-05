@@ -196,7 +196,7 @@ function SetTypes(props) {
             <span className="Text-color-fix">Set Data Types</span>
           </div>
           <br></br>
-          <div className="Table-fix">
+          <div className="Table-fix2">
             <ReactDataSheet
               data={dispTable}
               valueRenderer={(cell) => cell.value}
