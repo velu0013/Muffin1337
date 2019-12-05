@@ -2,18 +2,14 @@ import React, {useState , useEffect} from 'react';
 import {PCA1,PCA2,Loading} from '../Methods/PCA-test'
 import Chart from "react-apexcharts";
 import Popup from "reactjs-popup";
+import utils from '../../Study_CRUD/utils.js'
+import { tsPropertySignature } from '@babel/types';
 
 /*
 Problemen just nu:
-Mina "scores" är inte beräknade med eigenvektorerna som axlar
-utan det är det "gamla" vektorerna som ger koordinaterna. Ett sätt att 
-lösa detta hade kunnat vara att beräkna sträckan mellan punkten på eigenvektorn
-och origo. Vet dock inte hur man ska skilja på positiva och negativa datapunkter 
-relativt till eigenvektorerna
+Osäker ifall score beräknas utifrån det origo som bildas av de två eigenvektorerna
 
-apexcharts gör det svårt att ha en serie med endast datapunkt i. Den tolkar detta som
-två y-koordinater istället för att se det som ett x och ett y. Jag kan skapa scatter-plots
-, men där har datapunkterna ingen form av identifikation. 
+Svårt att få apexcharts visa graferna med samma axelproportioner. Den är alltid bredare än hög
 
 Är osäker ifall mitt sätt att beräkna loadings är korrekt.
 */
@@ -26,29 +22,43 @@ function PCAcomp(study,close) {
     const data5 = study.study.getPreferenceHeader()
     const data2 = PCA2(data)
     const test = Loading(data5)
-    console.log(data2)
     const test2 = LoadingCalc(data2,test)
-    const res1= 
-        data2.map(({vector})=>(vector))
-    
-    const xaxis = res1[0]
-    const yaxis = res1[1]
-    const score = Dot(data,xaxis,yaxis)
+    const score = Dot(data,data2)
+
+    const descriptionscore = "Each datapoint is projected onto a two-dimensional plane constructed to cover maximal variance. This makes it possible to graphically visualise multidimensional data and provides a useful overview"
+    const descriptionloading = "Hej"
     return(
     <>
-    Scoreplot <ParameterSelector paramList={study.study.getHeader('consumer')} param={param} setParam={setParam} />
-    {PCAchart(score,study,param)}
-    <br></br>
-    Loadingplot
-    {Loadingchart(test2)}
+    {GetColumn(study.study.getTabular('preference')).length == GetColumn(study.study.getTabular('consumer')).length
+        ?
+            <>
+            <utils.InfoPop info = {descriptionscore}/>  Score plot <ParameterSelector paramList={study.study.getHeader('consumer')} param={param} setParam={setParam} />
+            {PCAchart(score,study,param)}
+            <br></br>
+            <utils.InfoPop info = {descriptionloading}/> Loadingplot
+            {Loadingchart(test2)}
+            </>
+            :
+            <>
+            <b>
+            The preference data and consumer data does not have the same amount of samples. If you want to perform a PCA, please make sure they have the same size
+            </b>
+            </>
+    }
     </>
     )
 }
 
 //En funktion som tar datapunkterna samt de två första egenvektorerna.
 //Alla datapunkter blir projicerade på de två egenvektorerna och utifrån dessa beräknas scores
-function Dot(data, xaxis, yaxis) {
+function Dot(data, res1) {
     const scores= []
+    
+    const axis = 
+        res1.map(({vector})=>(vector))
+
+    const xaxis = axis[0]
+    const yaxis = axis[1]
     var i 
     for (i=0; i < data.length; i++){
         var scorerow = []
@@ -88,12 +98,20 @@ function PCAchart(score, study,param,){
                 tickAmount: 5,
                 //min: -10 || Function,
                 //max: 10 || Function,
+                decimalsInFloat: 1,
+                title: {
+                    text: "PC1"
+                },
             },
+
             yaxis: {
                 tickAmount: 5,
                 //min: -10 || Function,
                 //max: 10 || Function,
-                decimalsInFloat: 1
+                decimalsInFloat: 2,
+                title: {
+                    text: "PC2"
+                }
             }
          
         };
@@ -111,8 +129,7 @@ function PCAchart(score, study,param,){
     if(param === null) var clustersLabels = GetColumn(study.study.getTabular('consumer'))
     
     else var clustersLabels = study.study.getTabular('consumer').map((v, i) => v[study.study.getHeader('consumer').indexOf(param)])
-    console.log(clustersLabels)
-    for(let s=0; s<clustersLabels.length;s++) {
+    for(let s=0; s<clustersLabels.length; s++) {
         let label = clustersLabels[s]
 
         if(series[label]){ 
@@ -158,19 +175,17 @@ function LoadingCalc(eig, load) {
         var j;
         var loading = []
         for(j=0; j<axel.length; j++){
-            loading.push((Dotproduct(eigenvec[i],axel[j])/eigenval[j]))
+            loading.push((Dotproduct(eigenvec[i],axel[j])/eigenval[i]))
         
         }
         loadinglist1.push(loading)
+        
     }
-    //const testlist = []
     for(i=0; i<loadinglist1[0].length; i++) {
-        //testlist.push([loadinglist1[0][i],loadinglist1[1][i]])
         var cor = [loadinglist1[0][i],loadinglist1[1][i]]
         loadinglist2.push({name:name[i], data: [cor]})
 
     }
-    //loadinglist2.push({name: 'John',data:testlist })
     return loadinglist2
 }
 
@@ -185,15 +200,15 @@ function Loadingchart(loading) {
         },
         xaxis: {
             tickAmount: 2,
-            min: -1 || Function,
-            max: 1 || Function,
-            decimalsInFloat: 1
+            //min: -1 || Function,
+            //max: 1 || Function,
+            //decimalsInFloat: 1
         },
         yaxis: {
             tickAmount: 2,
-            min: -1 || Function,
-            max: 1 || Function,
-            decimalsInFloat: 1
+            //min: -1 || Function,
+            //max: 1 || Function,
+            //decimalsInFloat: 1
             
         },
         grid: {
@@ -269,6 +284,8 @@ function ParameterSelector({paramList, param, setParam}){
         </Popup>
 	)
 }
+
+
 
 
 export default PCAcomp
