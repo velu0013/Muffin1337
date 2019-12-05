@@ -228,6 +228,7 @@
   padding: 5px;
   width: 60px;
   border-radius: 0px 5px 5px 0px !important;
+  z-index: 0;
 }
 .Tabsss{
   margin-left: -25px;
@@ -425,9 +426,8 @@ font-family: "Esphimere Bold";
 /* Dropdowns*/
 
 .dropdown-item {  
-
   font-size: calc(8px + 1vh);
-    color: #000000;
+  color: #000000;
   cursor: pointer;
   padding: 5px;
   min-height: 22px;
@@ -443,6 +443,11 @@ font-family: "Esphimere Bold";
 /*Changes color in modal-popups*/
 .Text-color-fix {
   color: #000000;
+  background-color: cyan;
+}
+.Text-color-fix-content{
+  color: #000000;
+  font-size: 80%;
 }
 
 .Cluster-chart{

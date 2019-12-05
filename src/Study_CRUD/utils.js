@@ -24,6 +24,7 @@ function InfoPop(props){
 	return(
 	<Popup trigger={<button className="info_pop">i</button>} 
 		position={'left top'}
+		className="Text-color-fix"
 		closeOnDocumentClick
 		mouseLeaveDelay={100}
 		mouseEnterDelay={50}

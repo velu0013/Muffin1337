@@ -35,12 +35,12 @@ function PCAcomp(study,close) {
             <utils.InfoPop info = {descriptionscore}/>  Score plot <ParameterSelector paramList={study.study.getHeader('consumer')} param={param} setParam={setParam} />
             {PCAchart(score,study,param)}
             <br></br>
-            <utils.InfoPop info = {descriptionloading}/> Loadingplot
+            <utils.InfoPop className="Text-color-fix" info = {descriptionloading}/> Loadingplot
             {Loadingchart(test2)}
             </>
             :
             <>
-            <b>
+            <b >
             The preference data and consumer data does not have the same amount of samples. If you want to perform a PCA, please make sure they have the same size
             </b>
             </>
