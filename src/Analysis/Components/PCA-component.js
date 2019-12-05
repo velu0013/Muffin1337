@@ -125,7 +125,7 @@ function PCAchart(score, study,param,){
     console.log('series')
     console.log(series)
     return(
-        <Chart options={options} series={series} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
+        <Chart options={options} series={series} type="scatter" className="Cluster-chart"  />
 
     )
 }

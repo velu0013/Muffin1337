@@ -6,7 +6,7 @@
 /* Set global formats*/
 
 
- .App{
+.App{
   font-family: "Esphimere Thin";  
   text-align: center;
   background-image: 
@@ -15,35 +15,40 @@
    #00000060
   ),url("../img/Cupcake2.jpg");
   background-size: 100vw;
+  background-attachment: fixed;
   background-repeat: repeat;
   min-height: 100vh;
   height: 100%;
-  color: white;
-
-  
+  color: white;  
 }
 
 /* Format everything but the header */
- .App-body{
-  font-size: calc(10px + 2vmin);
-  padding-left:145px;
-  padding-top: 60px;
-}
+
 
 
 /*The spinning muffin */
 .Cupcake-spinner{
+  display: none;
+  padding-bottom: 100px;
+  float:right;
   width: 100%;
-  max-width: 70px;
-  animation: App-logo-spin infinite 15s Linear ;
+  max-width: 40px; 
 
 }
 
 /*Fixes pos of tables*/
 .Table-fix{
-  display:flex;
+  display: flex;
   flex-direction: column;
-  align-items: center;
+}
+.Table-fix2{
+  display: inline-block;
+
+}
+.Edit-fix{
+  width: 100%;
+  font-size: calc(20px + 2vmin);
+  font-weight: bold;
 }
 /* Format text in title */
 .Page-header{
@@ -52,17 +57,210 @@
 }
 
 /* Format size of Header*/
-.Header-bar{
+.old-Header-bar{
   height: 100%; 
   z-index: 1;
   width: 140px;
   display: flex;
   position: fixed; 
-  background-color:#DDDDDD80; 
+  background-color:#dddddd80; 
   padding-top: 5vmin;
 }
-/* Format links in header*/
+.Dropdown-menu{
+  overflow: hidden;
+  float: right;
+  margin-top:-1vmin;
+  margin-right: 4vmin;
+  align-items: right;
+}
+.Drop-menu{
+  height: 30vmin;
+  margin-left: -10vmin;
+  width: 30vmin;
+  display:none;
+  position: absolute;
+  background-color: #adadad;
+}
+.Drop-menu a{
+  font-size: calc(10px + 1.4vh);
+  margin-top: 20px;
+  padding: 0px;
+}
+.Dropdown-menu:hover .Drop-menu{
+  display: flex;
+  flex-direction: column;
+
+}
+.Droper{
+  transition: 0.3s;
+  padding: 0vmin 0vmin;
+  margin-right: 0vmin;
+  margin-top: 0px;
+}
+.login-symbol{
+  margin-right: 4vmin;
+  float:right;
+  width: 4vmin;
+  margin-top: -7px;
+}
+
+.Header-bar{
+  top:  0;
+  height: 6vmin; 
+  z-index: 1;
+  width: 100%;
+  position: fixed; 
+  background-color:#AA8030;
+  transition: 0.3s;
+}
 .Header-link{
+  display: block;
+  margin-right: 20px;
+  padding: 0px 10px;
+  font-weight:normal;
+  font-family: "Esphimere Light";  
+  text-Decoration: none;
+  color: white;
+  float: right;
+}
+
+/* Format active-link in header*/
+.Header-link-active{
+  display: block;
+  padding: 0px 0px;
+  margin-right: 20px;
+  font-family: "Esphimere Light";  
+  text-Decoration: none;
+  color: white;
+  font-weight: bold;
+  float: right;
+  }
+
+.Header-bar2{
+  height: calc(100vh - 6vmin);
+  z-index: 1;
+  width: 15vw;
+  margin-top: 0vmin;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+
+@keyframes float-in{
+  from {
+    margin-left: 0px;
+  }
+  to {
+    margin-left: 200px;
+  }
+}
+.Button-fix12{
+  margin: -10px 0px;
+  width:1%;
+}
+
+
+.Text-button2{
+  color: white;
+  font-family: "Esphimere Light";  
+  cursor: pointer;
+  line-height: 2em;
+  letter-spacing: 1.5px;
+  font-size: 14px;
+  
+  font-size: calc(10px + 1vmin);
+  border: 0px solid;
+  margin-left: -100px;
+  background-color:transparent;
+  width:100%;
+  outline: none;
+}
+.Text-button2:active, .Text-button2:hover, .Text-button2:focus{
+  text-decoration-line: underline;
+}
+.nyebuttons{
+  display: block;
+  width: 100%;
+}
+
+.study-list{
+  max-height: calc(100vh - 40px - 240px);
+  overflow-y:auto;
+  overflow-x:hidden;  
+}
+.First-class{
+  background-color:#DDDDDD40;
+  margin-top:6vmin;
+  height:100vw;
+  font-size: calc(12px + 1vmin);
+  padding-top: 10px;
+  z-index: 1;
+  margin-left: 0px;
+  width: 15vw;
+  max-width: 400px;
+  position: fixed;
+}
+
+.Second-class{
+  position: fixed;
+  margin-top: 6vmin;
+  margin-left: 15vw;
+  overflow: hidden;
+  border-bottom: none !important;
+}
+.Second-class1{
+  display: none;
+}
+.Tabs-fix{
+  margin: 0;
+  padding: 0;
+}
+.Tabss{
+  display: inline-block;
+  border: 1px solid transparent;
+  border-bottom: none;
+  bottom: -1px;
+  position: relative;
+  list-style: none;
+  cursor: pointer;
+  padding: 5px;
+  width: 60px;
+  border-radius: 0px 5px 5px 0px !important;
+}
+.Tabsss{
+  margin-left: -25px;
+  text-orientation: sideways-right;
+  height: 50px;
+}
+.Tabsss:active{
+  background-color: #FFFFFF;
+}
+.Text-input1{
+  margin: 10px 10px;
+  font-size: calc(10px + 1vmin);
+  height: 30px; 
+  border: 2px solid #A0A0A080;
+  outline: none;
+}
+.Text-input1:active, .Text-input1:focus{
+ border-color: #A0A0A0;
+}
+
+.Stud{
+  font-size: calc(15px + 1.5vmin);
+  margin: 10px 0px;
+}
+.App-body{
+  font-size: calc(10px + 2vmin);
+  padding-left: 15vw;
+  padding-top: 7vmin;
+  padding-bottom: 40px;
+}
+
+/* Format links in header*/
+.old-Header-link{
   display:flex;
   flex-direction: column;
   padding: 15px 0px;
@@ -72,7 +270,7 @@
 }
 
 /* Format active-link in header*/
-.Header-link-active{
+.old-Header-link-active{
   display:flex;
   flex-direction: column;
   padding: 15px 0px;
@@ -91,21 +289,30 @@ a:hover, a:active {
   color: #000000;
   font-family: "Esphimere Light";  
   cursor: pointer;
-  padding: 0px 15px;
-  margin: 10px 15px;
+  padding: 0px 10px;
+  margin: 10px 10px;
   line-height: 2em;
   letter-spacing: 1.5px;
-  font-size: 14px;
-  border: 3px solid #70707080;
-  background-color:white;
-  border-radius: 15px;
-  outline: none;
-  
 
+  font-size: calc(8px + 1vh);
+    border: 3px solid #70707080;
+  background-color:white;
+  border-radius:calc(10px + 1vmin);
+  outline: none;
+  max-width: 100%;
   Transition: all 0.3s;
 }     
 .button_pop.left{
   float: left;
+}
+
+.button_pop.right{
+  float: right;
+}
+.button_pop.menu{
+  width:100%;
+  margin-top: 10px;
+  margin-left: -40px;
 }
 
 .button_pop:hover,.button_pop:active, .button_pop:focus{
@@ -124,7 +331,8 @@ a:hover, a:active {
   line-height: 2em;
   letter-spacing: 1.5px;
   position: relative;
-  font-size: 14px;
+
+  font-size: calc(10px + 1vmin);
   border: 3px solid #70707080;
   background-color:white;
   border-radius: 15px;
@@ -140,10 +348,10 @@ a:hover, a:active {
   color: white;
   font-family: "Esphimere Light";  
   cursor: pointer;
-  margin-right: 100px;
   line-height: 2em;
   letter-spacing: 1.5px;
-  font-size: 14px;
+  
+  font-size: calc(10px + 1vmin);
   border: 0px solid;
   background-color:transparent;
   outline: none;
@@ -159,19 +367,18 @@ a:hover, a:active {
 .cell{
   color: black;
 min-width: 50px;
-max-width: 100px;
 background-color: #ffffff !important;
-font-size: 10px;
+font-size: calc(8px + 1vh);
 font-family: "Esphimere Bold";
 overflow: hidden;
+padding: 2px 2px !important;
 border: 1px solid #333333 !important;
 text-align: center !important;
 }
 .cell > input{
-max-width: 50px;
-font-size: 10px;
+
+font-size: calc(8px + 1vh);
 text-align: center !important;
-font-size: 10px;
 font-family: "Esphimere Bold";
 }
 
@@ -196,6 +403,8 @@ font-family: "Esphimere Bold";
 .Dimmer{
   align-items: center;
   max-width: 44px;
+
+  font-size: calc(8px + 1vh);
   outline:none;
   margin: 10px 10px;
 }
@@ -203,7 +412,7 @@ font-family: "Esphimere Bold";
 /***Everywhere there are text-inputs ***/
 .Text-input{
   margin: 10px 10px;
-  font-size: 16px;
+  font-size: calc(8px + 1vh);
   height: 30px; 
   border: 2px solid #A0A0A080;
   outline: none;
@@ -216,11 +425,12 @@ font-family: "Esphimere Bold";
 /* Dropdowns*/
 
 .dropdown-item {  
-  font-size: 16px;
-  color: #000000;
+
+  font-size: calc(8px + 1vh);
+    color: #000000;
   cursor: pointer;
   padding: 5px;
-  height: 22px;
+  min-height: 22px;
   border-bottom: 1px solid #A0A0A080;
 }
 .dropdown-item:hover {
@@ -268,8 +478,10 @@ font-family: "Esphimere Bold";
 .Warning-div{
   max-height: 100px;
   background-color: #fa282880;
-  display: flex;
+  display: inline-flex;
+  flex-direction: row;
   min-width: 250px;
+  max-width: 300px;
 }
 .Warning-text{
   font-size: 20px;
@@ -318,31 +530,30 @@ font-family: "Esphimere Bold";
 
 
 
-/**** SMALL SCREEEN ****/
+/**** SMALL SCREEEN 
 
 @media only screen and (max-width: 768px) {
   .App{
   font-weight: 600;
   }
-  /* Format everything but the header */
+  /* Format everything but the header 
    .App-body{
     font-size: calc(10px + 2vmin);
     padding-left:0px;
     padding-top: 100px;
   }
-  /*The spinning muffin */
+  /*The spinning muffin 
   .Cupcake-spinner{
     width: 50px;
   }
   
-  /*Fixes pos of tables*/
+  /*Fixes pos of tables
   .Table-fix{
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-
-  /* Format size of Header*/
+  /* Format size of Header
   .Header-bar{
     
     align-items: center;
@@ -354,7 +565,7 @@ font-family: "Esphimere Bold";
     padding-top: 0vmin;
 
   }
-  /* Format links in header*/
+  /* Format links in header
   .Header-link{
     display: unset;
     width: 20px;
@@ -364,7 +575,7 @@ font-family: "Esphimere Bold";
   font-weight:normal;
     }
   
-  /* Format active-link in header*/
+  /* Format active-link in header
   .Header-link-active{
     display: unset;
     width: 20px;
@@ -378,21 +589,21 @@ font-family: "Esphimere Bold";
   .App{
   font-weight: 600;
   }
-  /* Format everything but the header */
+  /* Format everything but the header 
    .App-body{
     padding-top: 120px;
   }
-  /*The spinning muffin */
+  /*The spinning muffin 
   .Cupcake-spinner{
     display: none;
   }
   
 
-  /* Format size of Header*/
+  /* Format size of Header*
   .Header-bar{
     width: 100%;
   }
-  /* Format links in header*/
+  /* Format links in header*
   .Header-link{ 
     max-width:20px;
     padding: 0px 0px;
@@ -403,7 +614,7 @@ font-family: "Esphimere Bold";
 
   }
   
-  /* Format active-link in header*/
+  /* Format active-link in header*
   .Header-link-active{
     width:20%;
     display: unset;
@@ -413,3 +624,4 @@ font-family: "Esphimere Bold";
     }
 }
 
+****/
