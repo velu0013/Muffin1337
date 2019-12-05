@@ -217,6 +217,7 @@
   padding: 0;
 }
 .Tabss{
+ 
   display: inline-block;
   border: 1px solid transparent;
   border-bottom: none;
@@ -225,9 +226,9 @@
   list-style: none;
   cursor: pointer;
   padding: 5px;
-  width: 60px;
+  width: 10vmin;
   border-radius: 0px 5px 5px 0px !important;
-  z-index: 0;
+  height: 3vmin;
 }
 .Tabsss{
   margin-left: -25px;
@@ -293,9 +294,8 @@ a:hover, a:active {
   margin: 10px 10px;
   line-height: 2em;
   letter-spacing: 1.5px;
-
   font-size: calc(8px + 1vh);
-    border: 3px solid #70707080;
+  border: 3px solid #70707080;
   background-color:white;
   border-radius:calc(10px + 1vmin);
   outline: none;
@@ -530,8 +530,10 @@ font-family: "Esphimere Bold";
     transform: rotate(360deg);
   }
 }
-
-
+/***Sets table in middle of page **/
+.react-tabs__tab-panel--selected{
+  display: inline-block !important;
+}
 
 
 /**** SMALL SCREEEN 
