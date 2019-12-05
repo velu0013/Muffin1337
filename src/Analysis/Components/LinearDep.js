@@ -192,8 +192,10 @@ function PreferenceChart(plotType, pow, param, study, k){
             }
         },
         xaxis: {
-            tickAmount: 5,
+            tickAmount: 2,
             type: 'numeric',
+            min: -1,
+            max: 1,
             labels: {
                 formatter: function(val) {
                     return parseFloat(val).toFixed(2)
@@ -204,8 +206,10 @@ function PreferenceChart(plotType, pow, param, study, k){
             }
         },
         yaxis: {
+            tickAmount: 2,
             type: 'numeric',
-            tickAmount: 5,
+            min: -1,
+            max: 1,
             labels: {
                 formatter: function(val) {
                     return parseFloat(val).toFixed(2)
@@ -214,33 +218,49 @@ function PreferenceChart(plotType, pow, param, study, k){
             title: {
                 text: headers[2]
             }
+        },
+        grid: {
+            show: true,
+            borderColor: '#90A4AE',
+            strokeDashArray: 0,
+            position: 'back',
+            xaxis: {
+                lines: {
+                    show: true
+                }
+            },   
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            },  
+            row: {
+                colors: undefined,
+                opacity: 0.7
+            },  
+            column: {
+                colors: undefined,
+                opacity: 0.7
+            },  
+            padding: {
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0
+            },  
         }
     };
     const clustersLabels = study.getTabular('consumer').map((v, i) => v[study.getHeader('consumer').indexOf(param)])
     
     let series = {};
-    let axis = [[Infinity, -Infinity],[Infinity, -Infinity]]
     for (let r=0; r<clustersLabels.length; r++){
         let label = clustersLabels[r]
-        for(let dim=0; dim<2; dim++){
-            if(k[r][dim+1] < axis[dim][0]){
-                axis[dim][0] = k[r][dim+1]
-            }
-            if(k[r][dim+1] > axis[dim][1]){
-                axis[dim][1] = k[r][dim+1]
-            }
-        }
         if(series[label]){ 
             series[label].data.push([k[r][1], k[r][2]])
         }else{
             series[label] = {name: String(label), type: 'scatter', data: [[k[r][1], k[r][2]]]};
         }
     }
-
-    options.xaxis.min = axis[0][0]
-    options.xaxis.max = axis[0][1]
-    options.yaxis.min = axis[1][0]
-    options.yaxis.max = axis[1][1]
 
 
     switch(plotType){
@@ -260,37 +280,6 @@ function PreferenceChart(plotType, pow, param, study, k){
         }
         default: series = Object.values(series);
     }
-
-    // series.push({
-    //     name: 'vline',
-    //     type: 'line',
-    //     data: [
-    //         {
-    //         x: 0,
-    //         y: options.yaxis.min
-    //         }, {
-    //         x: 0,
-    //         y: 0
-    //         }, {
-    //         x: 0,
-    //         y: options.yaxis.max
-    //       }]
-    //     });
-    // series.push({
-    //     name: 'hline',
-    //     type: 'line',
-    //     data: [
-    //         {
-    //         x: options.xaxis.min,
-    //         y: 0
-    //         }, {
-    //         x: 0,
-    //         y: 0
-    //         }, {
-    //         x: options.xaxis.max,
-    //         y: 0
-    //         }]
-    //     });
 
     return(
         <Chart className="Cluster-chart" options={options} series={series} type="scatter" height="350" />
