@@ -174,10 +174,6 @@ function dot(v, w) {
     return mydot
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 
 function testNetwork(network, data, labels, uniques) {
     let labels_result = {},
@@ -191,7 +187,6 @@ function testNetwork(network, data, labels, uniques) {
     console.log('START')
     console.log(labels_result)
     console.log(netwrk_result)
-    sleep(4000);
     data.forEach((row, row_nr) => {
         let maxProb = 0;
         let likely_label = '';

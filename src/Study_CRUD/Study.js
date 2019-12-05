@@ -66,14 +66,30 @@ class StudyDBT {
         return clone;
     }
 
+
+
     isQual(table, column) {
-        if (this[table + 'QQ'].length === 0) {
-            return true;
-        }
-        return (this[table + 'QQ'][column] === QualLabel);
+        return (!this.isQuant(table, column));
     }
     isQuant(table, column) {
-        return (!this.isQual(table, column));
+        if (this[table + 'QQ'].length === 0) {
+            return false;
+        }
+        return (this[table + 'QQ'][column] === QuantLabel);
+    }
+    isQualFull(table, offset = 0) {
+        return this.isQuantFull(table, offset).map(x => !x);
+    }
+    isQuantFull(table, offset = 0) {
+        const QQ = this[table + 'QQ'];
+        if (QQ.length === 0) {
+            return false;
+        }
+        let bools = [];
+        for (let col = offset; col < this[table + 'QQ']; col++) {
+            bools.push(QQ[col] === QuantLabel)
+        }
+        return bools;
     }
 
     getHeader(tabular) {
