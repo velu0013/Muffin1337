@@ -22,7 +22,7 @@ const Analyzers = [
  ,
   {name: 'PCA', 
   component: PCAcomp,
-  description: 'Calculates eigenvectors.'
+  description: 'The method reduces the dimensionality of a dataset using principal component analysis.'
   }
   ,
   {name: 'Consumer clustering', 
