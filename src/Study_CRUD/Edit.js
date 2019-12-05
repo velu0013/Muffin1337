@@ -11,6 +11,9 @@ import { DownloadButton } from './Filemgmt.js'
 //import StudyDBT from './Study.js';
 
 
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css'
+
 function Editpage({ study, setStudy }) {
     if (study === null || study.name === '') {
         const currstudy = DB.getCurrentStudy();
@@ -26,12 +29,20 @@ function Editpage({ study, setStudy }) {
 
             <FileButton study={study} setStudy={setStudy} />
 
-            {'Now editing: ' + study.name}
-            <br></br>
-            {'Last change: ' + study.getEditDate() + ', ' + study.getEditTime()}
-            <header className="Table-fix">
+            <div className="Edit-fix">
+             {'Now editing: '+study.name}
 
-                <br></br>
+              <br></br>
+            </div>
+            {//'Last change: ' + study.getEditDate() + ', ' + study.getEditTime()}
+           } <header className="Table-fix2">
+           <Tabs>
+                <TabList>
+                    <Tab>Recipe</Tab>
+                    <Tab>Description</Tab>
+                    <Tab>preference</Tab>
+                </TabList>
+                <TabPanel>
                 Recipe
                 <StudyTable
                     tableKey={'_reci'}
@@ -48,7 +59,8 @@ function Editpage({ study, setStudy }) {
                         setStudy(newStudy)
                     }}
                 />
-                <br></br>
+                 </TabPanel>
+                 <TabPanel>
                 Consumer description
                 <StudyTable
                     tableKey={'_cons'}
@@ -65,7 +77,8 @@ function Editpage({ study, setStudy }) {
                         setStudy(newStudy)
                     }}
                 />
-                <br></br>
+                </TabPanel>
+                <TabPanel>
                 Consumer preference
                 <StudyTable
                     tableKey={'_pref'}
@@ -82,7 +95,8 @@ function Editpage({ study, setStudy }) {
                         setStudy(newStudy)
                     }}
                 />
-                <br></br>
+                 </TabPanel>
+             </Tabs>
             </header>
         </>
     )
@@ -90,7 +104,7 @@ function Editpage({ study, setStudy }) {
 
 function FileButton(props) {
     return (
-        <Popup trigger={<button className="button_pop">File</button>}
+        <Popup trigger={<button className="button_pop right">File</button>}
             position={'bottom left'}
             closeOnDocumentClick
             mouseLeaveDelay={300}
