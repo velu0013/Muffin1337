@@ -56,9 +56,9 @@ function NewButton(props) {
 							f={arg => {
 								if (DB.NameFree(arg)) {
 									DB.SaveStudy(props.study
-										.changeRecipe(CreateGrid(dims[0][0], dims[0][1]))
-										.changeConsumer(CreateGrid(dims[1][0], dims[1][1]))
-										.changePreference(CreateGrid(dims[2][0], dims[2][1])));
+										.changeFullTable('recipe', CreateGrid(dims[0][0], dims[0][1]))
+										.changeFullTable('consumer', CreateGrid(dims[1][0], dims[1][1]))
+										.changeFullTable('preference', CreateGrid(dims[2][0], dims[2][1])));
 									props.setStudy(DB.OpenStudy(arg))
 									setAvailable(true)
 									setSelect(true)
@@ -70,7 +70,6 @@ function NewButton(props) {
 						/>
 						<utils.ConfirmButton label={'Close'} close={close} />
 						<br></br>
-						{'9,3 | 26,7 | 26,9'}
 					</div>
 				</div>
 			)}
