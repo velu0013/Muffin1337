@@ -105,7 +105,7 @@ function Editpage({ study, setStudy }) {
 function FileButton(props) {
     return (
         <Popup trigger={<button className="button_pop right">File</button>}
-            position={'bottom left'}
+            position={'bottom right'}
             closeOnDocumentClick
             mouseLeaveDelay={300}
             mouseEnterDelay={0}

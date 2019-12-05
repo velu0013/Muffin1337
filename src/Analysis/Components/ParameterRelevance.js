@@ -39,6 +39,7 @@ function ParameterRelevance({ study, close }) {
             <br></br>
             {predictions !== null && <ReactDataSheet
                 data={predictions}
+                className="Table-fix2"
                 valueRenderer={(cell) => cell.value}
             />}
             <br></br>
