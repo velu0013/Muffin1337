@@ -25,24 +25,30 @@ function PCAcomp(study,close) {
     const test2 = LoadingCalc(data2,test)
     const score = Dot(data,data2)
 
-    const descriptionscore = "Each datapoint is projected onto a two-dimensional plane constructed to cover maximal variance. This makes it possible to graphically visualise multidimensional data and provides a useful overview"
-    const descriptionloading = "Hej"
+    const descriptionscore = "Each datapoint is projected onto a two-dimensional plane constructed to cover maximal variance. This makes it possible to graphically visualise multidimensional data and provides an useful overview"
+    const descriptionloading = "The loadings describe the relationship between the principal components and the variable axis. By comparing the loading-positions with the score plot, it is possible to see what variables has positive and negative correlations with the sample data"
     return(
     <>
     {GetColumn(study.study.getTabular('preference')).length == GetColumn(study.study.getTabular('consumer')).length
         ?
             <>
-            <utils.InfoPop info = {descriptionscore}/>  Score plot <ParameterSelector paramList={study.study.getHeader('consumer')} param={param} setParam={setParam} />
+            <utils.InfoPop info = {descriptionscore}/>  Scores <ParameterSelector paramList={study.study.getHeader('consumer')} param={param} setParam={setParam} />
             {PCAchart(score,study,param)}
             <br></br>
-            <utils.InfoPop className="Text-color-fix" info = {descriptionloading}/> Loadingplot
+            <utils.InfoPop info = {descriptionloading}/> Loadings
             {Loadingchart(test2)}
             </>
             :
             <>
-            <b >
-            The preference data and consumer data does not have the same amount of samples. If you want to perform a PCA, please make sure they have the same size
+            <b>
+            Add a consumer description table if you want to sort samples by their categories
             </b>
+            <br></br> <br></br>
+            <utils.InfoPop info = {descriptionscore}/>  Scores
+            {PCAchart2(score)}
+            <br></br>
+            <utils.InfoPop info = {descriptionloading}/> Loadings
+            {Loadingchart(test2)}
             </>
     }
     </>
@@ -85,6 +91,8 @@ function Dot(data, res1) {
     }
     return scores
 }
+
+//Den här graf-funktionen använder datan i preferencetabellen för uträkningarna och sedan delar in den i kategorier utifrån datan från consumer-tabellen
 
 function PCAchart(score, study,param,){
     const options= {
@@ -142,10 +150,62 @@ function PCAchart(score, study,param,){
     console.log('series')
     console.log(series)
     return(
-        <Chart options={options} series={series} type="scatter" className="Cluster-chart"  />
+        <Chart options={options} series={series} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
 
     )
 }
+
+//Den här graf-funktionen tar endast data från preference-tabellen och tillkallas i fallen där consumer-tabell inte finns/inte har samma kolumnlängd som preference
+
+function PCAchart2(score){
+    const options= {
+            chart: {
+                zoom: {
+                    enabled: true,
+                    type: 'xy'
+                }
+            },
+            xaxis: {
+                tickAmount: 5,
+                //min: -10 || Function,
+                //max: 10 || Function,
+                decimalsInFloat: 1,
+                title: {
+                    text: "PC1"
+                },
+            },
+
+            yaxis: {
+                tickAmount: 5,
+                //min: -10 || Function,
+                //max: 10 || Function,
+                decimalsInFloat: 2,
+                title: {
+                    text: "PC2"
+                }
+            }
+         
+        };
+    const seriescol = []
+    for(let s=0; s<score.length; s++){
+        var serie1 = []
+        for(let i=1; i<3; i++) {
+            serie1.push(score[s][i])
+        }
+        seriescol.push({name:score[s][0], data:[serie1]})
+    }
+    
+    
+    
+    return(
+        <Chart options={options} series={seriescol} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
+
+    )
+}
+
+
+
+
 function Dotproduct(tal1,tal2){
     var i; 
     const prod = []
@@ -289,4 +349,3 @@ function ParameterSelector({paramList, param, setParam}){
 
 
 export default PCAcomp
-
