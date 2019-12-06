@@ -4,42 +4,100 @@
 //k får ej vara större än maxUnique!!!
 //Tänk om man slumpar gamla centers= centers på en gång??
 import {kmeans} from '../Methods/kmeans.js'
-function consumerClusters(dataIn, k){
-    let kNum = 10;
-    let data = convertData(dataIn, kNum);             //convert num data to cat data and letters to integers
+import {standardStats} from '../Methods/standardStats.js'
+function consumerClusters(dataIn, k, type){
+    //let oldData = dataIn.slice();
+    let oldData = saveOldData(removeNames(dataIn));
+    let randval;
+
+    let kNum = 0;
+    let data = convertData(removeNames(dataIn), kNum, type);             //convert num data to cat data and letters to integers
+    console.log(data)
     let i;
     let centers = [];
     let IDvec = [];
     let oldCenters = [];
     let clusterMatrix;
-    for(i = 0; i < k; i++){
-        centers.push(randomize(data))           //initiate centers
-        oldCenters.push(randomize(data))        //initiate old centers
-    }
-
-
-    for(i = 0; i < data.length; i++){
-        IDvec.push(clusterID(centers, i));
-    }
-
-    let iteration = 0;
-    while(convergenceTest(oldCenters, centers, iteration) === false){
-        iteration = iteration + 1;
-
-        for(i = 0; i < centers.length; i++){
-            oldCenters[i] = centers[i];
-            clusterMatrix = clusterData(i, IDvec, data);
-            centers[i] = findMode(clusterMatrix);
+    let ktest = k;
+    let nrUnique = 0;
+    while(nrUnique < ktest){
+        for(i = 0; i < ktest; i++){
+            centers.push(randomize(data))           //initiate centers
+            oldCenters.push(randomize(data))        //initiate old centers
         }
-
+    
+        IDvec = [];
         for(i = 0; i < data.length; i++){
             IDvec.push(clusterID(centers, i));
         }
-    }
-    
 
-    console.log(centers)   
+        nrUnique = IDvec.filter( onlyUnique ).length;
+    }
+
+    let iteration = 0;
+    nrUnique = 0;
+    while(convergenceTest(oldCenters, centers, iteration) === false){
+        iteration = iteration + 1;
+        while(nrUnique < ktest){
+            for(i = 0; i < centers.length; i++){
+                oldCenters[i] = centers[i];
+                clusterMatrix = clusterData(i, IDvec, data);
+                if(clusterMatrix = []){
+                    randval = Math.floor(Math.random()*oldData.length);
+                    IDvec[randval] = i;
+                    clusterMatrix = clusterData(i, IDvec, data);
+                };
+                centers[i] = findMode(clusterMatrix); /////////////////////
+            }
+            IDvec = [];
+            for(i = 0; i < data.length; i++){
+                IDvec.push(clusterID(centers, i));
+            }
+            nrUnique = IDvec.filter( onlyUnique ).length;
+        }
+
+    }
+
+    groupStats(IDvec, data, ktest)
     return IDvec
+}
+
+function removeNames(dataIn){
+    let thisObs = [];
+    let fixedData = [];
+    let i, j;
+    for(i = 0; i < dataIn.length; i++){
+        thisObs = []
+        for(j = 1; j < dataIn[0].length; j++){
+            thisObs.push(dataIn[i][j])
+        }
+        fixedData.push(thisObs);
+    }
+    return fixedData
+}
+
+function saveOldData(data){
+    let oldData = [];
+    let i, j, thisObservation;
+    for( i = 0; i < data.length; i++){
+        thisObservation = [];
+        for(j = 0; j < data[0].length; j++){
+            thisObservation.push(data[i][j])
+        }
+        oldData.push(thisObservation);
+    }
+    return oldData;
+}
+
+function groupStats(IDvec, data, k){
+    let stat1 = {'percent smokers': 50};
+    let stat2 = {'percentage men': 20};
+    let stats = [{'stat1':stat1}, {'stat2': stat2}];
+    let i;
+    for(i = 0; i < k; i++){
+
+    }
+
 }
 
 /////////////////////////////Functions for the algorithm
@@ -126,11 +184,13 @@ function randomize(data){
 
 ///////////////////Data handling functions/////////////////////
 
-function convertData(data, k){
-    let i, column;
+function convertData(data, k, type){
+    //let data = dataIn;
+    let i;
     for(i = 0; i < data[0].length; i++){
-        if(data[0][i] - data[0][i] === 0){
+        if(type[i] === true){    //if(data[0][i] - data[0][i] === 0){
             data = transNum(data, i, k);
+            console.log(i)
         } 
         else data = transCat(data, i);
     }
