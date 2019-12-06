@@ -86,7 +86,7 @@ class StudyDBT {
             return false;
         }
         let bools = [];
-        for (let col = offset; col < this[table + 'QQ']; col++) {
+        for (let col = offset; col < this[table + 'QQ'].length; col++) {
             bools.push(QQ[col] === QuantLabel)
         }
         return bools;
