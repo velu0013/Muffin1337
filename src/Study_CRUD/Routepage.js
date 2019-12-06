@@ -75,6 +75,7 @@ function RoutePage() {
 					<Link to={Login} >
 						<img
 							src={login ? logout_icon : login_icon}
+							alt="login icon with status"
 							className="login-symbol"
 							onClick={event => {
 								setLogin(!login)
@@ -84,7 +85,7 @@ function RoutePage() {
 					</Link>
 
 					<div className="Dropdown-menu">
-						<img src={drop} className="Droper" />
+						<img src={drop} className="Droper" alt="dropdown menu" />
 						<div className="Drop-menu">
 							<Link to={Home} className={Home === web ? "Header-link-active" : "Header-link"}>
 								Home
@@ -308,26 +309,25 @@ function DeleteConfirmation({ StudyList, updateStudyList, toDelete, setDelete })
 	}
 }
 
-
-function ClearButton(props) {
-	return (
-
-		<Popup trigger={<button className="button_pop menu">Delete All</button>} modal position="top right">
-			{close => (
-				<div className="Text-color-fix">
-					{'Delete All Entries?'}
-					<br></br>
-					<utils.ConfirmButton label={'Yes'} f={_ => {
-						DB.ClearAll()
-						props.setStudy(new StudyDBT('', [0, 0], [0, 0]))
-					}} arg={null} close={close}
-					/>
-					<utils.ConfirmButton label={'No'} close={close} />
-				</div>
-			)}
-		</Popup>
-	)
-}
+// Renders a button to clear local storage, for development use
+// function ClearButton(props) {
+// 	return (
+// 		<Popup trigger={<button className="button_pop menu">Delete All</button>} modal position="top right">
+// 			{close => (
+// 				<div className="Text-color-fix">
+// 					{'Delete All Entries?'}
+// 					<br></br>
+// 					<utils.ConfirmButton label={'Yes'} f={_ => {
+// 						DB.ClearAll()
+// 						props.setStudy(new StudyDBT('', [0, 0], [0, 0]))
+// 					}} arg={null} close={close}
+// 					/>
+// 					<utils.ConfirmButton label={'No'} close={close} />
+// 				</div>
+// 			)}
+// 		</Popup>
+// 	)
+// }
 
 
 function Loginpage(props) {
