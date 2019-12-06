@@ -6,20 +6,18 @@
 /* Set global formats*/
 
 
-.App{
-  font-family: "Esphimere Thin";  
+.App {
+  font-family: "Esphimere Thin";
   text-align: center;
-  background-image: 
-  linear-gradient(
-   #000000CC,
-   #00000060
-  ),url("../img/Cupcake2.jpg");
+  background-image:
+    linear-gradient(#000000CC,
+      #00000060), url("../img/Cupcake2.jpg");
   background-size: 100vw;
   background-attachment: fixed;
   background-repeat: repeat;
   min-height: 100vh;
   height: 100%;
-  color: white;  
+  color: white;
 }
 
 /* Format everything but the header */
@@ -27,115 +25,125 @@
 
 
 /*The spinning muffin */
-.Cupcake-spinner{
+.Cupcake-spinner {
   display: none;
   padding-bottom: 100px;
-  float:right;
+  float: right;
   width: 100%;
-  max-width: 40px; 
+  max-width: 40px;
 
 }
 
 /*Fixes pos of tables*/
-.Table-fix{
+.Table-fix {
   display: flex;
   flex-direction: column;
 }
-.Table-fix2{
+
+.Table-fix2 {
   display: inline-block;
 }
-.Edit-fix{
+
+.Edit-fix {
   width: 100%;
   font-size: calc(20px + 2vmin);
   font-weight: bold;
 }
+
 /* Format text in title */
-.Page-header{
-  font-size:  calc(12px + 3vmin);
+.Page-header {
+  font-size: calc(12px + 3vmin);
   font-weight: bold;
 }
 
 /* Format size of Header*/
-.old-Header-bar{
-  height: 100%; 
+.old-Header-bar {
+  height: 100%;
   z-index: 1;
   width: 140px;
   display: flex;
-  position: fixed; 
-  background-color:#dddddd80; 
+  position: fixed;
+  background-color: #dddddd80;
   padding-top: 5vmin;
 }
-.Dropdown-menu{
+
+.Dropdown-menu {
   overflow: hidden;
   float: right;
-  margin-top:-1vmin;
+  margin-top: -1vmin;
   margin-right: 4vmin;
   align-items: right;
 }
-.Drop-menu{
+
+.Drop-menu {
   height: 30vmin;
   margin-left: -10vmin;
   width: 30vmin;
-  display:none;
+  display: none;
   position: absolute;
   background-color: #adadad;
 }
-.Drop-menu a{
+
+.Drop-menu a {
   font-size: calc(10px + 1.4vh);
   margin-top: 20px;
   padding: 0px;
 }
-.Dropdown-menu:hover .Drop-menu{
+
+.Dropdown-menu:hover .Drop-menu {
   display: flex;
   flex-direction: column;
 
 }
-.Droper{
+
+.Droper {
   transition: 0.3s;
   padding: 0vmin 0vmin;
   margin-right: 0vmin;
   margin-top: 0px;
 }
-.login-symbol{
+
+.login-symbol {
   margin-right: 4vmin;
-  float:right;
+  float: right;
   width: 4vmin;
   margin-top: -7px;
 }
 
-.Header-bar{
-  top:  0;
-  height: 6vmin; 
+.Header-bar {
+  top: 0;
+  height: 6vmin;
   z-index: 1;
   width: 100%;
-  position: fixed; 
-  background-color:#AA8030;
+  position: fixed;
+  background-color: #AA8030;
   transition: 0.3s;
 }
-.Header-link{
+
+.Header-link {
   display: block;
   margin-right: 20px;
   padding: 0px 10px;
-  font-weight:normal;
-  font-family: "Esphimere Light";  
+  font-weight: normal;
+  font-family: "Esphimere Light";
   text-Decoration: none;
   color: white;
   float: right;
 }
 
 /* Format active-link in header*/
-.Header-link-active{
+.Header-link-active {
   display: block;
   padding: 0px 0px;
   margin-right: 20px;
-  font-family: "Esphimere Light";  
+  font-family: "Esphimere Light";
   text-Decoration: none;
   color: white;
   font-weight: bold;
   float: right;
-  }
+}
 
-.Header-bar2{
+.Header-bar2 {
   height: calc(100vh - 6vmin);
   z-index: 1;
   width: 15vw;
@@ -147,52 +155,59 @@
 }
 
 
-@keyframes float-in{
+@keyframes float-in {
   from {
     margin-left: 0px;
   }
+
   to {
     margin-left: 200px;
   }
 }
-.Button-fix12{
+
+.Button-fix12 {
   margin: -10px 0px;
-  width:1%;
+  width: 1%;
 }
 
 
-.Text-button2{
+.Text-button2 {
   color: white;
-  font-family: "Esphimere Light";  
+  font-family: "Esphimere Light";
   cursor: pointer;
   line-height: 2em;
   letter-spacing: 1.5px;
   font-size: 14px;
-  
+
   font-size: calc(10px + 1vmin);
   border: 0px solid;
   margin-left: -100px;
-  background-color:transparent;
-  width:100%;
+  background-color: transparent;
+  width: 100%;
   outline: none;
 }
-.Text-button2:active, .Text-button2:hover, .Text-button2:focus{
+
+.Text-button2:active,
+.Text-button2:hover,
+.Text-button2:focus {
   text-decoration-line: underline;
 }
-.nyebuttons{
+
+.nyebuttons {
   display: block;
   width: 100%;
 }
 
-.study-list{
+.study-list {
   max-height: calc(100vh - 40px - 240px);
-  overflow-y:auto;
-  overflow-x:hidden;  
+  overflow-y: auto;
+  overflow-x: hidden;
 }
-.First-class{
-  background-color:#DDDDDD40;
-  margin-top:6vmin;
-  height:100vw;
+
+.First-class {
+  background-color: #DDDDDD40;
+  margin-top: 6vmin;
+  height: 100vw;
   font-size: calc(12px + 1vmin);
   padding-top: 10px;
   z-index: 1;
@@ -202,22 +217,25 @@
   position: fixed;
 }
 
-.Second-class{
+.Second-class {
   position: fixed;
   margin-top: 6vmin;
   margin-left: 15vw;
   overflow: hidden;
   border-bottom: none !important;
 }
-.Second-class1{
+
+.Second-class1 {
   display: none;
 }
-.Tabs-fix{
+
+.Tabs-fix {
   margin: 0;
   padding: 0;
 }
-.Tabss{
- 
+
+.Tabss {
+
   display: inline-block;
   border: 1px solid transparent;
   border-bottom: none;
@@ -230,30 +248,36 @@
   border-radius: 0px 5px 5px 0px !important;
   height: 3vmin;
 }
-.Tabsss{
+
+.Tabsss {
   margin-left: -25px;
   text-orientation: sideways-right;
   height: 50px;
 }
-.Tabsss:active{
+
+.Tabsss:active {
   background-color: #FFFFFF;
 }
-.Text-input1{
+
+.Text-input1 {
   margin: 10px 10px;
   font-size: calc(10px + 1vmin);
-  height: 30px; 
+  height: 30px;
   border: 2px solid #A0A0A080;
   outline: none;
 }
-.Text-input1:active, .Text-input1:focus{
- border-color: #A0A0A0;
+
+.Text-input1:active,
+.Text-input1:focus {
+  border-color: #A0A0A0;
 }
 
-.Stud{
+.Stud {
   font-size: calc(15px + 1.5vmin);
   margin: 10px 0px;
 }
-.App-body{
+
+.App-body {
   font-size: calc(10px + 2vmin);
   padding-left: 15vw;
   padding-top: 7vmin;
@@ -261,34 +285,36 @@
 }
 
 /* Format links in header*/
-.old-Header-link{
-  display:flex;
+.old-Header-link {
+  display: flex;
   flex-direction: column;
   padding: 15px 0px;
-  font-family: "Esphimere Light";  
+  font-family: "Esphimere Light";
   text-Decoration: none;
   color: #000000;
 }
 
 /* Format active-link in header*/
-.old-Header-link-active{
-  display:flex;
+.old-Header-link-active {
+  display: flex;
   flex-direction: column;
   padding: 15px 0px;
-  font-family: "Esphimere Light";  
+  font-family: "Esphimere Light";
   text-Decoration: none;
   color: rgb(0, 0, 0);
   font-weight: bold;
 }
+
 /** All links when hovered/focused **/
-a:hover, a:active {
+a:hover,
+a:active {
   color: #F0F0F0;
 }
 
 /*** formats all "non-special" buttons ***/
-.button_pop{
+.button_pop {
   color: #000000;
-  font-family: "Esphimere Light";  
+  font-family: "Esphimere Light";
   cursor: pointer;
   padding: 0px 10px;
   margin: 10px 10px;
@@ -296,35 +322,39 @@ a:hover, a:active {
   letter-spacing: 1.5px;
   font-size: calc(8px + 1vh);
   border: 3px solid #70707080;
-  background-color:white;
-  border-radius:calc(10px + 1vmin);
+  background-color: white;
+  border-radius: calc(10px + 1vmin);
   outline: none;
   max-width: 100%;
   Transition: all 0.3s;
-}     
-.button_pop.left{
+}
+
+.button_pop.left {
   float: left;
 }
 
-.button_pop.right{
+.button_pop.right {
   float: right;
 }
-.button_pop.menu{
-  width:100%;
+
+.button_pop.menu {
+  width: 100%;
   margin-top: 10px;
   margin-left: -40px;
 }
 
-.button_pop:hover,.button_pop:active, .button_pop:focus{
- background-color: #70707080; 
- border-color: white;
- color: white;
+.button_pop:hover,
+.button_pop:active,
+.button_pop:focus {
+  background-color: #70707080;
+  border-color: white;
+  color: white;
 }
 
 /** Formats buttons on popups with white background**/
-.button_popup{
+.button_popup {
   color: #000000;
-  font-family: "Esphimere Light";  
+  font-family: "Esphimere Light";
   cursor: pointer;
   padding: 0px 15px;
   margin: 10px 15px;
@@ -334,97 +364,105 @@ a:hover, a:active {
 
   font-size: calc(10px + 1vmin);
   border: 3px solid #70707080;
-  background-color:white;
+  background-color: white;
   border-radius: 15px;
   outline: none;
 }
-.button_popup:active,  .button_popup:hover, .button_popup:focus{
-  background-color: #70707080; 
+
+.button_popup:active,
+.button_popup:hover,
+.button_popup:focus {
+  background-color: #70707080;
 }
 
 
-   /***Formats the lists of studies ***/
-.Text-button{
+/***Formats the lists of studies ***/
+.Text-button {
   color: white;
-  font-family: "Esphimere Light";  
+  font-family: "Esphimere Light";
   cursor: pointer;
   line-height: 2em;
   letter-spacing: 1.5px;
-  
+
   font-size: calc(10px + 1vmin);
   border: 0px solid;
-  background-color:transparent;
+  background-color: transparent;
   outline: none;
 }
 
-.Text-button:active, .Text-button:hover, .Text-button:focus{
+.Text-button:active,
+.Text-button:hover,
+.Text-button:focus {
   text-decoration-line: underline;
 }
 
 /***Datasheet-cells ***/
 
-  /* Here we overwrites existing css file ---> alot of !important */
-.cell{
+/* Here we overwrites existing css file ---> alot of !important */
+.cell {
   color: black;
-min-width: 50px;
-background-color: #ffffff !important;
-font-size: calc(8px + 1vh);
-font-family: "Esphimere Bold";
-overflow: hidden;
-padding: 2px 2px !important;
-border: 1px solid #333333 !important;
-text-align: center !important;
+  min-width: 50px;
+  background-color: #ffffff !important;
+  font-size: calc(8px + 1vh);
+  font-family: "Esphimere Bold";
+  overflow: hidden;
+  padding: 2px 2px !important;
+  border: 1px solid #333333 !important;
+  text-align: center !important;
 }
-.cell > input{
 
-font-size: calc(8px + 1vh);
-text-align: center !important;
-font-family: "Esphimere Bold";
+.cell>input {
+
+  font-size: calc(8px + 1vh);
+  text-align: center !important;
+  font-family: "Esphimere Bold";
 }
 
 
 /** Create-popup **/
 .modal {
   color: #000000;
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 20px;  
+  padding-top: 20px;
   padding-bottom: 20px;
 }
 
 
-.pop_div{
+.pop_div {
   display: flex;
   flex-direction: row;
 }
 
 /**Datasheet-Dimension-counters **/
-.Dimmer{
+.Dimmer {
   align-items: center;
   max-width: 44px;
 
   font-size: calc(8px + 1vh);
-  outline:none;
+  outline: none;
   margin: 10px 10px;
 }
 
 /***Everywhere there are text-inputs ***/
-.Text-input{
+.Text-input {
   margin: 10px 10px;
   font-size: calc(8px + 1vh);
-  height: 30px; 
+  height: 30px;
   border: 2px solid #A0A0A080;
   outline: none;
 }
-.Text-input:active, .Text-input:focus{
- border-color: #A0A0A0;
+
+.Text-input:active,
+.Text-input:focus {
+  border-color: #A0A0A0;
 }
 
 
 /* Dropdowns*/
 
-.dropdown-item {  
+.dropdown-item {
   font-size: calc(8px + 1vh);
   color: #000000;
   cursor: pointer;
@@ -432,6 +470,7 @@ font-family: "Esphimere Bold";
   min-height: 22px;
   border-bottom: 1px solid #A0A0A080;
 }
+
 .dropdown-item:hover {
   color: #2980b9;
   font-weight: bold;
@@ -443,22 +482,23 @@ font-family: "Esphimere Bold";
 .Text-color-fix {
   color: #000000;
 }
-.Text-color-fix-content{
+
+.Text-color-fix-content {
   color: #000000;
   font-size: 80%;
 }
 
-.Cluster-chart{
+.Cluster-chart {
   z-index: 1;
   color: #000000;
   background-color: #80808080;
-  width:90%;
- }
+  width: 90%;
+}
 
 /***Information popups***/
-.info_pop{
-  color: rgb(0,125,255);
-  font-family: "Droid Sans";  
+.info_pop {
+  color: rgb(0, 125, 255);
+  font-family: "Droid Sans";
   font-style: italic;
   cursor: help;
   padding: 0px 5px;
@@ -467,18 +507,19 @@ font-family: "Esphimere Bold";
   letter-spacing: 0px;
   position: center;
   font-size: 12px;
-  border: 1px solid rgb(0,125,255);
-  background-color:white;
+  border: 1px solid rgb(0, 125, 255);
+  background-color: white;
   border-radius: 100%;
   outline: none;
-} 
+}
 
 
 /*** Warning Message ***/
-.Warning-logo{
+.Warning-logo {
   max-width: 100px;
 }
-.Warning-div{
+
+.Warning-div {
   max-height: 100px;
   background-color: #fa282880;
   display: inline-flex;
@@ -486,36 +527,49 @@ font-family: "Esphimere Bold";
   min-width: 250px;
   max-width: 300px;
 }
-.Warning-text{
+
+.Warning-text {
   font-size: 20px;
   font-weight: bold;
-  color:white;
+  color: white;
 }
 
- /***Make active page bold in toolbar ***/
- .studyname{
+/***Make active page bold in toolbar ***/
+.studyname {
   font-weight: bold;
 }
 
 /* Chart types */
 
-.Chart_bar{
+.Chart_bar {
   color: rgb(255, 155, 0);
   font-family: "Esphimere Light";
   position: center;
 }
 
+/********* NEW DELETE POPUP *******/
+.DeleteStudy_inactive {
+  font-size: 20px;
+  font-weight: thin;
+  color: black;
+}
+
+.DeleteStudy_active {
+  font-size: 20px;
+  font-weight: bold;
+  color: red;
+}
 
 
 /*Styles  Upload-window*/
 
 .inputfile_hidden {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
 
 
@@ -525,12 +579,14 @@ font-family: "Esphimere Bold";
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
 }
+
 /***Sets table in middle of page **/
-.react-tabs__tab-panel--selected{
+.react-tabs__tab-panel--selected {
   display: inline-block !important;
 }
 
