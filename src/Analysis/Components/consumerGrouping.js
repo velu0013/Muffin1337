@@ -6,21 +6,20 @@ import StudyTable from '../../Study_CRUD/StudyTable.js';
 
 function consumerGroups({study, close}){
     let consumerData = study.getConsumerTabular();
-
+    //let varType = [1, 1, 0, 1, 1, 1];
+    let k = 4;
+    let  varType= study.isQuantFull('consumer', 1)
 
     ///////////////////////////Variables to define in advanced settings////////////////////////////
     let categIndices = consumerData[0].length + 1; //this can be changed in advanced settings
     let onlyCateg = 1; //this can be changed in advanced settings
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
-    
-
-    let k = 2;
     // manually define categs, ex. categIndices = [1, 3]
     
     return (
         <>
-            Goddag {consumerClusters(consumerData, k)}
+            Goddag {consumerClusters(consumerData, k, varType)}
         </>
     ); 
 }
@@ -35,15 +34,15 @@ function makeConsumerTable(consumer, clusterID, clusterChoice, study){
         for(i = 1; i < clusterID.length + 1; i++){
             if(clusterID[i] === clusterChoice) displayTable.push(consumer[i]);
         }
-    console.log('displaytable')
-    console.log(displayTable)
+    //console.log('displaytable')
+    //console.log(displayTable)
     return displayTable;
 }
 
 //clusteredConsumers
 function displayConsumerTable(clusteredConsumers){   
-        console.log('clusteredTable')
-        console.log(clusteredConsumers)
+        //console.log('clusteredTable')
+        //console.log(clusteredConsumers)
         return(
         <>
         <br></br>
@@ -96,8 +95,8 @@ function makeSeries(clustersLabels, k, data, headers){
     for (let r=0; r<clustersLabels.length; r++){
         series[clustersLabels[r]].data.push(data[r])
     }
-    console.log('series:')
-    console.log(series)
+    //console.log('series:')
+    //console.log(series)
     return(
         <Chart options={options} series={series} type="scatter" className="Cluster-chart"  width="98%" height="350"/>
 
