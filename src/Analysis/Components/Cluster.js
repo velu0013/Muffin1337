@@ -1,6 +1,5 @@
 import React, { useState , useEffect} from 'react'
 import {kmeans} from '../Methods/kmeans.js'
-import {test} from '../Methods/Testing.js'
 import Popup from "reactjs-popup";
 import Chart from "react-apexcharts";
 import StudyTable from '../../Study_CRUD/StudyTable.js';
