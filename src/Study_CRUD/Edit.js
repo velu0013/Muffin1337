@@ -14,7 +14,7 @@ import { DownloadButton } from './Filemgmt.js'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css'
 
-function Editpage({ study, setStudy }) {
+function Editpage({ study, setStudy, updateStudyList }) {
     if (study === null || study.name === '') {
         const currstudy = DB.getCurrentStudy();
         if (currstudy === null) {
@@ -27,76 +27,76 @@ function Editpage({ study, setStudy }) {
     return (
         <>
 
-            <FileButton study={study} setStudy={setStudy} />
+            <FileButton study={study} setStudy={setStudy} updateStudyList={updateStudyList} />
 
             <div className="Edit-fix">
-             {'Now editing: '+study.name}
+                {'Now editing: ' + study.name}
 
-              <br></br>
+                <br></br>
             </div>
             {//'Last change: ' + study.getEditDate() + ', ' + study.getEditTime()}
-           } <header className="Table-fix2">
-           <Tabs>
-                <TabList>
-                    <Tab>Recipe</Tab>
-                    <Tab>Description</Tab>
-                    <Tab>preference</Tab>
-                </TabList>
-                <TabPanel>
-                Recipe
+            } <header className="Table-fix2">
+                <Tabs>
+                    <TabList>
+                        <Tab>Recipe</Tab>
+                        <Tab>Description</Tab>
+                        <Tab>preference</Tab>
+                    </TabList>
+                    <TabPanel>
+                        Recipe
                 <StudyTable
-                    tableKey={'_reci'}
-                    tableData={study.recipe}
-                    tableQQ={study.recipeQQ}
-                    setData={x => {
-                        const newStudy = study.changeFullTable('recipe', x)
-                        DB.setCurrentStudy(newStudy)
-                        setStudy(newStudy)
-                    }}
-                    setQQ={x => {
-                        const newStudy = study.changeQQ('recipe', x)
-                        DB.setCurrentStudy(newStudy)
-                        setStudy(newStudy)
-                    }}
-                />
-                 </TabPanel>
-                 <TabPanel>
-                Consumer description
+                            tableKey={'_reci'}
+                            tableData={study.recipe}
+                            tableQQ={study.recipeQQ}
+                            setData={x => {
+                                const newStudy = study.changeFullTable('recipe', x)
+                                DB.setCurrentStudy(newStudy)
+                                setStudy(newStudy)
+                            }}
+                            setQQ={x => {
+                                const newStudy = study.changeQQ('recipe', x)
+                                DB.setCurrentStudy(newStudy)
+                                setStudy(newStudy)
+                            }}
+                        />
+                    </TabPanel>
+                    <TabPanel>
+                        Consumer description
                 <StudyTable
-                    tableKey={'_cons'}
-                    tableData={study.consumer}
-                    tableQQ={study.consumerQQ}
-                    setData={x => {
-                        const newStudy = study.changeFullTable('consumer', x)
-                        DB.setCurrentStudy(newStudy)
-                        setStudy(newStudy)
-                    }}
-                    setQQ={x => {
-                        const newStudy = study.changeQQ('consumer', x)
-                        DB.setCurrentStudy(newStudy)
-                        setStudy(newStudy)
-                    }}
-                />
-                </TabPanel>
-                <TabPanel>
-                Consumer preference
+                            tableKey={'_cons'}
+                            tableData={study.consumer}
+                            tableQQ={study.consumerQQ}
+                            setData={x => {
+                                const newStudy = study.changeFullTable('consumer', x)
+                                DB.setCurrentStudy(newStudy)
+                                setStudy(newStudy)
+                            }}
+                            setQQ={x => {
+                                const newStudy = study.changeQQ('consumer', x)
+                                DB.setCurrentStudy(newStudy)
+                                setStudy(newStudy)
+                            }}
+                        />
+                    </TabPanel>
+                    <TabPanel>
+                        Consumer preference
                 <StudyTable
-                    tableKey={'_pref'}
-                    tableData={study.preference}
-                    tableQQ={study.preferenceQQ}
-                    setData={x => {
-                        const newStudy = study.changeFullTable('preference', x)
-                        DB.setCurrentStudy(newStudy)
-                        setStudy(newStudy)
-                    }}
-                    setQQ={x => {
-                        const newStudy = study.changeQQ('preference', x)
-                        DB.setCurrentStudy(newStudy)
-                        setStudy(newStudy)
-                    }}
-                />
-                 </TabPanel>
-             </Tabs>
+                            tableKey={'_pref'}
+                            tableData={study.preference}
+                            tableQQ={study.preferenceQQ}
+                            setData={x => {
+                                const newStudy = study.changeFullTable('preference', x)
+                                DB.setCurrentStudy(newStudy)
+                                setStudy(newStudy)
+                            }}
+                            setQQ={x => {
+                                const newStudy = study.changeQQ('preference', x)
+                                DB.setCurrentStudy(newStudy)
+                                setStudy(newStudy)
+                            }}
+                        />
+                    </TabPanel>
+                </Tabs>
             </header>
         </>
     )
@@ -116,8 +116,8 @@ function FileButton(props) {
             {close => (
                 <>
                     <SaveButton study={props.study} close={close} />
-                    <SaveAsButton study={props.study} setStudy={props.setStudy} close={close} />
-                    <DeleteButton study={props.study} setStudy={props.setStudy} close={close} />
+                    <SaveAsButton study={props.study} setStudy={props.setStudy} updateStudyList={props.updateStudyList} close={close} />
+                    <DeleteButton study={props.study} setStudy={props.setStudy} updateStudyList={props.updateStudyList} close={close} />
                     <DownloadButton study={props.study} trigger={<div className="dropdown-item">Download</div>} />
                 </>
             )}
@@ -158,6 +158,7 @@ function SaveAsButton(props) {
                                 DB.SaveStudy(arg);
                                 props.setStudy(DB.OpenStudy(arg.name))
                                 setAvailable(true)
+                                props.updateStudyList();
                                 props.close()
                             } else {
                                 setAvailable(false)
@@ -184,6 +185,7 @@ function DeleteButton(props) {
                         f={arg => {
                             DB.RemoveStudy(arg);
                             props.setStudy(new StudyDBT());
+                            props.updateStudyList();
                             props.close()
                         }}
                         arg={props.study}

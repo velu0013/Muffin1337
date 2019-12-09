@@ -54,6 +54,9 @@ function LoadStudy(StudyJSON) {
         .changeFullTable('recipe', data.recipe)
         .changeFullTable('consumer', data.consumer)
         .changeFullTable('preference', data.preference)
+        .changeQQ('recipe', data.recipeQQ)
+        .changeQQ('consumer', data.consumerQQ)
+        .changeQQ('preference', data.preferenceQQ)
         .changeMeta(data.meta);
     setCurrentStudy(null);
     setCurrentStudy(study);
@@ -102,11 +105,15 @@ function OpenStudy(name) {
 
 // Removes a study from storage and workspace
 function RemoveStudy(study) {
-    DeleteStudy(study.name)
-    if (study.name === getCurrentStudy().name) {
+    let studyName = study;
+    if (typeof (study) !== 'string') {
+        studyName = study.name;
+    }
+    DeleteStudy(studyName)
+    if (getCurrentStudy() !== null && studyName === getCurrentStudy().name) {
         sessionStorage.removeItem(StudyListKey);
     }
-    localStorage.removeItem(study.name + ext)
+    localStorage.removeItem(studyName + ext)
 }
 
 // Completely clears local and session storage

@@ -1,44 +1,44 @@
 import React, { useState } from 'react';
 import DB from './DB.js';
 import Popup from "reactjs-popup";
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Analyzers from '../Analysis/Analysis_Master.js'
 import utils from './utils.js'
 
 
-function Analysispage({study, setStudy}){
+function Analysispage({ study, setStudy }) {
     const [analyzer, setAnalyzer] = useState(null);
 
-    if(study === null || study.name === ''){
+    if (study === null || study.name === '') {
         const currstudy = DB.getCurrentStudy();
-        if(currstudy === null){
+        if (currstudy === null) {
             return 'No study selected'//<Redirect to='/MyStudies' />
         }
         setStudy(currstudy);
         return <Redirect to='/Analysis' />
     }
 
-	return (
-    <>
-        {'Plots of data from study '}
-        <span className="studyname"> {study.name}</span>{' can be analyzed here'}
-        
-        <input type="button" value="Back" className="button_pop" onClick={() => setAnalyzer(null)}/>
-        <br></br>
-        
-        {analyzer === null ? <AnalyzeSelector setAnalyzer={setAnalyzer}/>:
+    return (
         <>
+            {'Plots of data from study '}
+            <span className="studyname"> {study.name}</span>{' can be analyzed here'}
+
+            <input type="button" value="Back" className="button_pop" onClick={() => setAnalyzer(null)} />
             <br></br>
-            <analyzer.component study={study} close={() => setAnalyzer(null)}/>
+
+            {analyzer === null ? <AnalyzeSelector setAnalyzer={setAnalyzer} /> :
+                <>
+                    <br></br>
+                    <analyzer.component study={study} setStudy={setStudy} close={() => setAnalyzer(null)} />
+                </>
+            }
         </>
-        }
-    </>
-	)
+    )
 }
 
-function AnalyzeSelector(props){
-	return(
-        <Popup trigger={<button className="button_pop">Select analysis type</button>} 
+function AnalyzeSelector(props) {
+    return (
+        <Popup trigger={<button className="button_pop">Select analysis type</button>}
             position={'right top'}
             closeOnDocumentClick
             mouseLeaveDelay={300}
@@ -47,21 +47,21 @@ function AnalyzeSelector(props){
             contentStyle={{ padding: "0px", border: "none" }}
             arrow={false}
         >
-		{close => (
-            <>
-            {Analyzers.map((value, index) => {
-                return <ul key={index} className="dropdown-item">
-                    {<div onClick={event => {props.setAnalyzer(value)}}>
-                        <utils.InfoPop info={value.description}/>
-                        {value.name}
-                    </div>}
-                </ul>
-            })}
-            </>
-        )}
+            {close => (
+                <>
+                    {Analyzers.map((value, index) => {
+                        return <ul key={index} className="dropdown-item">
+                            {<div onClick={event => { props.setAnalyzer(value) }}>
+                                <utils.InfoPop info={value.description} />
+                                {value.name}
+                            </div>}
+                        </ul>
+                    })}
+                </>
+            )}
         </Popup>
-	)
+    )
 }
 
 
-export {Analysispage}
+export { Analysispage }
