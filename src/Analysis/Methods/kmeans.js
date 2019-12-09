@@ -1,3 +1,4 @@
+//antal clusters och nr unique???
 // naive k-means kluster analysis, kräver antal , klarar hur många dim som helst
 
 /*
@@ -26,7 +27,7 @@ function kmeans(dataIn, k){
     //k = 0;
     let data = standardize(dataIn)
     let IDvec, single;
-    console.log('yo')
+    console.log(makeKvec(dataIn))
     if(k === 0){
         let kVec = makeKvec(dataIn) //[2, 3, 4, 5, 6, 7, 8, 9];
         let multi = multiK(data, kVec)
@@ -36,16 +37,22 @@ function kmeans(dataIn, k){
         single = singeK(data, k)
         IDvec = single[0];
     }
-
-    //console.log(IDvec)
     return IDvec
 }
 
 function makeKvec(data){
     let max = Math.floor(data.length/3)
+    let nrUnique = 0;
+    let i, thisVar;
+    for(i = 0; i < data[0].length; i++){
+        thisVar = getColumn(data, i)
+        nrUnique = thisVar.filter( onlyUnique ).length;
+        if(nrUnique < max) max = nrUnique;
+    }
+
     let count = 2;
     let kVec = []
-    while(count < max){
+    while(count < max ){
         kVec.push(count)
         count = count + 1;
     }
