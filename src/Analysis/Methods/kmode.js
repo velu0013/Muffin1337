@@ -10,9 +10,8 @@ function consumerClusters(dataIn, k, type){
     let oldData = saveOldData(removeNames(dataIn));
     let randval;
 
-    let kNum = 0;
+    let kNum = 3;
     let data = convertData(removeNames(dataIn), kNum, type);             //convert num data to cat data and letters to integers
-    console.log(data)
     let i;
     let centers = [];
     let IDvec = [];
@@ -190,12 +189,12 @@ function convertData(data, k, type){
     for(i = 0; i < data[0].length; i++){
         if(type[i] === true){    //if(data[0][i] - data[0][i] === 0){
             data = transNum(data, i, k);
-            console.log(i)
         } 
         else data = transCat(data, i);
     }
     return data;
 }
+
 
 function transNum(data, index, k){
     let i;
