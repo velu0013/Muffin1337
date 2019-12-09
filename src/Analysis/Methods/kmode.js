@@ -7,6 +7,7 @@ import {kmeans} from '../Methods/kmeans.js'
 import {standardStats} from '../Methods/standardStats.js'
 function consumerClusters(dataIn, k, type){
     //let oldData = dataIn.slice();
+    if(k === 0) k = 2;
     let oldData = saveOldData(removeNames(dataIn));
     let randval;
 
