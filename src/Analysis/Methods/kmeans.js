@@ -24,22 +24,23 @@ Algorithm:
 
 
 function kmeans(dataIn, k){
-    //k = 0;
     let data = standardize(dataIn)
-    let IDvec, single, kVec, multi;
+    let IDvec, kVec, multi, i;
     if(k === 0){
         kVec = makeKvec(dataIn) //[2, 3, 4, 5, 6, 7, 8, 9];
+        for(i = 0; i < 4; i++){
+            kVec.push(kVec)
+        }
         multi = multiK(data, kVec)
         IDvec = multi[0];
         k = multi[1];
     }else{
-        single = singeK(data, k)
-        IDvec = single[0];
+        kVec = [k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k]
+        multi = multiK(data, kVec)
+        IDvec = multi[0];
     }
 
-    kVec = [k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k]
-    multi = multiK(data, kVec)
-    IDvec = multi[0];
+
     return IDvec
 }
 
