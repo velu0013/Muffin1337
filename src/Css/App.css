@@ -178,13 +178,11 @@
   line-height: 2em;
   letter-spacing: 1.5px;
   font-size: 14px;
-
   font-size: calc(10px + 1vmin);
   border: 0px solid;
-  margin-left: -100px;
   background-color: transparent;
-  width: 100%;
   outline: none;
+  margin-left:-40px;
 }
 
 .Text-button2:active,
@@ -194,14 +192,38 @@
 }
 
 .nyebuttons {
-  display: block;
+  display: inline-block;
+  
   width: 100%;
+}
+.nyebuttons *{
+  padding:0px 10px;
+}
+
+.AddIcon .mdl-navigation__link:hover .material-icons {
+  background-color: #00BCD4 !important;
+  color: #FFF;
+}
+.Mui{
+  color:#FFFFFF;
+  font-size: 40px !important;
+}
+.Mui:hover{
+  color:#dddddd80;
+}
+.Mui.bar{
+  color: black;
+  transition: 0.3s;
+  padding: 0vmin 0vmin;
+  margin-right: 0vmin;
+  margin-top:-1vmin;
 }
 
 .study-list {
   max-height: calc(100vh - 40px - 240px);
   overflow-y: auto;
   overflow-x: hidden;
+  margin-left: -40px;
 }
 
 .First-class {
@@ -275,6 +297,7 @@
 .Stud {
   font-size: calc(15px + 1.5vmin);
   margin: 10px 0px;
+  font-weight: 600;
 }
 
 .App-body {
@@ -342,6 +365,12 @@ a:active {
   margin-top: 10px;
   margin-left: -40px;
 }
+.button_pop.ppop{
+  width: 120px;
+  height: 310px;
+  overflow:hidden;
+  font-size: 10px;
+} 
 
 .button_pop:hover,
 .button_pop:active,
@@ -418,7 +447,6 @@ a:active {
   font-family: "Esphimere Bold";
 }
 
-
 /** Create-popup **/
 .modal {
   color: #000000;
@@ -428,11 +456,28 @@ a:active {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+.modal2 {
+  color: #000000;
+  display: inline-block;
+  align-items: left;
+  padding-top: 0px;
+  padding-left: 0px;
 
+}
 
+.Stud2 {
+  font-size: calc(15px + 1.5vmin);
+  margin: 10px 0px 10px 0px;
+  font-weight: 600;
+}
 .pop_div {
   display: flex;
   flex-direction: row;
+  margin: 0px 0px 0px 0px;
+  padding: 0px;
+}
+.pop_ddiv {
+  margin-left: 0px;
 }
 
 /**Datasheet-Dimension-counters **/
@@ -549,12 +594,17 @@ a:active {
 
 /********* NEW DELETE POPUP *******/
 .DeleteStudy_inactive {
+  padding-left: 0px;
+  cursor: pointer;
   font-size: 20px;
   font-weight: thin;
   color: black;
 }
 
 .DeleteStudy_active {
+
+  padding-left: 0px;
+  cursor: pointer;
   font-size: 20px;
   font-weight: bold;
   color: red;

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/icons": "^4.5.1",
     "apexcharts": "^3.10.1",
     "jshint": "^2.10.2",
     "math": "0.0.3",

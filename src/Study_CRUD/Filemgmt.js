@@ -2,19 +2,33 @@ import React, {useState} from 'react';
 import DB from './DB.js';
 import Popup from "reactjs-popup";
 
+import PublishIcon from '@material-ui/icons/Publish';
+const contentStyle = {
+    marginLeft: "42.5%",
+	background: "#F0F0F0",
+	width: "300px",
+	border: "none"
+};
+
 // Renders a trigger to a modal popup that lets a user select a file for upload.
 // Trigger is by default a button but can be overridden by supplying a trigger prop.
-function UploadButton({setStudy, trigger=<button className="button_pop">Upload</button>}){
+function UploadButton({setStudy, trigger=
+    <PublishIcon className="Mui"/>
+        //    <button className="button_pop">Upload</button>
+        }){
     const [newStudy, setNewStudy] = useState(null)
 	const [nameAvailable, setAvailable] = useState(true)
     return(
 		<Popup 
-		trigger={trigger} 
+        trigger={trigger} 
+        contentStyle={contentStyle}
 		modal
 		>
 		{close => (
             <div className="modal">
-            <div>
+                <p className="Stud2">Chose file type</p>
+            <div className="pop_div">
+                
             <FileSelector type='.dbt'  label='DBT File' setStudy={setNewStudy}/>
             <FileSelector type='.xlsx' label='Excel File' setStudy={setNewStudy}/>
             </div>
