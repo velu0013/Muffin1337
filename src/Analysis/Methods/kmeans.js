@@ -1,3 +1,4 @@
+//antal clusters och nr unique???
 // naive k-means kluster analysis, kräver antal , klarar hur många dim som helst
 
 /*
@@ -23,29 +24,43 @@ Algorithm:
 
 
 function kmeans(dataIn, k){
-    //k = 0;
     let data = standardize(dataIn)
-    let IDvec, single;
-    console.log('yo')
+    let IDvec, kVec, multi, i;
     if(k === 0){
-        let kVec = makeKvec(dataIn) //[2, 3, 4, 5, 6, 7, 8, 9];
-        let multi = multiK(data, kVec)
+        kVec = makeKvec(dataIn) //[2, 3, 4, 5, 6, 7, 8, 9];
+        for(i = 0; i < 4; i++){
+            kVec.push(kVec)
+        }
+        multi = multiK(data, kVec)
         IDvec = multi[0];
         k = multi[1];
     }else{
-        single = singeK(data, k)
-        IDvec = single[0];
+        kVec = [k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k]
+        multi = multiK(data, kVec)
+        IDvec = multi[0];
     }
 
-    //console.log(IDvec)
+
     return IDvec
 }
 
+
+
+
+
 function makeKvec(data){
     let max = Math.floor(data.length/3)
+    let nrUnique = 0;
+    let i, thisVar;
+    for(i = 0; i < data[0].length; i++){
+        thisVar = getColumn(data, i)
+        nrUnique = thisVar.filter( onlyUnique ).length;
+        if(nrUnique < max) max = nrUnique;
+    }
+
     let count = 2;
     let kVec = []
-    while(count < max){
+    while(count < max ){
         kVec.push(count)
         count = count + 1;
     }
@@ -153,8 +168,6 @@ function distAll(data, center){
 ///////////////////////////////////// kmeans huvudfunktion ///////////////////////////////////
 function singeK(dataIn, k){
     let data = copy(dataIn);
-    //let centers = randomize(data);
-    //console.log(centers)
 
     let i;
     let centers = [];
@@ -198,12 +211,10 @@ function singeK(dataIn, k){
             for(i = 0; i < data.length; i++){
                 IDvec.push(clusterID(centers, data[i]));
             }
-            //console.log(IDvec)
             nrUnique = IDvec.filter( onlyUnique ).length;
         }
 
     }
-    //console.log(IDvec)
     return [IDvec, centers]
 }
 //////////////////////////////////////////////////////////////////////////////

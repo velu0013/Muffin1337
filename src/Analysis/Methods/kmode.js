@@ -7,10 +7,11 @@ import {kmeans} from '../Methods/kmeans.js'
 import {standardStats} from '../Methods/standardStats.js'
 function consumerClusters(dataIn, k, type){
     //let oldData = dataIn.slice();
+    if(k === 0) k = 2;
     let oldData = saveOldData(removeNames(dataIn));
     let randval;
 
-    let kNum = 3;
+    let kNum = 0;
     let data = convertData(removeNames(dataIn), kNum, type);             //convert num data to cat data and letters to integers
     let i;
     let centers = [];
