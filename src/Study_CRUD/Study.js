@@ -66,7 +66,36 @@ class StudyDBT {
         return clone;
     }
 
+    addPersona(table, personas, overwrite = false) {
+        const personaColumnLabel = 'Persona';
+        const clone = this.shallowClone();
 
+        if (clone[table].length !== personas.length + 1) {
+            return this.shallowClone();
+        }
+
+        let personaIndex = clone.getHeader(table).indexOf(personaColumnLabel);
+        if (personaIndex === -1) {
+            personaIndex = clone[table][0].length;
+            clone[table] = clone[table].map((value, index) => {
+                value.push(index === 0 ? {
+                    value: personaColumnLabel
+                } : {
+                    value: personas[index - 1]
+                });
+                return value;
+            });
+            clone[table + 'QQ'][personaIndex] = QualLabel;
+        } else if (overwrite) {
+            clone[table] = clone[table].map((value, index) => {
+                value[personaIndex].value = index === 0 ? personaColumnLabel : personas[index - 1];
+                return value;
+            });
+            clone[table + 'QQ'][personaIndex] = QualLabel;
+        }
+        console.log(clone)
+        return clone;
+    }
 
     isQual(table, column) {
         return (!this.isQuant(table, column));
