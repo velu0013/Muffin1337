@@ -26,19 +26,26 @@ Algorithm:
 function kmeans(dataIn, k){
     //k = 0;
     let data = standardize(dataIn)
-    let IDvec, single;
-    console.log(makeKvec(dataIn))
+    let IDvec, single, kVec, multi;
     if(k === 0){
-        let kVec = makeKvec(dataIn) //[2, 3, 4, 5, 6, 7, 8, 9];
-        let multi = multiK(data, kVec)
+        kVec = makeKvec(dataIn) //[2, 3, 4, 5, 6, 7, 8, 9];
+        multi = multiK(data, kVec)
         IDvec = multi[0];
         k = multi[1];
     }else{
         single = singeK(data, k)
         IDvec = single[0];
     }
+
+    kVec = [k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k, k]
+    multi = multiK(data, kVec)
+    IDvec = multi[0];
     return IDvec
 }
+
+
+
+
 
 function makeKvec(data){
     let max = Math.floor(data.length/3)
@@ -160,8 +167,6 @@ function distAll(data, center){
 ///////////////////////////////////// kmeans huvudfunktion ///////////////////////////////////
 function singeK(dataIn, k){
     let data = copy(dataIn);
-    //let centers = randomize(data);
-    //console.log(centers)
 
     let i;
     let centers = [];
@@ -205,12 +210,10 @@ function singeK(dataIn, k){
             for(i = 0; i < data.length; i++){
                 IDvec.push(clusterID(centers, data[i]));
             }
-            //console.log(IDvec)
             nrUnique = IDvec.filter( onlyUnique ).length;
         }
 
     }
-    //console.log(IDvec)
     return [IDvec, centers]
 }
 //////////////////////////////////////////////////////////////////////////////
