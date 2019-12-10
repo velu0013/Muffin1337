@@ -121,28 +121,28 @@ class StudyDBT {
         return bools;
     }
 
-    getHeader(tabular) {
+    getHeader(tabular, offset = 0) {
         let head = [];
-        for (let i = 0; i < this[tabular][0].length; i++) {
+        for (let i = offset; i < this[tabular][0].length; i++) {
             head.push(this[tabular][0][i].value);
         }
         return head;
     }
-    getRecipeHeader() {
-        return (this.getHeader('recipe'));
+    getRecipeHeader(offset = 0) {
+        return (this.getHeader('recipe', offset));
     }
-    getConsumerHeader() {
-        return (this.getHeader('consumer'));
+    getConsumerHeader(offset = 0) {
+        return (this.getHeader('consumer', offset));
     }
-    getPreferenceHeader() {
-        return (this.getHeader('preference'));
+    getPreferenceHeader(offset = 0) {
+        return (this.getHeader('preference', offset));
     }
 
-    getTabular(tabular) {
+    getTabular(tabular, offset = 0) {
         let tableData = [];
         for (let r = 1; r < this[tabular].length; r++) {
             let row = [];
-            for (let c = 0; c < this[tabular][0].length; c++) {
+            for (let c = offset; c < this[tabular][0].length; c++) {
                 let elem = parseFloat(this[tabular][r][c].value)
                 if (isNaN(elem)) {
                     elem = this[tabular][r][c].value;
@@ -153,14 +153,14 @@ class StudyDBT {
         }
         return tableData;
     }
-    getRecipeTabular() {
-        return (this.getTabular('recipe'));
+    getRecipeTabular(offset = 0) {
+        return (this.getTabular('recipe', offset));
     }
-    getConsumerTabular() {
-        return (this.getTabular('consumer'));
+    getConsumerTabular(offset = 0) {
+        return (this.getTabular('consumer', offset));
     }
-    getPreferenceTabular() {
-        return (this.getTabular('preference'));
+    getPreferenceTabular(offset = 0) {
+        return (this.getTabular('preference', offset));
     }
 
 

@@ -5,11 +5,16 @@ import { CreateGrid } from './Study.js';
 import { Redirect } from "react-router-dom";
 import utils from './utils.js'
 
+import AddIcon from '@material-ui/icons/Add';
+
 const contentStyle = {
+
+    marginLeft: "40.5%",
 	background: "#F0F0F0",
 	width: "400px",
 	border: "none"
 };
+
 
 // <NewButton changeName={setStudy} empty={setData} startEdit={setEdit}/>
 //   f={RemoveStudy} confirm={true} study={props.study} close={close}
@@ -22,7 +27,10 @@ function NewButton(props) {
 		<>
 			{select && <Redirect to='/Edit' />}
 			<Popup
-				trigger={<button className="button_pop">Create</button>}
+				trigger={
+				<AddIcon className="Mui"/>
+				//<button className="button_pop">Create</button>
+			}
 				modal
 				contentStyle={contentStyle}
 			>{close => (

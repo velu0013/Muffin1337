@@ -21,10 +21,14 @@ import drop from '../img/drops.svg';
 import login_icon from '../img/login.svg'
 import logout_icon from '../img/logout.svg'
 import 'react-tabs/style/react-tabs.css';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ListIcon from '@material-ui/icons/List';
 
 const contentStyle = {
+
+    marginLeft: "42.5%",
 	background: "#F0F0F0",
-	width: "400px",
+	width: "50vmin",
 	border: "none"
 };
 
@@ -85,7 +89,8 @@ function RoutePage() {
 					</Link>
 
 					<div className="Dropdown-menu">
-						<img src={drop} className="Droper" alt="dropdown menu" />
+						{//<img src={drop} className="Droper" alt="dropdown menu" />
+						}<ListIcon className="Mui bar"/>
 						<div className="Drop-menu">
 							<Link to={Home} className={Home === web ? "Header-link-active" : "Header-link"}>
 								Home
@@ -221,14 +226,18 @@ function ConfirmText({ label, f = null, arg, close = null }) {
 
 function DeleteButton({ StudyList, updateStudyList }) {
 	const [toDelete, setDelete] = useState(new Array(StudyList.length).fill(false));
+	const [selected, setSelected] = useState(true);
 	return (<Popup
-		trigger={<button className="button_pop">Delete</button>}
+		trigger={
+		//<button className="button_pop">Delete</button>
+		<DeleteIcon className="Mui" />}
 		contentStyle={contentStyle}
 		modal
 	>{close => (
-		<ul >
+		<ul className="modal2">
+			<p className="Stud2"> Select Studies to delete:</p>
 			{StudyList.map((value, index) => {
-				return <ul key={index}>{
+				return <ul  key={index}>{
 					<span
 						className={toDelete[index] ? 'DeleteStudy_active' : 'DeleteStudy_inactive'}
 						onClick={() => {
@@ -243,11 +252,14 @@ function DeleteButton({ StudyList, updateStudyList }) {
 				</ul>
 
 			})}
-			<button className="button_pop" onClick={() => setDelete([...toDelete].fill(true))}>Select All</button>
-			<button className="button_pop" onClick={() => setDelete([...toDelete].fill(false))}>Deselect All</button>
+			<div className="pop_ddiv">
+			<button className="button_pop pop" onClick={() => {setDelete([...toDelete].fill(selected)); setSelected(!selected)}}>Select All</button>
+			{//<button className="button_pop pop" onClick={() => setDelete([...toDelete].fill(false))}>Deselect All</button>
+			}
 			<br></br>
 			<DeleteConfirmation StudyList={StudyList} updateStudyList={updateStudyList} toDelete={toDelete} setDelete={setDelete} />
-			<button className="button_pop" onClick={close}>Close</button>
+	{		//<button className="button_pop pop" onClick={close}>Close</button>
+			}		</div>
 		</ul>
 	)}
 	</Popup>
@@ -263,7 +275,7 @@ function DeleteConfirmation({ StudyList, updateStudyList, toDelete, setDelete })
 	})
 	if (studiesToDelete.length === 0) {
 		return (<Popup
-			trigger={<button className="button_pop">Delete Marked</button>}
+			trigger={<button className="button_pop">Delete Selected</button>}
 			contentStyle={contentStyle}
 			modal
 		>{close => (
@@ -277,7 +289,7 @@ function DeleteConfirmation({ StudyList, updateStudyList, toDelete, setDelete })
 		);
 	} else {
 		return (<Popup
-			trigger={<button className="button_pop">Delete Marked</button>}
+			trigger={<button className="button_pop">Delete Selected</button>}
 			contentStyle={contentStyle}
 			modal
 		>{close => (
