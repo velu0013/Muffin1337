@@ -24,7 +24,7 @@ function PCAcomp(study,close) {
     const test = Loading(data5)
     const test2 = LoadingCalc(data2,test)
     const score = Dot(data,data2)
-
+    console.log(data2[data2.length-1].percentexp)
     const descriptionscore = "Each datapoint is projected onto a two-dimensional plane constructed to cover maximal variance. This makes it possible to graphically visualise multidimensional data and provides an useful overview"
     const descriptionloading = "The loadings describe the relationship between the principal components and the variable axis. By comparing the loading-positions with the score plot, it is possible to see what variables has positive and negative correlations with the sample data"
     return(
@@ -37,6 +37,8 @@ function PCAcomp(study,close) {
             <br></br>
             <utils.InfoPop info = {descriptionloading}/> Loadings
             {Loadingchart(test2)}
+            <br></br>
+            Variance explained: {parseInt(data2[data2.length-1].percentexp*100)}%
             </>
             :
             <>
@@ -49,6 +51,8 @@ function PCAcomp(study,close) {
             <br></br>
             <utils.InfoPop info = {descriptionloading}/> Loadings
             {Loadingchart(test2)}
+            <br></br>
+            Variance explained: {parseInt(data2[data2.length-1].percentexp*100)}%
             </>
     }
     </>

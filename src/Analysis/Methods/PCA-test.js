@@ -25,7 +25,8 @@ function PCA2(vec) {
     const devscore = PCA.computeDeviationScores(MeanMatrix)
     const vectors = PCA.getEigenVectors(MeanMatrix);
     const adjust = PCA.computeAdjustedData(data2,vectors[0],vectors[1])
-
+    const Toptwo = PCA.computePercentageExplained(vectors,vectors[0],vectors[1])
+    vectors.push({percentexp: Toptwo})
     return vectors
 }
 
