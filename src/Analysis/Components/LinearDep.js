@@ -181,14 +181,7 @@ function ParameterSelector({ paramList, param, setParam }) {
 function PreferenceChart(plotType, pow, param, study, k) {
     const headers = study.getHeader('recipe');
     const options = {
-        chart: {
-            height: 1000,
-            width: '100%',
-            zoom: {
-                enabled: true,
-                type: 'xy'
-            }
-        },
+
         xaxis: {
             tickAmount: 2,
             type: 'numeric',

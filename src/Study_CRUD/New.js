@@ -8,8 +8,7 @@ import utils from './utils.js'
 import AddIcon from '@material-ui/icons/Add';
 
 const contentStyle = {
-
-    marginLeft: "40.5%",
+	marginLeft: "40.5%",
 	background: "#F0F0F0",
 	width: "400px",
 	border: "none"
@@ -28,9 +27,9 @@ function NewButton(props) {
 			{select && <Redirect to='/Edit' />}
 			<Popup
 				trigger={
-				<AddIcon className="Mui"/>
-				//<button className="button_pop">Create</button>
-			}
+					<AddIcon className="Mui" />
+					//<button className="button_pop">Create</button>
+				}
 				modal
 				contentStyle={contentStyle}
 			>{close => (
@@ -68,6 +67,7 @@ function NewButton(props) {
 										.changeFullTable('consumer', CreateGrid(dims[1][0], dims[1][1]))
 										.changeFullTable('preference', CreateGrid(dims[2][0], dims[2][1])));
 									props.setStudy(DB.OpenStudy(arg))
+									props.updateStudyList();
 									setAvailable(true)
 									setSelect(true)
 									close()
