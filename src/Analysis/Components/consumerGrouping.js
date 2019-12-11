@@ -64,7 +64,7 @@ function Genetator({ k, study, setClusters }) {
     return (<button
         className="button_pop"
         onClick={() => {
-            let consumerData = study.getConsumerTabular();
+            let consumerData = study.getConsumerTabular(1);
             let varType = study.isQuantFull('consumer', 1);
             setClusters(consumerClusters(consumerData, k, varType));
         }}
@@ -99,7 +99,7 @@ function SaveToStudy({ clusters, study, setStudy }) {
         >{close => (
             <button className="button_pop"
                 onClick={() => {
-                    setStudy(study.addPersona('consumer', clusters, true));
+                    setStudy(study.addPersona('consumer', LabelArray(clusters), true));
                     close();
                 }}>
                 Save
@@ -108,6 +108,22 @@ function SaveToStudy({ clusters, study, setStudy }) {
         </Popup>);
     }
 }
+
+function LabelArray(clusters) {
+    const mapping = {};
+    const LabeledClusters = [];
+    let cat = 'A';
+    clusters.forEach((val, i) => {
+        let clust = String(val);
+        if (Object.keys(mapping).indexOf(clust) === -1) {
+            mapping[clust] = cat;
+            cat = String.fromCharCode(cat.charCodeAt(0) + 1);
+        }
+        LabeledClusters.push(mapping[clust]);
+    })
+    return LabeledClusters;
+}
+
 
 function ClusterTables({ clusters, study }) {
     const offset = 1;
@@ -136,7 +152,6 @@ function ClusterTables({ clusters, study }) {
             valueRenderer={(cell) => cell}
         />
         <br></br>
-        <button className="button_pop">Done Doing Stuff</button>
         <span>{uniques}</span>
     </div>);
 }

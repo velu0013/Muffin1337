@@ -253,7 +253,7 @@ function DeleteButton({ StudyList, updateStudyList }) {
 
 			})}
 			<div className="pop_ddiv">
-				<button className="button_pop pop" onClick={() => { setDelete([...toDelete].fill(selected)); setSelected(!selected) }}>Select All</button>
+				<button className="button_pop pop" onClick={() => { setDelete(new Array(StudyList.length).fill(selected)); setSelected(!selected) }}>Select All</button>
 				{//<button className="button_pop pop" onClick={() => setDelete([...toDelete].fill(false))}>Deselect All</button>
 				}
 				<br></br>
