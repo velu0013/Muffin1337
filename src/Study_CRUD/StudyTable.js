@@ -6,6 +6,16 @@ import { CreateGrid } from './Study.js'
 import utils from './utils.js'
 import DB from './DB.js'
 import Warning from '../img/Warning.png'
+import UndoIcon from '@material-ui/icons/Undo';
+import EditIcon from '@material-ui/icons/Edit';
+
+const contentStyle = {
+    marginLeft: "42.5%",
+	background: "#F0F0F0",
+	width: "20%",
+	border: "none"
+};
+
 
 function StudyTable(props) {
   if (props.tableData === null || props.tableData.length === 0 || props.tableData[0].length === 0) {
@@ -17,8 +27,22 @@ function StudyTable(props) {
   }
   return (
     <>
-      <div className="table-header">
-        <DuplicateFinder arra1={props.tableData} />
+      
+
+      <ReactDataSheet
+        data={props.tableData}
+        valueRenderer={(cell) => cell.value}
+        onCellsChanged={changes => {
+          const grid = props.tableData.map(row => [...row])
+          changes.forEach(({ cell, row, col, value }) => {
+            grid[row][col] = { ...grid[row][col], value }
+          })
+          DB.setCurrentTable(grid, props.tableKey)
+          props.setData(grid)
+        }}
+      />
+
+<div className="table-header">
         <BackButton tableKey={props.tableKey} setData={grid => {
           DB.setCurrentTable(grid, props.tableKey)
           props.setData(grid)
@@ -33,24 +57,15 @@ function StudyTable(props) {
         />
       </div>
 
-      <ReactDataSheet
-        data={props.tableData}
-        valueRenderer={(cell) => cell.value}
-        onCellsChanged={changes => {
-          const grid = props.tableData.map(row => [...row])
-          changes.forEach(({ cell, row, col, value }) => {
-            grid[row][col] = { ...grid[row][col], value }
-          })
-          DB.setCurrentTable(grid, props.tableKey)
-          props.setData(grid)
-        }}
-      />
+      <DuplicateFinder arra1={props.tableData} />
     </>);
 }
 
 function BackButton(props) {
   return (
-    <input type="button" className="button_pop" value="Undo"
+    <UndoIcon
+    className="Mui tab"
+    //<input type="button" className="button_pop" value="Undo"
       onClick={_ => {
         const oldTable = DB.getCurrentTable(1, props.tableKey)
         if (oldTable !== null) {
@@ -64,11 +79,13 @@ function BackButton(props) {
 // Size modifiers
 function EditButton(props) {
   return (
-    <Popup trigger={<button className="button_pop" > Edit </button>}
-      position={'bottom left'}
+    <Popup trigger={
+      <EditIcon className="Mui tab"/>//<button className="button_pop" > Edit </button>
+    }
+      position={'top left'}
       closeOnDocumentClick
       mouseLeaveDelay={300}
-      mouseEnterDelay={150}
+      mouseEnterDelay={200}
       on='hover'
       contentStyle={{ padding: "0px", border: "none" }}
       arrow={false}
@@ -234,7 +251,7 @@ function SetSize(props) {
     <Popup trigger={<div className="dropdown-item" > Set Size </div>}
       position={'bottom left'}
       closeOnDocumentClick
-      contentStyle={{ padding: "0px", border: "none" }}
+      contentStyle={contentStyle}
       modal
     >
       {close => (

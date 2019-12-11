@@ -17,7 +17,7 @@ import { NewButton } from './New.js';
 import { UploadButton, DownloadButton } from './Filemgmt.js'
 import Analyzers from '../Analysis/Analysis_Master.js'
 
-import drop from '../img/drops.svg';
+import logo from '../img/vonkansmuffin.svg'
 import login_icon from '../img/login.svg'
 import logout_icon from '../img/logout.svg'
 import 'react-tabs/style/react-tabs.css';
@@ -75,6 +75,11 @@ function RoutePage() {
 	return (
 		<div className="App">
 			<div className="Header-bar">
+				<Link to={Home} className="Muffin_top">				
+					<p>Muffin</p>
+					<img src={logo} className="Muffin_top_bar"></img>
+				</Link>
+
 				<ul >
 					<Link to={Login} >
 						<img
@@ -113,12 +118,12 @@ function RoutePage() {
 					<PrintStudyList study={study} setStudy={setStudy} Skey={Skey} setKey={setKey} StudyList={StudyList} setStudyList={setStudyList} updateStudyList={() => setStudyList(DB.GetStudies(Skey))} />
 				</div>
 			</div>
-			<div className={pagen ? "Second-class" : "Second-class1"}>
+			<div className={pagen ? "Second-class2" : "Second-class1"}>
 				<Tabs>
-					<TabList className="Tabs-fix" >
-						<Tab className="Tabss">Edit</Tab>
-						<br></br>
-						<Tab className="Tabss">Analysis</Tab>
+					<TabList className="Tabs-fix2" >
+						<Tab className="Tabss2">Edit</Tab>
+						{//<br></br>
+						}<Tab className="Tabss2">Analysis</Tab>
 					</TabList>
 					<TabPanel >
 						{currstudy ? <Redirect to='/Edit' /> : <Redirect to='/' />}

@@ -40,7 +40,7 @@ function Editpage({ study, setStudy, updateStudyList }) {
                     <TabList>
                         <Tab>Recipe</Tab>
                         <Tab>Description</Tab>
-                        <Tab>preference</Tab>
+                        <Tab>Preference</Tab>
                     </TabList>
                     <TabPanel>
                         Recipe

@@ -10,8 +10,8 @@
   font-family: "Esphimere Thin";
   text-align: center;
   background-image:
-    linear-gradient(#000000CC,
-      #00000060), url("../img/Cupcake2.jpg");
+    linear-gradient(#000000AA,
+      #00000040), url("../img/Cupcake2.jpg");
   background-size: 100vw;
   background-attachment: fixed;
   background-repeat: repeat;
@@ -116,7 +116,7 @@
   z-index: 1;
   width: 100%;
   position: fixed;
-  background-color: #AA8030;
+  background-color: #fdb61b;
   transition: 0.3s;
 }
 
@@ -204,12 +204,35 @@
   background-color: #00BCD4 !important;
   color: #FFF;
 }
+.Muffin_top{
+  display: flex;
+  color: black;
+  font-weight: 600;
+  font-size: 120%;
+  height: 6vmin;
+  float:left;
+  margin-left: 3vw;
+  margin-top: -2vmin;
+  cursor: pointer; 
+  text-decoration: none;
+}
+.Muffin_top:hover{
+
+  color:black;
+}
+.Muffin_top_bar{
+  margin-top: 2vmin;
+  height: 6vmin;
+  margin-left: 5px;
+}
 .Mui{
   color:#FFFFFF;
   font-size: 40px !important;
 }
 .Mui:hover{
   color:#dddddd80;
+  cursor: pointer;
+  
 }
 .Mui.bar{
   color: black;
@@ -217,6 +240,11 @@
   padding: 0vmin 0vmin;
   margin-right: 0vmin;
   margin-top:-1vmin;
+
+  cursor: pointer;
+}
+.Mui.tab{
+  margin: 0px 2vmin;
 }
 
 .study-list {
@@ -239,7 +267,7 @@
   position: fixed;
 }
 
-.Second-class {
+.Second-class{
   position: fixed;
   margin-top: 6vmin;
   margin-left: 15vw;
@@ -247,17 +275,35 @@
   border-bottom: none !important;
 }
 
-.Second-class1 {
+.Second-class1{
   display: none;
+}
+.Second-class2{
+  position: fixed;
+  margin-top: -1vmin;
+  width: 100%;
+  display: flex;
+  margin-left: 35vw;
+  z-index:1;
+}
+.Dropdown-item.inactive{
+  background-color: cyan;
 }
 
 .Tabs-fix {
   margin: 0;
   padding: 0;
 }
-
-.Tabss {
-
+.Tabss2{
+  background-color:  #cf910a;
+  display: inline-block;
+  width: 15vw;
+  margin: 5px;
+  height: 30px;
+  margin-top: 0px;
+  padding-top: 0p;
+}
+.Tabss{
   display: inline-block;
   border: 1px solid transparent;
   border-bottom: none;
@@ -473,7 +519,7 @@ a:active {
 .pop_div {
   display: flex;
   flex-direction: row;
-  margin: 0px 0px 0px 0px;
+  margin: 10px 0px 0px 0px;
   padding: 0px;
 }
 .pop_ddiv {
@@ -482,8 +528,9 @@ a:active {
 
 /**Datasheet-Dimension-counters **/
 .Dimmer {
-  align-items: center;
-  max-width: 44px;
+  align-items: center;    
+  width: 10vmin;
+  padding: 0px;
 
   font-size: calc(8px + 1vh);
   outline: none;
