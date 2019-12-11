@@ -26,7 +26,7 @@ import ListIcon from '@material-ui/icons/List';
 
 const contentStyle = {
 
-    marginLeft: "42.5%",
+	marginLeft: "42.5%",
 	background: "#F0F0F0",
 	width: "50vmin",
 	border: "none"
@@ -90,7 +90,7 @@ function RoutePage() {
 
 					<div className="Dropdown-menu">
 						{//<img src={drop} className="Droper" alt="dropdown menu" />
-						}<ListIcon className="Mui bar"/>
+						}<ListIcon className="Mui bar" />
 						<div className="Drop-menu">
 							<Link to={Home} className={Home === web ? "Header-link-active" : "Header-link"}>
 								Home
@@ -172,7 +172,7 @@ function PrintStudyList({ study, setStudy, Skey, setKey, StudyList, setStudyList
 			<p className="Stud">My Studies</p>
 			<input className="Text-input1" type="text" placeholder="Search..." value={Skey} onChange={event => { setKey(event.target.value); setStudyList(DB.GetStudies(event.target.value)); }} />
 			<div className="nyebuttons">
-				<NewButton study={study} setStudy={setStudy} />
+				<NewButton study={study} setStudy={setStudy} updateStudyList={() => setStudyList(DB.GetStudies(Skey))} />
 				<UploadButton study={study} setStudy={x => { setStudy(x); setSelect(true) }} />
 				<DeleteButton StudyList={StudyList} updateStudyList={updateStudyList} />
 				{select && <Redirect to='/Edit' />}
@@ -229,15 +229,15 @@ function DeleteButton({ StudyList, updateStudyList }) {
 	const [selected, setSelected] = useState(true);
 	return (<Popup
 		trigger={
-		//<button className="button_pop">Delete</button>
-		<DeleteIcon className="Mui" />}
+			//<button className="button_pop">Delete</button>
+			<DeleteIcon className="Mui" />}
 		contentStyle={contentStyle}
 		modal
 	>{close => (
 		<ul className="modal2">
 			<p className="Stud2"> Select Studies to delete:</p>
 			{StudyList.map((value, index) => {
-				return <ul  key={index}>{
+				return <ul key={index}>{
 					<span
 						className={toDelete[index] ? 'DeleteStudy_active' : 'DeleteStudy_inactive'}
 						onClick={() => {
@@ -253,13 +253,13 @@ function DeleteButton({ StudyList, updateStudyList }) {
 
 			})}
 			<div className="pop_ddiv">
-			<button className="button_pop pop" onClick={() => {setDelete([...toDelete].fill(selected)); setSelected(!selected)}}>Select All</button>
-			{//<button className="button_pop pop" onClick={() => setDelete([...toDelete].fill(false))}>Deselect All</button>
-			}
-			<br></br>
-			<DeleteConfirmation StudyList={StudyList} updateStudyList={updateStudyList} toDelete={toDelete} setDelete={setDelete} />
-	{		//<button className="button_pop pop" onClick={close}>Close</button>
-			}		</div>
+				<button className="button_pop pop" onClick={() => { setDelete([...toDelete].fill(selected)); setSelected(!selected) }}>Select All</button>
+				{//<button className="button_pop pop" onClick={() => setDelete([...toDelete].fill(false))}>Deselect All</button>
+				}
+				<br></br>
+				<DeleteConfirmation StudyList={StudyList} updateStudyList={updateStudyList} toDelete={toDelete} setDelete={setDelete} />
+				{		//<button className="button_pop pop" onClick={close}>Close</button>
+				}		</div>
 		</ul>
 	)}
 	</Popup>
