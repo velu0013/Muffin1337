@@ -182,7 +182,7 @@
   border: 0px solid;
   background-color: transparent;
   outline: none;
-  margin-left:-40px;
+  margin-left: -40px;
 }
 
 .Text-button2:active,
@@ -193,57 +193,65 @@
 
 .nyebuttons {
   display: inline-block;
-  
+
   width: 100%;
 }
-.nyebuttons *{
-  padding:0px 10px;
+
+.nyebuttons * {
+  padding: 0px 10px;
 }
 
 .AddIcon .mdl-navigation__link:hover .material-icons {
   background-color: #00BCD4 !important;
   color: #FFF;
 }
-.Muffin_top{
+
+.Muffin_top {
   display: flex;
   color: black;
   font-weight: 600;
   font-size: 120%;
   height: 6vmin;
-  float:left;
+  float: left;
   margin-left: 3vw;
   margin-top: -2vmin;
-  cursor: pointer; 
+  cursor: pointer;
   text-decoration: none;
 }
-.Muffin_top:hover{
 
-  color:black;
+.Muffin_top:hover {
+
+  color: black;
 }
-.Muffin_top_bar{
+
+.Muffin_top_bar {
   margin-top: 2vmin;
   height: 6vmin;
   margin-left: 5px;
 }
-.Mui{
-  color:#FFFFFF;
+
+.Mui {
+  color: #FFFFFF;
   font-size: 40px !important;
 }
-.Mui:hover{
-  color:#dddddd80;
+
+.Mui:hover {
+  color: #dddddd80;
   cursor: pointer;
-  
+
 }
-.Mui.bar{
+
+.Mui.bar {
   color: black;
   transition: 0.3s;
   padding: 0vmin 0vmin;
   margin-right: 0vmin;
-  margin-top:-1vmin;
+  margin-top: -1vmin;
 
   cursor: pointer;
 }
-.Mui.tab{
+
+.Mui.tab {
   margin: 0px 2vmin;
 }
 
@@ -267,7 +275,7 @@
   position: fixed;
 }
 
-.Second-class{
+.Second-class {
   position: fixed;
   margin-top: 6vmin;
   margin-left: 15vw;
@@ -275,27 +283,28 @@
   border-bottom: none !important;
 }
 
-.Second-class1{
+.Second-class1 {
   display: none;
 }
-.Second-class2{
+
+.Second-class2 {
   position: fixed;
   margin-top: -1vmin;
   width: 100%;
   display: flex;
   margin-left: 35vw;
-  z-index:1;
+  z-index: 1;
 }
-.Dropdown-item.inactive{
-  background-color: cyan;
-}
+
+
 
 .Tabs-fix {
   margin: 0;
   padding: 0;
 }
-.Tabss2{
-  background-color:  #cf910a;
+
+.Tabss2 {
+  background-color: #cf910a;
   display: inline-block;
   width: 15vw;
   margin: 5px;
@@ -303,7 +312,8 @@
   margin-top: 0px;
   padding-top: 0p;
 }
-.Tabss{
+
+.Tabss {
   display: inline-block;
   border: 1px solid transparent;
   border-bottom: none;
@@ -411,12 +421,13 @@ a:active {
   margin-top: 10px;
   margin-left: -40px;
 }
-.button_pop.ppop{
+
+.button_pop.ppop {
   width: 120px;
   height: 310px;
-  overflow:hidden;
+  overflow: hidden;
   font-size: 10px;
-} 
+}
 
 .button_pop:hover,
 .button_pop:active,
@@ -502,6 +513,7 @@ a:active {
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
 .modal2 {
   color: #000000;
   display: inline-block;
@@ -516,19 +528,21 @@ a:active {
   margin: 10px 0px 10px 0px;
   font-weight: 600;
 }
+
 .pop_div {
   display: flex;
   flex-direction: row;
   margin: 10px 0px 0px 0px;
   padding: 0px;
 }
+
 .pop_ddiv {
   margin-left: 0px;
 }
 
 /**Datasheet-Dimension-counters **/
 .Dimmer {
-  align-items: center;    
+  align-items: center;
   width: 10vmin;
   padding: 0px;
 
@@ -568,7 +582,14 @@ a:active {
   font-weight: bold;
 }
 
+.dropdown-item.inactive {
+  color: rgb(200, 200, 200);
+}
 
+.dropdown-item.inactive:hover {
+  color: rgb(200, 200, 200);
+  font-weight: normal;
+}
 
 /*Changes color in modal-popups*/
 .Text-color-fix {

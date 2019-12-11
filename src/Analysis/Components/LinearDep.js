@@ -171,6 +171,14 @@ function ParameterSelector({ paramList, param, setParam }) {
                             </div>}
                         </ul>
                     })}
+                    {paramList.indexOf('Persona') === -1 &&
+                        <ul key={paramList.length} className="dropdown-item inactive">
+                            {<div>
+                                <utils.InfoPop info={'Use "Consumer Clustering" to generate Personas in order to use this category'} />
+                                {' Persona'}
+                            </div>}
+                        </ul>
+                    }
                 </>
             )}
         </Popup>
