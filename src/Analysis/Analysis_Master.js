@@ -2,7 +2,7 @@ import ClusterAnalysis from './Components/Cluster.js'
 import ParameterRelevance from './Components/ParameterRelevance.js'
 import LinearDep from './Components/LinearDep.js'
 import PCAcomp from './Components/PCA-component'
-import ConsumerGroups from './Components/consumerGrouping.js'
+import ConsumerGroups from './Components/ConsumerGrouping.js'
 
 const Analyzers = [{
     name: 'Cluster Analysis',

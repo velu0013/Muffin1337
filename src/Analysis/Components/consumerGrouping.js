@@ -111,21 +111,20 @@ function SaveToStudy({ clusters, study, setStudy }) {
 
 function LabelArray(clusters) {
     const mapping = {};
-    const LabeledClusters = [];
     let cat = 'A';
-    clusters.forEach((val, i) => {
+    return clusters.map(val => {
         let clust = String(val);
         if (Object.keys(mapping).indexOf(clust) === -1) {
             mapping[clust] = cat;
             cat = String.fromCharCode(cat.charCodeAt(0) + 1);
         }
-        LabeledClusters.push(mapping[clust]);
-    })
-    return LabeledClusters;
+        return mapping[clust];
+    });
 }
 
 
 function ClusterTables({ clusters, study }) {
+    clusters = LabelArray(clusters);
     const offset = 1;
     const uniques = [], counts = {};
     clusters.forEach((val, i) => {
@@ -135,36 +134,89 @@ function ClusterTables({ clusters, study }) {
         }
         counts[val]++;
     })
-    // const fullTable = study.getConsumerTabular(offset);
-    // const stats = {};
-    // for(let r=0; r<fullTable.length; r++){
-    //     for (let c=0;c<fullTable[0]; c++){
-    //         if(study.isQuant('consumer', c+offset)){
-    //             stats[clusters[r]] += fullTable[r][c]/counts[clusters[r]]
-    //         }
-    //     }
-    // }
+    const tabular = study.getConsumerTabular(offset);
+    const stats = {};
+    uniques.forEach((val, i) => {
+        stats[val] = new Array(tabular[0].length).fill({ category: '', stat: 0 });
+    })
+    console.log(stats)
+    for (let c = 0; c < tabular[0].length; c++) {
+        if (study.isQuant('consumer', c + offset)) {
+            // for (let r = 0; r < tabular.length; r++) {
+            //     stats[clusters[r]][c].stat += tabular[r][c] / counts[clusters[r]]
+            // }
+        } else {
+            console.log('Tjena')
+            let categories = [];
+            for (let r = 0; r < tabular.length; r++) {
+                if (categories.indexOf(tabular[r][c]) === -1) {
+                    categories.push(tabular[r][c])
+                }
+            }
+            uniques.forEach((cluster, i) => {
+                let catCount = {}, tot = 0;
+                categories.forEach(cat => {
+                    catCount[cat] = 0;
+                })
+                for (let r = 0; r < tabular.length; r++) {
+                    catCount[tabular[r][c]] += 1;
+                    tot++;
+                }
+                categories.forEach((cat, i) => {
+                    if (catCount[cat] > stats[cluster][c].stat) {
+                        stats[cluster][c].category = cat;
+                        stats[cluster][c].stat = catCount[cat]
+                    }
+                });
+                stats[cluster][c].stat = Math.round(stats[cluster][c].stat * (100 / tot))
+            })
+        }
+    }
+
+    console.log(stats)
 
     return (<div>
-        <ReactDataSheet
-            data={[study.getConsumerHeader(offset)]}
-            className="Table-fix2"
-            valueRenderer={(cell) => cell}
-        />
+        <DisplayHeaders study={study} offset={offset} />
         <br></br>
+        {uniques.map((label, index) => {
+            return <ul key={index}><LabelTable label={label} stats={stats[uniques[index]]} />
+            </ul>
+        })}
         <span>{uniques}</span>
     </div>);
 }
 
-function LabelTable({ label, descriptions, ratios }) {
-    const tableData = [[...descriptions], [...ratios]];
+const valueify = x => { return { value: x } };
 
-
+function DisplayHeaders({ study, offset }) {
+    const headers = [study.getConsumerHeader(offset).map(valueify)];
     return (<ReactDataSheet
-        data={tableData}
+        data={headers}
         className="Table-fix2"
         valueRenderer={(cell) => cell.value}
-    />);
+    />)
+}
+
+
+
+function LabelTable({ label, stats }) {
+    console.log(stats)
+
+    const descriptions = stats.map(val => val.category)
+    const ratios = stats.map(val => val.stat)
+
+    const tableData = [[...descriptions].map(valueify), [...ratios].map(valueify)];
+
+
+    return (<div>
+        <span>{label + ':'}</span>
+        <ReactDataSheet
+            data={tableData}
+            className="Table-fix2"
+            valueRenderer={(cell) => cell.value}
+        />
+    </div>
+    );
 }
 
 
