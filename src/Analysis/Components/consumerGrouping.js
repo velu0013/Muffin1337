@@ -127,26 +127,33 @@ function ClusterTables({ clusters, study }) {
     clusters = LabelArray(clusters);
     const offset = 1;
     const uniques = [], counts = {};
-    clusters.forEach((val, i) => {
-        if (uniques.indexOf(val) === -1) {
-            uniques.push(val);
-            counts[val] = 0;
+    clusters.forEach((cluster, i) => {
+        if (uniques.indexOf(cluster) === -1) {
+            uniques.push(cluster);
+            counts[cluster] = 0;
         }
-        counts[val]++;
+        counts[cluster]++;
     })
     const tabular = study.getConsumerTabular(offset);
     const stats = {};
-    uniques.forEach((val, i) => {
-        stats[val] = new Array(tabular[0].length).fill({ category: '', stat: 0 });
+
+    uniques.forEach(cluster => {
+        
     })
+
+
+
+    uniques.forEach((val, i) => {
+        stats[String(val)] = new Array(tabular[0].length).fill({ category: '', stat: 0 });
+    })
+    console.log('Before')
     console.log(stats)
     for (let c = 0; c < tabular[0].length; c++) {
         if (study.isQuant('consumer', c + offset)) {
-            // for (let r = 0; r < tabular.length; r++) {
-            //     stats[clusters[r]][c].stat += tabular[r][c] / counts[clusters[r]]
-            // }
+            for (let r = 0; r < tabular.length; r++) {
+                stats[String(clusters[r])][c].stat += tabular[r][c] / counts[clusters[r]]
+            }
         } else {
-            console.log('Tjena')
             let categories = [];
             for (let r = 0; r < tabular.length; r++) {
                 if (categories.indexOf(tabular[r][c]) === -1) {
@@ -154,25 +161,26 @@ function ClusterTables({ clusters, study }) {
                 }
             }
             uniques.forEach((cluster, i) => {
+                cluster = String(cluster);
                 let catCount = {}, tot = 0;
                 categories.forEach(cat => {
-                    catCount[cat] = 0;
+                    catCount[String(cat)] = 0;
                 })
                 for (let r = 0; r < tabular.length; r++) {
-                    catCount[tabular[r][c]] += 1;
+                    catCount[String(tabular[r][c])] += 1;
                     tot++;
                 }
                 categories.forEach((cat, i) => {
-                    if (catCount[cat] > stats[cluster][c].stat) {
+                    if (catCount[String(cat)] > stats[cluster][c].stat) {
                         stats[cluster][c].category = cat;
-                        stats[cluster][c].stat = catCount[cat]
+                        stats[cluster][c].stat = catCount[String(cat)]
                     }
                 });
                 stats[cluster][c].stat = Math.round(stats[cluster][c].stat * (100 / tot))
             })
         }
     }
-
+    console.log('After')
     console.log(stats)
 
     return (<div>
@@ -200,7 +208,6 @@ function DisplayHeaders({ study, offset }) {
 
 
 function LabelTable({ label, stats }) {
-    console.log(stats)
 
     const descriptions = stats.map(val => val.category)
     const ratios = stats.map(val => val.stat)
