@@ -31,10 +31,17 @@ function singleCluster(data, k){
     }
 
     while(convergenceTest(oldCenters, centers, iter) === false){
+        console.log('new iteration!')
+        console.log('data:')
+        console.log(data)
+        console.log('centers')
+        console.log(centers)
         IDvec = [];
         for(i = 0; i < data.length; i++){
-            IDvec.push(clusterID(centers, i)); //Give each data point an ID that says which cluster it belongs to
+            IDvec.push(clusterID(centers, data[i])); //Give each data point an ID that says which cluster it belongs to
         }
+        console.log('IDvec')
+        console.log(IDvec)
 
         let clusterMatrix;
         oldCenters = [];
@@ -49,6 +56,8 @@ function singleCluster(data, k){
             }
         }
         iter = iter + 1;
+        console.log('new centers')
+        console.log(centers)
     }
     return [IDvec, centers]
 }
