@@ -51,7 +51,7 @@ function ParameterRelevance({ study, close }) {
 function ParameterSelector({ paramList, param, setParam }) {
     const label = param === null ? 'Select Parameter' : 'Analyzing: ' + param;
     return (
-        <Popup trigger={<button className="button_pop center">{label}</button>}
+        <Popup trigger={<button className="button_pop">{label}</button>}
             position={'right top'}
             closeOnDocumentClick
             mouseLeaveDelay={300}
