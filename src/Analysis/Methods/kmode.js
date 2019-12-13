@@ -31,17 +31,10 @@ function singleCluster(data, k){
     }
 
     while(convergenceTest(oldCenters, centers, iter) === false){
-        console.log('new iteration!')
-        console.log('data:')
-        console.log(data)
-        console.log('centers')
-        console.log(centers)
         IDvec = [];
         for(i = 0; i < data.length; i++){
             IDvec.push(clusterID(centers, data[i])); //Give each data point an ID that says which cluster it belongs to
         }
-        console.log('IDvec')
-        console.log(IDvec)
 
         let clusterMatrix;
         oldCenters = [];
@@ -56,8 +49,6 @@ function singleCluster(data, k){
             }
         }
         iter = iter + 1;
-        console.log('new centers')
-        console.log(centers)
     }
     return [IDvec, centers]
 }
@@ -294,7 +285,7 @@ function relFreq(col, value){
 function multiCluster(data){
     let theBest = 0;
     let i, centers, sol, IDvec, IDs;
-    let kVec = [2, 3, 4]; //makeKvec(data);//////////////////////////////////////////
+    let kVec = makeKvec(data);
     for(i = 0; i < kVec.length; i++){
         sol = singleCluster(data, kVec[i]);
         IDvec = sol[0];
@@ -307,7 +298,28 @@ function multiCluster(data){
     return IDs
 }
 
+function makeKvec(data){
+    //it should not test for more clusters than 1/2 the number of observations
+    //it should not test for more clusters than 1/2 the number of unique values for the variable with most unique vals
+    let max = Math.ceil(data.length/2);
+    let i, nrUnique;
+    let nrUniqueMax = 0;
+    for(i = 0; i < data[0].length; i++){
+        nrUnique = getColumn(data, i).filter( onlyUnique ).length;;
+        if(nrUnique > nrUniqueMax) nrUniqueMax = nrUnique;
+    }
+    if(nrUniqueMax < max) max = nrUniqueMax;
+    let k = 2;
+    let kVec = [];
+    while(k <= max){
+        kVec.push(k)
+        k = k + 1;
+    }
+    return kVec
+}
 
+
+/*
 function makeKvec(data){
     let max = Math.floor(data.length/2)
     let nrUnique = 0;
@@ -322,13 +334,13 @@ function makeKvec(data){
 
     let count = 2;
     let kVec = []
-    while(count < max ){
+    while(count < max + 1){
         kVec.push(count)
         count = count + 1;
     }
     return kVec
 }
-
+*/
 
 
 
