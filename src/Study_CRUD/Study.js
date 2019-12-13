@@ -91,7 +91,6 @@ class StudyDBT {
                 value[personaIndex].value = index === 0 ? personaColumnLabel : personas[index - 1];
                 return value;
             });
-            console.log(clone[table + 'QQ'][personaIndex])
             clone[table + 'QQ'][personaIndex] = QualLabel;
         }
         return clone;
@@ -102,6 +101,9 @@ class StudyDBT {
     }
     isQuant(table, column) {
         if (this[table + 'QQ'].length === 0) {
+            return false;
+        }
+        if (this[table + 'QQ'][0].length <= column) {
             return false;
         }
         return (this[table + 'QQ'][0][column].value === QuantLabel);
