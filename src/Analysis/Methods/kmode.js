@@ -5,191 +5,54 @@
 //Tänk om man slumpar gamla centers= centers på en gång??
 //MÖJLIGT FIX: hur def k vector?? Hur def goodness?? konvergens om center inte flyttas på flera ggr??
 import {kmeans} from '../Methods/kmeans.js'
-import {standardStats} from '../Methods/standardStats.js'
-import { emptyStatement } from '@babel/types';
-function consumerClusters(dataIn, k, type){
-    let data = convertData(dataIn, type); //remove
-    let IDs;
 
+function consumerClusters(dataIn, k, type){
+    let data = convertData(dataIn, type); 
+    let IDs;
     if(k === 0){
         IDs = multiCluster(data)
     }else{
         let sol = singleCluster(data, k) 
         IDs = sol[0]
     }
-    let test;
-    let test2;
-    if(test === undefined) test2 = 1;
-    return IDs 
-}
 
-
-function multiCluster(data){
-    let theBest = 0;
-    let i, centers, sol, IDvec, IDs;
-    let kVec = [2, 3, 4]; //makeKvec(data);
-    for(i = 0; i < kVec.length; i++){
-        sol = singleCluster(data, kVec[i]);
-        IDvec = sol[0];
-        centers = sol[1];
-        if(goodness(IDvec, data, centers) > theBest){
-            IDs = IDvec;
-            theBest = goodness(IDvec, data, centers);
-        }
-    }
     return IDs
 }
 
 
-function makeKvec(data){
-    let max = Math.floor(data.length/2)
-    let nrUnique = 0;
-    let i, thisVar;
-    let maxUnique = 0;
-    for(i = 0; i < data[0].length; i++){
-        thisVar = getColumn(data, i)
-        nrUnique = thisVar.filter( onlyUnique ).length;
-        if(nrUnique > maxUnique) maxUnique = nrUnique;
-    }
-    if(maxUnique < max) max = maxUnique;
-
-    let count = 2;
-    let kVec = []
-    while(count < max ){
-        kVec.push(count)
-        count = count + 1;
-    }
-    return kVec
-}
-
-
-
-
-function goodness(IDvec, data, centers){
-    // abs(sum(all) - 2*sum(within))
-    // average over all centers!!
-    let i, clusterMatrix, center; 
-    let goodness = 0;
-    for(i = 0; i < centers.length; i++){
-        clusterMatrix = clusterData(i, IDvec, data);
-        center = centers[i];
-        goodness = goodness + distAll(data, center) - 2*distWithin(clusterMatrix, center);
-    }
-    goodness = goodness / centers.length;
-    //clusterMatrix = clusterData(i, IDvec, data); i vilket center
-    return goodness;
-}
-
-
-
-
-function distWithin(clusterMatrix, center){
-    /*Sums the distance between every point IN TH CLUSTER and ONE cluster 
-    Takes: all data IN THE CLUSTER, vector for the center (one val for each variable)
-    Returns: the sum*/
-    let i;
-    let sum = 0;
-    for(i = 0; i < clusterMatrix.length; i++){
-        sum = sum + distance(clusterMatrix[i], center);
-    }
-    return sum;
-}
-
-
-
-function distAll(data, center){
-    /*Sums the distance between every point and ONE cluster 
-    Takes: all data, vector for the center (one val for each variable)
-    Returns: the sum*/
-    let i;
-    let sum = 0;
-    for(i = 0; i < data.length; i++){
-        sum = sum + distance(data[i], center)
-    }
-    return sum;
-} 
-
-
-
-
-
-
-
-
-
-
-
-
 function singleCluster(data, k){
-    let randval;
-    let i;
     let centers = [];
-    let IDvec = [];
     let oldCenters = [];
-    let clusterMatrix;
-    let ktest = k;
-    let nrUnique = 0;
-    while(nrUnique < ktest){
-        for(i = 0; i < ktest; i++){
-            centers.push(randomize(data))           //initiate centers
-            oldCenters.push(randomize(data))        //initiate old centers
-        }
-    
+    let i, IDvec;
+    let iter = 0;
+    for(i = 0; i < k; i++){ //initialize centers and old centers
+        centers.push(randomize(data))
+        oldCenters.push(randomize(data))
+    }
+
+    while(convergenceTest(oldCenters, centers, iter) === false){
         IDvec = [];
         for(i = 0; i < data.length; i++){
-            IDvec.push(clusterID(centers, i));
+            IDvec.push(clusterID(centers, i)); //Give each data point an ID that says which cluster it belongs to
         }
 
-        nrUnique = IDvec.filter( onlyUnique ).length;
-    }
-
-    let iteration = 0;
-    nrUnique = 0;
-    while(convergenceTest(oldCenters, centers, iteration) === false){
-        iteration = iteration + 1;
-        while(nrUnique < ktest){
-            for(i = 0; i < centers.length; i++){
-                oldCenters[i] = centers[i];
-                clusterMatrix = clusterData(i, IDvec, data);
-                if(clusterMatrix = []){
-                    randval = Math.floor(Math.random()*data.length);
-                    IDvec[randval] = i;
-                    clusterMatrix = clusterData(i, IDvec, data);
-                };
-                centers[i] = findMode(clusterMatrix); /////////////////////
+        let clusterMatrix;
+        oldCenters = [];
+        oldCenters = copy(centers);
+        centers = [];
+        for(i = 0; i < k ; i++){
+            clusterMatrix = clusterData(i, IDvec, data); //A matrix with observations that belong to this cluster
+            if(clusterMatrix[0] === undefined){ //if no points belong to this cluster, randomize a new center
+                centers.push(randomize(data))
+            }else{
+                centers.push(findMode(clusterMatrix))//otherwise find the mode od this center as most common categories
             }
-            IDvec = [];
-            for(i = 0; i < data.length; i++){
-                IDvec.push(clusterID(centers, i));
-            }
-            nrUnique = IDvec.filter( onlyUnique ).length;
         }
-
+        iter = iter + 1;
     }
-
     return [IDvec, centers]
 }
 
-
-
-function removeNames(dataIn){
-    /* Use this function if the input data if the first "variable" in the data is a "name column"
-    Takes: a vector of vectors [[a], [b],..] where a, b,... correspond to one observation 
-        and have the length of number of variables
-    Returns: The same data set but with the first element in each vector removed,
-        i.e. a, b,... have the original length -1*/
-    let thisObs = []; //Will be re-filled with values corresponding to one observation each loop
-    let fixedData = []; //Will be the new data matrix filled with "thisObs-vectors"
-    let i, j;
-    for(i = 0; i < dataIn.length; i++){ //loop over every observations
-        thisObs = [] //empty "thisObs" to refill it
-        for(j = 1; j < dataIn[0].length; j++){ //loop over variables, starting with second one
-            thisObs.push(dataIn[i][j]) //fill it up with values corresponding to observation "i"
-        }
-        fixedData.push(thisObs); //add latest observation to the fixed data matrix
-    }
-    return fixedData //return fixed data
-}
 
 //MÖJLIGT FIX: centrena ska inte ha ändrats på flera iterationer?
 //Skriv ut meddelande om den når max iterationer?
@@ -198,7 +61,7 @@ function removeNames(dataIn){
 function convergenceTest(oldCenters, centers, iteration){
     /*Tests for convergence by seing if all cluster centers have stopped changing (or maximum iterations are reached)
     Inputs: centers from last iteration, latest centers and how many iterations the algorithm has run*/ 
-    let maxIteration = 100; //max allowed iterations before program stopped
+    let maxIteration = 10000; //max allowed iterations before program stopped
     let i;
     let d = 0; //summed distances between old and new centers. Converged if it is zero
     let converged = false; //change this if test shows convergence
@@ -354,6 +217,18 @@ function getColumn(data, index){
     return column; 
 }
 
+function copy(matrix){
+    let thisVec, i, j;
+    let copy = [];
+    for(i = 0; i < matrix.length; i++){
+        thisVec = [];
+        for(j = 0; j < matrix[0].length; j++){
+            thisVec.push(matrix[i][j])
+        }
+        copy.push(thisVec)
+    }
+    return copy;
+}
 
 function kmeansColumn(data, index){
     /*creates a vector of values corresponding to one variable IN THE FORM THAT KMEANS TAKES IT
@@ -406,6 +281,91 @@ function relFreq(col, value){
     return count;
 }
 
+//////////////////////////Functions for auto/////////////////////////////////
+function multiCluster(data){
+    let theBest = 0;
+    let i, centers, sol, IDvec, IDs;
+    let kVec = [2, 3, 4]; //makeKvec(data);//////////////////////////////////////////
+    for(i = 0; i < kVec.length; i++){
+        sol = singleCluster(data, kVec[i]);
+        IDvec = sol[0];
+        centers = sol[1];
+        if(goodness(IDvec, data, centers) > theBest){
+            IDs = IDvec;
+            theBest = goodness(IDvec, data, centers);
+        }
+    }
+    return IDs
+}
+
+
+function makeKvec(data){
+    let max = Math.floor(data.length/2)
+    let nrUnique = 0;
+    let i, thisVar;
+    let maxUnique = 0;
+    for(i = 0; i < data[0].length; i++){
+        thisVar = getColumn(data, i)
+        nrUnique = thisVar.filter( onlyUnique ).length;
+        if(nrUnique > maxUnique) maxUnique = nrUnique;
+    }
+    if(maxUnique < max) max = maxUnique;
+
+    let count = 2;
+    let kVec = []
+    while(count < max ){
+        kVec.push(count)
+        count = count + 1;
+    }
+    return kVec
+}
+
+
+
+
+function goodness(IDvec, data, centers){
+    // abs(sum(all) - 2*sum(within))
+    // average over all centers!!
+    let i, clusterMatrix, center; 
+    let goodness = 0;
+    for(i = 0; i < centers.length; i++){
+        clusterMatrix = clusterData(i, IDvec, data);
+        center = centers[i];
+        goodness = goodness + distAll(data, center) - 2*distWithin(clusterMatrix, center);
+    }
+    goodness = goodness / centers.length;
+    //clusterMatrix = clusterData(i, IDvec, data); i vilket center
+    return goodness;
+}
+
+
+
+
+function distWithin(clusterMatrix, center){
+    /*Sums the distance between every point IN TH CLUSTER and ONE cluster 
+    Takes: all data IN THE CLUSTER, vector for the center (one val for each variable)
+    Returns: the sum*/
+    let i;
+    let sum = 0;
+    for(i = 0; i < clusterMatrix.length; i++){
+        sum = sum + distance(clusterMatrix[i], center);
+    }
+    return sum;
+}
+
+
+
+function distAll(data, center){
+    /*Sums the distance between every point and ONE cluster 
+    Takes: all data, vector for the center (one val for each variable)
+    Returns: the sum*/
+    let i;
+    let sum = 0;
+    for(i = 0; i < data.length; i++){
+        sum = sum + distance(data[i], center)
+    }
+    return sum;
+} 
 
 //Bättre att ha sorterat efter variabel://///////////
 //om siffror och < maxUnique unika, gör inget
