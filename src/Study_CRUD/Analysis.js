@@ -23,13 +23,14 @@ function Analysispage({ study, setStudy }) {
             {'Plots of data from study '}
             <span className="studyname"> {study.name}</span>{' can be analyzed here'}
 
-            <input type="button" value="Back" className="button_pop" onClick={() => setAnalyzer(null)} />
+            <input type="button" value="Back" className="button_pop right" onClick={() => setAnalyzer(null)} />
             <br></br>
 
             {analyzer === null ? <AnalyzeSelector setAnalyzer={setAnalyzer} /> :
                 <>
-                    <br></br>
+                    <div className="Analyse">
                     <analyzer.component study={study} setStudy={setStudy} close={() => setAnalyzer(null)} />
+                    </div>
                 </>
             }
         </>

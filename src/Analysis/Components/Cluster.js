@@ -25,17 +25,15 @@ function ClusterAnalysis({ study, close }) {
 
     return (
         <>
+    <div className="Cluster_buttons">
             <KSelector k={k} setK={setK} />
             {param.map((value, index) => {
-                return (<ul key={index} className="NEWCLASSHEREPLEASE">
-                    {<ParameterSelector paramList={study.getHeader('preference')} param={param[index]} setParam={p => setParam(new Array(nrParams).fill(0).map((v, i) => param[i]).fill(p, index, index + 1))} />}
-                </ul>)
-            })}
-            En analys på {study.name} som delar in data i kluster.
-        {data !== null && makeSeries(kmeans(data, k), k, data, param)}
-            <br></br>
-            <input type="button" className="button_pop" value="Back" onClick={close} />
-        </>
+                return (
+                    <ParameterSelector paramList={study.getHeader('preference')} param={param[index]} setParam={p => setParam(new Array(nrParams).fill(0).map((v, i) => param[i]).fill(p, index, index + 1))} />
+               
+              )  })}   {data !== null && makeSeries(kmeans(data, k), k, data, param)}
+    {//            <input type="button" className="button_pop" value="Back" onClick={close} />
+        }   </div> </>
     );
 }
 

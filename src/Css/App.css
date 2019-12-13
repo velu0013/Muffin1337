@@ -288,12 +288,14 @@
 }
 
 .Second-class2 {
+  height: 6vmin;
   position: fixed;
-  margin-top: -1vmin;
-  width: 100%;
+  margin-top: 0vmin;
   display: flex;
   margin-left: 35vw;
   z-index: 1;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 
@@ -302,15 +304,20 @@
   margin: 0;
   padding: 0;
 }
+.Tabs-fix2{
+  margin-top:0;
+}
 
 .Tabss2 {
   background-color: #cf910a;
   display: inline-block;
   width: 15vw;
   margin: 5px;
-  height: 30px;
-  margin-top: 0px;
+  margin-top: 2vmin;
+  height: 4vmin;
   padding-top: 0p;
+  border-radius: 5px 5px 0px 0px;
+  font-size: 120%;
 }
 
 .Tabss {
@@ -540,6 +547,13 @@ a:active {
   margin-left: 0px;
 }
 
+
+.Cluster_buttons{
+  position: relative;
+}
+.Analyse{
+  margin-top: 4vmin;
+}
 /**Datasheet-Dimension-counters **/
 .Dimmer {
   align-items: center;
