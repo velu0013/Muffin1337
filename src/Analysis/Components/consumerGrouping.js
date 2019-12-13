@@ -126,62 +126,46 @@ function LabelArray(clusters) {
 function ClusterTables({ clusters, study }) {
     clusters = LabelArray(clusters);
     const offset = 1;
-    const uniques = [], counts = {};
+    const uniques = [];
     clusters.forEach((cluster, i) => {
         if (uniques.indexOf(cluster) === -1) {
             uniques.push(cluster);
-            counts[cluster] = 0;
         }
-        counts[cluster]++;
     })
     const tabular = study.getConsumerTabular(offset);
     const stats = {};
 
     uniques.forEach(cluster => {
-        
-    })
-
-
-
-    uniques.forEach((val, i) => {
-        stats[String(val)] = new Array(tabular[0].length).fill({ category: '', stat: 0 });
-    })
-    console.log('Before')
-    console.log(stats)
-    for (let c = 0; c < tabular[0].length; c++) {
-        if (study.isQuant('consumer', c + offset)) {
-            for (let r = 0; r < tabular.length; r++) {
-                stats[String(clusters[r])][c].stat += tabular[r][c] / counts[clusters[r]]
-            }
-        } else {
-            let categories = [];
-            for (let r = 0; r < tabular.length; r++) {
-                if (categories.indexOf(tabular[r][c]) === -1) {
-                    categories.push(tabular[r][c])
+        let clusterData = tabular.filter((row, index) => (clusters[index] === cluster));
+        let clusterStats = new Array(clusterData[0].length).fill(0).map(() => { return ({ category: '', stat: 0 }) });
+        let nrConsumers = clusterData.length;
+        for (let c = 0; c < clusterStats.length; c++) {
+            if (study.isQuant('consumer', c + offset)) {
+                let maxVal = -Infinity, minVal = Infinity;
+                for (let r = 0; r < nrConsumers; r++) {
+                    clusterStats[c].stat += clusterData[r][c] / nrConsumers;
+                    maxVal = clusterData[r][c] > maxVal ? clusterData[r][c] : maxVal;
+                    minVal = clusterData[r][c] < minVal ? clusterData[r][c] : minVal
                 }
-            }
-            uniques.forEach((cluster, i) => {
-                cluster = String(cluster);
-                let catCount = {}, tot = 0;
-                categories.forEach(cat => {
-                    catCount[String(cat)] = 0;
-                })
-                for (let r = 0; r < tabular.length; r++) {
-                    catCount[String(tabular[r][c])] += 1;
-                    tot++;
-                }
-                categories.forEach((cat, i) => {
-                    if (catCount[String(cat)] > stats[cluster][c].stat) {
-                        stats[cluster][c].category = cat;
-                        stats[cluster][c].stat = catCount[String(cat)]
+                clusterStats[c].stat = Math.round(clusterStats[c].stat * 10) / 10;
+                clusterStats[c].category = 'Spread: ' + String(Math.round(maxVal - minVal));
+            } else {
+                let catStats = {};
+                for (let r = 0; r < nrConsumers; r++) {
+                    if (Object.keys(catStats).indexOf(String(clusterData[r][c])) === -1) {
+                        catStats[clusterData[r][c]] = 0;
                     }
-                });
-                stats[cluster][c].stat = Math.round(stats[cluster][c].stat * (100 / tot))
-            })
+                }
+                for (let r = 0; r < nrConsumers; r++) {
+                    catStats[clusterData[r][c]] += 1;
+                }
+                let peak = Math.max(...Object.values(catStats));
+                clusterStats[c].stat = String(Math.round(peak / nrConsumers * 1000) / 10) + '%';
+                clusterStats[c].category = Object.keys(catStats)[Object.values(catStats).indexOf(peak)];
+            }
         }
-    }
-    console.log('After')
-    console.log(stats)
+        stats[cluster] = clusterStats;
+    })
 
     return (<div>
         <DisplayHeaders study={study} offset={offset} />
