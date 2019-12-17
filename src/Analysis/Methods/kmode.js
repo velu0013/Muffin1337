@@ -285,7 +285,8 @@ function relFreq(col, value){
 function multiCluster(data){
     let theBest = 0;
     let i, centers, sol, IDvec, IDs;
-    let kVec = makeKvec(data);
+    let kVec = [...makeKvec(data)]; //[2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4];//[...makeKvec(data)];
+    console.log(kVec)
     for(i = 0; i < kVec.length; i++){
         sol = singleCluster(data, kVec[i]);
         IDvec = sol[0];
@@ -295,6 +296,7 @@ function multiCluster(data){
             theBest = goodness(IDvec, data, centers);
         }
     }
+    console.log(makeKvec)
     return IDs
 }
 
@@ -311,9 +313,14 @@ function makeKvec(data){
     if(nrUniqueMax < max) max = nrUniqueMax;
     let k = 2;
     let kVec = [];
-    while(k <= max){
-        kVec.push(k)
-        k = k + 1;
+    const varred = 20;
+    i=0;
+    while(k+i <= max){
+        for(let j = 0; j<varred; j++){
+            kVec.push(k + i)
+        }
+        i++
+        // k = k + 1;
     }
     return kVec
 }
