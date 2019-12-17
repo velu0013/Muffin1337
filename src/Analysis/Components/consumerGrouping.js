@@ -127,10 +127,14 @@ function ClusterTables({ clusters, study }) {
     clusters = LabelArray(clusters);
     const offset = 1;
     const uniques = [];
+    let counts = {};
     clusters.forEach((cluster, i) => {
         if (uniques.indexOf(cluster) === -1) {
             uniques.push(cluster);
+            counts[cluster] = 0;
         }
+        let c = counts[cluster] + 1;
+        counts[cluster] = c;
     })
     const tabular = study.getConsumerTabular(offset);
     const stats = {};
@@ -168,10 +172,8 @@ function ClusterTables({ clusters, study }) {
     })
 
     return (<div>
-        <DisplayHeaders study={study} offset={offset} />
-        <br></br>
         {uniques.map((label, index) => {
-            return <ul key={index}><LabelTable label={label} stats={stats[uniques[index]]} />
+            return <ul key={index}><LabelTable label={label} count={counts[label]} stats={stats[uniques[index]]} study={study} offset={offset}/>
             </ul>
         })}
         <span>{uniques}</span>
@@ -180,27 +182,16 @@ function ClusterTables({ clusters, study }) {
 
 const valueify = x => { return { value: x } };
 
-function DisplayHeaders({ study, offset }) {
-    const headers = [study.getConsumerHeader(offset).map(valueify)];
-    return (<ReactDataSheet
-        data={headers}
-        className="Table-fix2"
-        valueRenderer={(cell) => cell.value}
-    />)
-}
-
-
-
-function LabelTable({ label, stats }) {
+function LabelTable({ label, count, stats, study, offset}) {
 
     const descriptions = stats.map(val => val.category)
     const ratios = stats.map(val => val.stat)
-
-    const tableData = [[...descriptions].map(valueify), [...ratios].map(valueify)];
+    const headers = study.getConsumerHeader(offset).map(valueify);
+    const tableData = [headers,[...descriptions].map(valueify), [...ratios].map(valueify)];
 
 
     return (<div>
-        <span>{label + ':'}</span>
+        <span>{label +' '+String(count)+ ':'}</span>
         <ReactDataSheet
             data={tableData}
             className="Table-fix2"
