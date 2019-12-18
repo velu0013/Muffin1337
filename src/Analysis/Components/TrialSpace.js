@@ -1,12 +1,11 @@
 import React from 'react'
 import Chart from "react-apexcharts";
 
+// Only displays the recipe space
 function TrialSpace({ study, setStudy, close }) {
     const headers = study.getHeader('recipe',1);
     const tableData = study.getTabular('recipe',1);
     const labels = study.getTabular('recipe').map(val => val[0]);
-
-    
 
     const options = {
 
