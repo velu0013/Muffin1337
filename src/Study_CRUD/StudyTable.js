@@ -21,7 +21,7 @@ function StudyTable(props) {
   if (props.tableData === null || props.tableData.length === 0 || props.tableData[0].length === 0) {
     return (
       <>
-        <EditButton tableData={props.tableData} setData={props.setData} />
+        <AltEditButton tableData={props.tableData} setData={props.setData} />
         <span >[ No table data ]</span>
       </>);
   }
@@ -96,6 +96,29 @@ function EditButton(props) {
           <AddRow close={close} tableData={props.tableData} setData={props.setData} />
           <AddColumn close={close} tableData={props.tableData} setData={props.setData} />
           <SetTypes close={close} tableData={props.tableData} tableQQ={props.tableQQ} setQQ={props.setQQ} />
+          <SetSize close={close} tableData={props.tableData} setData={props.setData} />
+        </>
+      )}
+    </Popup>
+  )
+}
+
+//This is an alternate edit button for empty tables
+function AltEditButton(props) {
+  return (
+    <Popup trigger={
+      <EditIcon className="Mui tab"/>//<button className="button_pop" > Edit </button>
+    }
+      position={'bottom left'}
+      closeOnDocumentClick
+      mouseLeaveDelay={300}
+      mouseEnterDelay={200}
+      on='hover'
+      contentStyle={{ padding: "0px", border: "none" }}
+      arrow={false}
+    >
+      {close => (
+        <>
           <SetSize close={close} tableData={props.tableData} setData={props.setData} />
         </>
       )}
