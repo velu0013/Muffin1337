@@ -73,10 +73,10 @@
 
 .Dropdown-menu {
   overflow: hidden;
+ 
+  margin-right: 3vmin;
   float: right;
-  margin-top: -1vmin;
-  margin-right: 4vmin;
-  align-items: right;
+  margin-top: -7px;
 }
 
 .Drop-menu {
@@ -321,7 +321,8 @@
   height: 4vmin;
   padding-top: 0p;
   border-radius: 5px 5px 0px 0px;
-  font-size: 120%;
+
+  font-size: calc(10px + 1vmin);
 }
 
 .Tabss {
