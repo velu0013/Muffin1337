@@ -233,9 +233,11 @@ function SetTypes(props) {
       {close => (
         <>
           <div>
-            <span className="Text-color-fix">Set Data Types</span>
+            <span className="Text-color-fix">
+            <p className="Stud2">
+              Set Data Types
+              </p></span>
           </div>
-          <br></br>
           <div className="Table-fix2">
             <ReactDataSheet
               data={dispTable}
@@ -280,7 +282,11 @@ function SetSize(props) {
       {close => (
         <>
           <div>
-            <span className="Text-color-fix">Set dimensions</span>
+            <span className="Text-color-fix">
+              
+            <p className="Stud2"> 
+              Set dimensions
+              </p></span>
           </div>
           <div>
             <DimInput dim={dims[0]} setDims={x => setDims([x, dims[1]])} />

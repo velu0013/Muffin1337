@@ -151,8 +151,10 @@ function SaveAsButton(props) {
         contentStyle={contentStyle}>
             {close => (
                 <div className="Text-color-fix">
-                    {nameAvailable ? 'Choose new study name' : 'Name exists'}
-                    <br></br>
+
+               <p className="Stud2"> 
+                    {nameAvailable ? 'Choose new study name' : 'Name exists'}</p>
+                    
                     <input
                         className="Text-input"
                         type="text"
@@ -190,8 +192,10 @@ function DeleteButton(props) {
         >
             {close => (
                 <div className="Text-color-fix">
+
+               <p className="Stud2">
                     {'Delete '}{props.study.name}{'?'}
-                    <br></br>
+                 </p>
                     <utils.ConfirmButton label={'Delete'}
                         f={arg => {
                             DB.RemoveStudy(arg);
