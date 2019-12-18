@@ -16,10 +16,16 @@
   position: absolute;
   top: 3px;
   left: 29px;
-  width: 5px;
+  width: 10px;
   height: 14px;
   border-radius: 20%;
-  background: #fff;
+  background: transparent;
+}
+.lds-spinner div:after{
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-image: url('../img/vonkansmuffin.svg');
 }
 .lds-spinner div:nth-child(1) {
   transform: rotate(0deg);
