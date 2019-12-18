@@ -26,7 +26,7 @@ function UploadButton({setStudy, trigger=
 		>
 		{close => (
             <div className="modal">
-                <p className="Stud2">Chose file type</p>
+                <p className="Stud2">Choose file type</p>
             <div className="pop_div">
                 
             <FileSelector type='.dbt'  label='DBT File' setStudy={setNewStudy}/>
