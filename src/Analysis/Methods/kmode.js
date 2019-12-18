@@ -16,6 +16,7 @@ function consumerClusters(dataIn, k, type){
         IDs = sol[0]
     }
 
+    console.log(data)
     return IDs
 }
 
@@ -29,13 +30,16 @@ function singleCluster(data, k){
         centers.push(randomize(data))
         oldCenters.push(randomize(data))
     }
+    IDvec = [];
+    for(i = 0; i < data.length; i++){
+        IDvec.push(clusterID(centers, data[i])); //Give each data point an ID that says which cluster it belongs to
+    }
 
     while(convergenceTest(oldCenters, centers, iter) === false){
         IDvec = [];
         for(i = 0; i < data.length; i++){
             IDvec.push(clusterID(centers, data[i])); //Give each data point an ID that says which cluster it belongs to
         }
-
         let clusterMatrix;
         oldCenters = [];
         oldCenters = copy(centers);
@@ -286,17 +290,18 @@ function multiCluster(data){
     let theBest = 0;
     let i, centers, sol, IDvec, IDs;
     let kVec = [...makeKvec(data)]; //[2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4];//[...makeKvec(data)];
-    console.log(kVec)
     for(i = 0; i < kVec.length; i++){
         sol = singleCluster(data, kVec[i]);
         IDvec = sol[0];
         centers = sol[1];
+        console.log(goodness(IDvec, data, centers))
+        console.log(IDvec)
+        console.log(centers)
         if(goodness(IDvec, data, centers) > theBest){
-            IDs = IDvec;
+            IDs = [...IDvec];
             theBest = goodness(IDvec, data, centers);
         }
     }
-    console.log(makeKvec)
     return IDs
 }
 
