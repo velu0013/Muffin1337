@@ -168,8 +168,8 @@ function PrintStudyList({ study, setStudy, Skey, setKey, StudyList, setStudyList
 	const [select, setSelect] = useState(false)
 	if (StudyList === null) {
 		return (<>{'You have no studies yet'}
-			<NewButton study={study} setStudy={setStudy} />
-			<UploadButton study={study} setStudy={x => { setStudy(x); setSelect(true) }} />
+			<NewButton study={study} setStudy={setStudy} updateStudyList={() => setStudyList(DB.GetStudies(Skey))}/>
+			<UploadButton study={study} setStudy={x => { setStudy(x); setStudyList(DB.GetStudies(Skey)); setSelect(true) }}/>
 		</>)
 	}
 	return (
@@ -178,7 +178,7 @@ function PrintStudyList({ study, setStudy, Skey, setKey, StudyList, setStudyList
 			<input className="Text-input1" type="text" placeholder="Search..." value={Skey} onChange={event => { setKey(event.target.value); setStudyList(DB.GetStudies(event.target.value)); }} />
 			<div className="nyebuttons">
 				<NewButton study={study} setStudy={setStudy} updateStudyList={() => setStudyList(DB.GetStudies(Skey))} />
-				<UploadButton study={study} setStudy={x => { setStudy(x); setSelect(true) }} />
+				<UploadButton study={study} setStudy={x => { setStudy(x); setSelect(true); setStudyList(DB.GetStudies(Skey));  }} updateStudyList={updateStudyList}/>
 				<DeleteButton StudyList={StudyList} updateStudyList={updateStudyList} />
 				{select && <Redirect to='/Edit' />}
 			</div>

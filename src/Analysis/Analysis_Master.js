@@ -3,8 +3,14 @@ import ParameterRelevance from './Components/ParameterRelevance.js'
 import LinearDep from './Components/LinearDep.js'
 import {PCAcomp} from './Components/PCA-component'
 import ConsumerGroups from './Components/consumerGrouping.js'
+import TrialSpace from './Components/TrialSpace.js'
 
 const Analyzers = [{
+    name: 'View Trial Space',
+    component: TrialSpace,
+    description: 'Visual overview of the recipe sample space'
+  },
+  {
     name: 'Cluster Analysis',
     component: ClusterAnalysis,
     description: 'Plots clusters'
