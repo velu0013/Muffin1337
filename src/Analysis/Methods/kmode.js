@@ -16,7 +16,6 @@ function consumerClusters(dataIn, k, type){
         IDs = sol[0]
     }
 
-    console.log(data)
     return IDs
 }
 
@@ -287,19 +286,21 @@ function relFreq(col, value){
 
 //////////////////////////Functions for auto/////////////////////////////////
 function multiCluster(data){
+    console.log('yo')
     let theBest = 0;
     let i, centers, sol, IDvec, IDs;
     let kVec = [...makeKvec(data)]; //[2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4];//[...makeKvec(data)];
     for(i = 0; i < kVec.length; i++){
         sol = singleCluster(data, kVec[i]);
-        IDvec = sol[0];
-        centers = sol[1];
-        console.log(goodness(IDvec, data, centers))
-        console.log(IDvec)
-        console.log(centers)
-        if(goodness(IDvec, data, centers) > theBest){
+        IDvec = [...sol[0]];
+        centers = [...sol[1]];
+        if(goodnessTEMP(IDvec, data, centers) > theBest){
+            console.log('STARTS HERE')
+            console.log(theBest)
             IDs = [...IDvec];
-            theBest = goodness(IDvec, data, centers);
+            theBest = goodnessTEMP(IDvec, data, centers);
+            console.log(IDs)
+            console.log(theBest)
         }
     }
     return IDs
@@ -318,7 +319,7 @@ function makeKvec(data){
     if(nrUniqueMax < max) max = nrUniqueMax;
     let k = 2;
     let kVec = [];
-    const varred = 20;
+    const varred = 1000;
     i=0;
     while(k+i <= max){
         for(let j = 0; j<varred; j++){
@@ -371,7 +372,46 @@ function goodness(IDvec, data, centers){
     return goodness;
 }
 
+function goodnessTEMP(IDvec, data, centers){
+    let i, sol, clusterMatrix, restMatrix;
+    let goodness = 0;
+    for(i = 0; i < centers.length; i++){
+        sol = separate(i, IDvec, data);
+        clusterMatrix = sol[0];
+        restMatrix = sol[1];
+        goodness = goodness + distSets(clusterMatrix, restMatrix) - distSets(clusterMatrix, clusterMatrix);
+    }
+    //goodness = goodness/centers.length;
+    return goodness;
+}
 
+function separate(clusterNr, IDvec, data){
+    //For cluster of label i, create matrix with observations that belong to that matrix, & one with the rest of the data
+    let clusterMatrix = []; //The matrix of observations in this cluster
+    let restMatrix = [];
+    let i;
+    for(i = 0; i < data.length; i++){ //loop over every observation
+        if(IDvec[i] === clusterNr){ //is the ID of this observation = this cluster?:
+            clusterMatrix.push(data[i]); //then add this observation to the matrix
+        }else{
+            restMatrix.push(data[i]) //else add it to matrix of all outside data
+        }
+    }
+    return [clusterMatrix, restMatrix]
+}
+
+function distSets(setA, setB){
+    //Takes two sets of data, length corresponds to number of observations
+    //Returns the sum of the distance between each point in setA and each point in setB
+    let i, j;
+    let distSum = 0;
+    for(i = 0; i < setA.length; i++){
+        for(j = 0; j < setB.length; j++){
+            distSum = distSum + distance(setA[i], setB[j])
+        }
+    }
+    return distSum;
+}
 
 
 function distWithin(clusterMatrix, center){
@@ -385,8 +425,6 @@ function distWithin(clusterMatrix, center){
     }
     return sum;
 }
-
-
 
 function distAll(data, center){
     /*Sums the distance between every point and ONE cluster 
