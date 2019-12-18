@@ -87,13 +87,16 @@ function DownloadButton({study, trigger=<button className="button_pop">Download<
 	return(
 		<Popup 
 		trigger={trigger}
-		modal
+        modal
+        contentStyle={contentStyle}
 		>
 		{close => (
 			<div className="modal">
-                Download {study.name}
+               <p className="Stud2"> Download {study.name}</p>
+               <div className="pop_div">
                 <a className="button_pop" href={DB.DownloadStudy.dbt(study)} download={study.name+'.dbt'}>DBT File (.dbt)</a>
                 <a className="button_pop" href={DB.DownloadStudy.xlsx(study)} download={study.name+'.xlsx'}>Excel File (.xlsx)</a>
+                </div>
             </div>
         )}
 		</Popup>

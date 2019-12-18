@@ -13,6 +13,12 @@ import { DownloadButton } from './Filemgmt.js'
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css'
+const contentStyle = {
+    marginLeft: "42.5%",
+	background: "#F0F0F0",
+	width: "300px",
+	border: "none"
+};
 
 function Editpage({ study, setStudy, updateStudyList }) {
     if (study === null || study.name === '') {
@@ -140,7 +146,9 @@ function SaveAsButton(props) {
     const [string, setString] = useState(props.study.name);
     const [nameAvailable, setAvailable] = useState(true)
     return (
-        <Popup trigger={<div className="dropdown-item">Save as...</div>} modal>
+        <Popup trigger={<div className="dropdown-item">Save as...</div>} 
+        modal
+        contentStyle={contentStyle}>
             {close => (
                 <div className="Text-color-fix">
                     {nameAvailable ? 'Choose new study name' : 'Name exists'}
@@ -176,7 +184,10 @@ function SaveAsButton(props) {
 
 function DeleteButton(props) {
     return (
-        <Popup trigger={<div className="dropdown-item">Delete</div>} modal>
+        <Popup trigger={<div className="dropdown-item">Delete</div>} 
+        modal
+        contentStyle={contentStyle}
+        >
             {close => (
                 <div className="Text-color-fix">
                     {'Delete '}{props.study.name}{'?'}
