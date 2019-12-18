@@ -352,4 +352,4 @@ function ParameterSelector({paramList, param, setParam}){
 
 
 
-export default PCAcomp
+export {PCAcomp, GetColumn}
