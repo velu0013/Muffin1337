@@ -261,7 +261,6 @@ function PreferenceChart(plotType, pow, param, study, k) {
         }
     }
 
-
     switch (plotType) {
         case ALL_CONSUMERS: series = Object.values(series);
             break;

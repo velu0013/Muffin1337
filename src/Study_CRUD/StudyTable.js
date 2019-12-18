@@ -21,7 +21,7 @@ function StudyTable(props) {
   if (props.tableData === null || props.tableData.length === 0 || props.tableData[0].length === 0) {
     return (
       <>
-        <EditButton tableData={props.tableData} setData={props.setData} />
+        <AltEditButton tableData={props.tableData} setData={props.setData} />
         <span >[ No table data ]</span>
       </>);
   }
@@ -96,6 +96,29 @@ function EditButton(props) {
           <AddRow close={close} tableData={props.tableData} setData={props.setData} />
           <AddColumn close={close} tableData={props.tableData} setData={props.setData} />
           <SetTypes close={close} tableData={props.tableData} tableQQ={props.tableQQ} setQQ={props.setQQ} />
+          <SetSize close={close} tableData={props.tableData} setData={props.setData} />
+        </>
+      )}
+    </Popup>
+  )
+}
+
+//This is an alternate edit button for empty tables
+function AltEditButton(props) {
+  return (
+    <Popup trigger={
+      <EditIcon className="Mui tab"/>//<button className="button_pop" > Edit </button>
+    }
+      position={'bottom left'}
+      closeOnDocumentClick
+      mouseLeaveDelay={300}
+      mouseEnterDelay={200}
+      on='hover'
+      contentStyle={{ padding: "0px", border: "none" }}
+      arrow={false}
+    >
+      {close => (
+        <>
           <SetSize close={close} tableData={props.tableData} setData={props.setData} />
         </>
       )}
@@ -210,9 +233,11 @@ function SetTypes(props) {
       {close => (
         <>
           <div>
-            <span className="Text-color-fix">Set Data Types</span>
+            <span className="Text-color-fix">
+            <p className="Stud2">
+              Set Data Types
+              </p></span>
           </div>
-          <br></br>
           <div className="Table-fix2">
             <ReactDataSheet
               data={dispTable}
@@ -257,7 +282,11 @@ function SetSize(props) {
       {close => (
         <>
           <div>
-            <span className="Text-color-fix">Set dimensions</span>
+            <span className="Text-color-fix">
+              
+            <p className="Stud2"> 
+              Set dimensions
+              </p></span>
           </div>
           <div>
             <DimInput dim={dims[0]} setDims={x => setDims([x, dims[1]])} />
