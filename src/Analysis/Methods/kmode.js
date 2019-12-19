@@ -319,7 +319,7 @@ function makeKvec(data){
     if(nrUniqueMax < max) max = nrUniqueMax;
     let k = 2;
     let kVec = [];
-    const varred = 1000;
+    const varred = 100;
     i=0;
     while(k+i <= max){
         for(let j = 0; j<varred; j++){
