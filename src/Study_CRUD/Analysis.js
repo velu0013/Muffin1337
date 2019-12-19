@@ -91,13 +91,19 @@ function AltAnalyzeSelector(props) {
             {close => (
                 <>
                     {Analyzers.map((value, index) => {
-                        return <ul key={index} className="dropdown-item">
+                        return <ul key={index} className="dropdown-item inactive">
                             {<div>
                                 <utils.InfoPop info={value.description} />
                                 {value.name}
                             </div>}
                         </ul>
                     })}
+                    <ul key={Analyzers.length} className="dropdown-item">
+                        <div>
+                            <utils.InfoPop info={"You have invalid tables, either lengths differ or tables are empty"} />
+                            Help
+                        </div>
+                    </ul>
                 </>
             )}
         </Popup>
