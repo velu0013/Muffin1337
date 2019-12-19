@@ -49,7 +49,7 @@ function RoutePage() {
 	const web = useLocation().pathname
 	const [login, setLogin] = useState(false)
 
-	const [pagen, setPagen] = useState(false);
+	const [pagen, setPagen] = useState(true);
 	const [Skey, setKey] = useState('');
 	const [StudyList, setStudyList] = useState(DB.GetStudies(Skey))
 
