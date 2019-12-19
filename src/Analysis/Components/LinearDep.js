@@ -47,6 +47,7 @@ function LinearDep({ study, setStudy, close }) {
             <ParameterSelector paramList={study.getHeader('consumer')} param={param} setParam={setParam} />
             <TypeSelector plotType={plotType} setPlotType={setPlotType} />
             <PowSelector pow={pow} setPow={setPow} />
+            >>
             <Generator setGenerate={setGenerate} setBases={setBases} setChartData={setChartData} />
             <br></br>
             {loadinger && utils.Loader()}
