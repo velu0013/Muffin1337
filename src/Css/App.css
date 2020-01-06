@@ -73,7 +73,7 @@
 
 .Dropdown-menu {
   overflow: hidden;
- 
+
   margin-right: 3vmin;
   float: right;
   margin-top: -7px;
@@ -234,6 +234,12 @@
   margin-left: 5px;
 }
 
+
+.Muffin_font {
+  font-family: "Balonku";
+  font-size: 25px;
+}
+
 .Mui {
   color: #FFFFFF;
   font-size: 40px !important;
@@ -308,8 +314,9 @@
   margin: 0;
   padding: 0;
 }
-.Tabs-fix2{
-  margin-top:0;
+
+.Tabs-fix2 {
+  margin-top: 0;
 }
 
 .Tabss2 {
@@ -448,7 +455,8 @@ a:active {
   border-color: white;
   color: white;
 }
-.button_pop.hidden{
+
+.button_pop.hidden {
   display: none;
 }
 
@@ -556,12 +564,14 @@ a:active {
 }
 
 
-.Cluster_buttons{
+.Cluster_buttons {
   position: relative;
 }
-.Analyse{
+
+.Analyse {
   margin-top: 4vmin;
 }
+
 /**Datasheet-Dimension-counters **/
 .Dimmer {
   align-items: center;
@@ -729,4 +739,3 @@ a:active {
 .react-tabs__tab-panel--selected {
   display: inline-block !important;
 }
-

@@ -18,6 +18,7 @@ import { UploadButton, DownloadButton } from './Filemgmt.js'
 import Analyzers from '../Analysis/Analysis_Master.js'
 
 import logo from '../img/vonkansmuffin.svg'
+import toplogo from '../img/Muffin_logo_use.png'
 import login_icon from '../img/login.svg'
 import logout_icon from '../img/logout.svg'
 import 'react-tabs/style/react-tabs.css';
@@ -75,9 +76,10 @@ function RoutePage() {
 	return (
 		<div className="App">
 			<div className="Header-bar">
-				<Link to={Home} className="Muffin_top">				
-					<p>Muffin</p>
-					<img src={logo} className="Muffin_top_bar"></img>
+				<Link to={Home} className="Muffin_top">
+					<img src={toplogo} alt="Muffin" className="Muffin_top_bar"></img>
+					<p className="Muffin_font">Muffily</p>
+
 				</Link>
 
 				<ul >
@@ -168,8 +170,8 @@ function PrintStudyList({ study, setStudy, Skey, setKey, StudyList, setStudyList
 	const [select, setSelect] = useState(false)
 	if (StudyList === null) {
 		return (<>{'You have no studies yet'}
-			<NewButton study={study} setStudy={setStudy} updateStudyList={() => setStudyList(DB.GetStudies(Skey))}/>
-			<UploadButton study={study} setStudy={x => { setStudy(x); setStudyList(DB.GetStudies(Skey)); setSelect(true) }}/>
+			<NewButton study={study} setStudy={setStudy} updateStudyList={() => setStudyList(DB.GetStudies(Skey))} />
+			<UploadButton study={study} setStudy={x => { setStudy(x); setStudyList(DB.GetStudies(Skey)); setSelect(true) }} />
 		</>)
 	}
 	return (
@@ -178,7 +180,7 @@ function PrintStudyList({ study, setStudy, Skey, setKey, StudyList, setStudyList
 			<input className="Text-input1" type="text" placeholder="Search..." value={Skey} onChange={event => { setKey(event.target.value); setStudyList(DB.GetStudies(event.target.value)); }} />
 			<div className="nyebuttons">
 				<NewButton study={study} setStudy={setStudy} updateStudyList={() => setStudyList(DB.GetStudies(Skey))} />
-				<UploadButton study={study} setStudy={x => { setStudy(x); setSelect(true); setStudyList(DB.GetStudies(Skey));  }} updateStudyList={updateStudyList}/>
+				<UploadButton study={study} setStudy={x => { setStudy(x); setSelect(true); setStudyList(DB.GetStudies(Skey)); }} updateStudyList={updateStudyList} />
 				<DeleteButton StudyList={StudyList} updateStudyList={updateStudyList} />
 				{select && <Redirect to='/Edit' />}
 			</div>
