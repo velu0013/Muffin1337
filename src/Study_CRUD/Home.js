@@ -1,24 +1,26 @@
 import React from 'react';
+import UML from '../img/UML.svg'
+import Venn from '../img/Venn.png'
 
 
 function Homepage(props) {
 	return (<>
 		<div className="Page-header">
-		About the app
+			What it does
 		</div>
 		<p>
-		This app let's you paste your tables of data from Excel or similar apps and use some of our implemented analysis techniques to see what less evident information your data actually contains.
-		</p>
+			<img src={Venn} alt="Venn Diagram" ></img></p>
+		<div className="Page-header">
+			How it's done
+		</div>
+		<br></br>
 		<p>
-		Under 'My Studies' you can create new studies or open any existing ones, then under 'Edit' you can insert your data and finally select 'Analyze' and choose a suitable analysis type.
+			<img src={UML} alt="UML Diagram" ></img>
 		</p>
-		<p>
-		The app supports adding new rows to your existing data for instant analysis feedback. Just edit, save and return to analysis to see the effects of your changes!
-		</p>
-		</>
+	</>
 	);
 }
 
 
 
-export {Homepage};
+export { Homepage };
