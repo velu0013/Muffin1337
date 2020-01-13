@@ -64,7 +64,7 @@ function singleCluster(data, k){
 function convergenceTest(oldCenters, centers, iteration){
     /*Tests for convergence by seing if all cluster centers have stopped changing (or maximum iterations are reached)
     Inputs: centers from last iteration, latest centers and how many iterations the algorithm has run*/ 
-    let maxIteration = 10000; //max allowed iterations before program stopped
+    let maxIteration = 1000; //max allowed iterations before program stopped
     let i;
     let d = 0; //summed distances between old and new centers. Converged if it is zero
     let converged = false; //change this if test shows convergence
